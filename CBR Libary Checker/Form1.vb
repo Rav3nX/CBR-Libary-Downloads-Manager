@@ -6,57 +6,31 @@ Imports System.Threading
 
 Public Class Form1
 
-
-
     Private FilesTread As Thread
     Private LibaryThread As Thread
     Private CopyThread As Thread
-
+    Private HideDupes As Boolean = True
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         LibaryList.DefaultCellStyle = FileList.DefaultCellStyle
         LibaryList.AlternatingRowsDefaultCellStyle = FileList.AlternatingRowsDefaultCellStyle
-        'FileList.CellBorderStyle = DataGridViewCellBorderStyle.None
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        HideDupes_Button.Text = "Hide Duplicates in Source List"
 
         Dim Favorites() As String = Split(My.Settings.Favorites, ";")
         For Each FavSingle As String In Favorites
             ListBox1.Items.Add(FavSingle)
-
         Next
 
-
-
     End Sub
 
-    Private Sub ThreadTask()
-        Dim stp As Integer
-        Dim newval As Integer
-        Dim rnd As New Random()
+    Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
 
-        Do
-            stp = ProgressBar1.Step * rnd.Next(-1, 2)
-            newval = ProgressBar1.Value + stp
-            If newval > ProgressBar1.Maximum Then
-                newval = ProgressBar1.Maximum
-            ElseIf newval < ProgressBar1.Minimum Then
-                newval = ProgressBar1.Minimum
-            End If
-
-            ProgressBar1.Value = newval
-
-            Thread.Sleep(100)
-        Loop
-
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         status.Text = " LOADING FILES FROM SOURCE.....Please Wait...."
         FilesTread = New Thread(AddressOf LoadFiles)
         FilesTread.IsBackground = True
         FilesTread.Start()
-
 
     End Sub
 
@@ -104,7 +78,8 @@ Public Class Form1
             MsgBox("Error! : " & ex.Message)
         End Try
     End Sub
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+    Private Sub LoadLibary_Button_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
         LibaryThread = New Thread(AddressOf LoadLibary)
         LibaryThread.IsBackground = True
         LibaryThread.Start()
@@ -129,7 +104,7 @@ Public Class Form1
         Next
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub CheckDuplicate_Click(sender As Object, e As EventArgs) Handles CheckDuplicate_Button.Click
         For Each row As DataGridViewRow In FileList.Rows
             Dim filename = row.Cells.Item(1).Value.ToString
             For Each libaryrow As DataGridViewRow In LibaryList.Rows
@@ -141,6 +116,9 @@ Public Class Form1
             Next
 
         Next
+        HideDupes_Button.Text = "Hide Duplicates in Source List"
+        HideDupes_Button.Enabled = True
+
     End Sub
 
     Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
@@ -241,5 +219,29 @@ Public Class Form1
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         ListBox1.Items.Remove(ListBox1.SelectedItem)
+    End Sub
+
+    Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_Button.Click
+
+        If HideDupes Then
+            HideDupes_Button.Text = "Show Duplicate Files in Source"
+            For Each row As DataGridViewRow In FileList.Rows
+                If Not (IsDBNull(row.Cells("InLibary").Value)) Then
+
+                    If row.Cells("InLibary").Value.ToString = "IN LIBARY" Then
+                        row.Visible = False
+                    End If
+                End If
+
+            Next
+        Else
+            HideDupes_Button.Text = "Hide Duplicate Files in Source"
+
+            For Each row As DataGridViewRow In FileList.Rows
+                row.Visible = True
+            Next
+        End If
+
+        HideDupes = Not (HideDupes)
     End Sub
 End Class

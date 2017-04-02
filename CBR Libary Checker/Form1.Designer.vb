@@ -34,8 +34,9 @@ Partial Class Form1
         Me.DateCreated = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.filesize = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.InLibary = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.LoadSource_Button = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.HideDupes_Button = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
@@ -45,9 +46,9 @@ Partial Class Form1
         Me.Button5 = New System.Windows.Forms.Button()
         Me.UnsortedFolderTextBox = New System.Windows.Forms.TextBox()
         Me.CopySelected = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.CheckDuplicate_Button = New System.Windows.Forms.Button()
         Me.LibaryPath = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.LoadLibary_Button = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.SourcePath_TextBox = New System.Windows.Forms.TextBox()
         Me.Button4 = New System.Windows.Forms.Button()
@@ -99,7 +100,7 @@ Partial Class Form1
         Me.FileList.Name = "FileList"
         Me.FileList.ReadOnly = True
         Me.FileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.FileList.Size = New System.Drawing.Size(743, 558)
+        Me.FileList.Size = New System.Drawing.Size(743, 533)
         Me.FileList.TabIndex = 0
         '
         'FullFileName
@@ -162,17 +163,18 @@ Partial Class Form1
         Me.InLibary.Name = "InLibary"
         Me.InLibary.ReadOnly = True
         '
-        'Button1
+        'LoadSource_Button
         '
-        Me.Button1.Location = New System.Drawing.Point(21, 14)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(179, 23)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Load Torrent Folder"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.LoadSource_Button.Location = New System.Drawing.Point(21, 14)
+        Me.LoadSource_Button.Name = "LoadSource_Button"
+        Me.LoadSource_Button.Size = New System.Drawing.Size(179, 23)
+        Me.LoadSource_Button.TabIndex = 2
+        Me.LoadSource_Button.Text = "Load Source Folder"
+        Me.LoadSource_Button.UseVisualStyleBackColor = True
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.HideDupes_Button)
         Me.Panel1.Controls.Add(Me.Button7)
         Me.Panel1.Controls.Add(Me.LinkLabel1)
         Me.Panel1.Controls.Add(Me.ProgressBar3)
@@ -182,17 +184,27 @@ Partial Class Form1
         Me.Panel1.Controls.Add(Me.Button5)
         Me.Panel1.Controls.Add(Me.UnsortedFolderTextBox)
         Me.Panel1.Controls.Add(Me.CopySelected)
-        Me.Panel1.Controls.Add(Me.Button3)
+        Me.Panel1.Controls.Add(Me.CheckDuplicate_Button)
         Me.Panel1.Controls.Add(Me.LibaryPath)
-        Me.Panel1.Controls.Add(Me.Button2)
+        Me.Panel1.Controls.Add(Me.LoadLibary_Button)
         Me.Panel1.Controls.Add(Me.CheckBox1)
-        Me.Panel1.Controls.Add(Me.Button1)
+        Me.Panel1.Controls.Add(Me.LoadSource_Button)
         Me.Panel1.Controls.Add(Me.SourcePath_TextBox)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1637, 189)
         Me.Panel1.TabIndex = 3
+        '
+        'HideDupes_Button
+        '
+        Me.HideDupes_Button.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.HideDupes_Button.Location = New System.Drawing.Point(626, 151)
+        Me.HideDupes_Button.Name = "HideDupes_Button"
+        Me.HideDupes_Button.Size = New System.Drawing.Size(232, 23)
+        Me.HideDupes_Button.TabIndex = 17
+        Me.HideDupes_Button.Text = "Hide Duplicates In Source"
+        Me.HideDupes_Button.UseVisualStyleBackColor = True
         '
         'Button7
         '
@@ -275,14 +287,14 @@ Partial Class Form1
         Me.CopySelected.Text = "Copy Selected Comics To:"
         Me.CopySelected.UseVisualStyleBackColor = True
         '
-        'Button3
+        'CheckDuplicate_Button
         '
-        Me.Button3.Location = New System.Drawing.Point(676, 122)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(139, 46)
-        Me.Button3.TabIndex = 6
-        Me.Button3.Text = "Check Unique"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.CheckDuplicate_Button.Location = New System.Drawing.Point(677, 98)
+        Me.CheckDuplicate_Button.Name = "CheckDuplicate_Button"
+        Me.CheckDuplicate_Button.Size = New System.Drawing.Size(139, 46)
+        Me.CheckDuplicate_Button.TabIndex = 6
+        Me.CheckDuplicate_Button.Text = "Check Unique"
+        Me.CheckDuplicate_Button.UseVisualStyleBackColor = True
         '
         'LibaryPath
         '
@@ -294,15 +306,15 @@ Partial Class Form1
         Me.LibaryPath.TabIndex = 5
         Me.LibaryPath.Text = Global.CBR_Libary_Checker.My.MySettings.Default.LibaryFolder
         '
-        'Button2
+        'LoadLibary_Button
         '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.Location = New System.Drawing.Point(1138, 14)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(205, 23)
-        Me.Button2.TabIndex = 4
-        Me.Button2.Text = "Load Libary Folder"
-        Me.Button2.UseVisualStyleBackColor = True
+        Me.LoadLibary_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LoadLibary_Button.Location = New System.Drawing.Point(1138, 14)
+        Me.LoadLibary_Button.Name = "LoadLibary_Button"
+        Me.LoadLibary_Button.Size = New System.Drawing.Size(205, 23)
+        Me.LoadLibary_Button.TabIndex = 4
+        Me.LoadLibary_Button.Text = "Load Libary Folder"
+        Me.LoadLibary_Button.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
@@ -348,7 +360,7 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.LibaryList)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1637, 558)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1637, 533)
         Me.SplitContainer1.SplitterDistance = 743
         Me.SplitContainer1.TabIndex = 4
         '
@@ -362,7 +374,7 @@ Partial Class Form1
         Me.LibaryList.Name = "LibaryList"
         Me.LibaryList.ReadOnly = True
         Me.LibaryList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.LibaryList.Size = New System.Drawing.Size(890, 558)
+        Me.LibaryList.Size = New System.Drawing.Size(890, 533)
         Me.LibaryList.TabIndex = 1
         '
         'DataGridViewTextBoxColumn1
@@ -486,10 +498,10 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1637, 984)
-        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Options_Panel)
         Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
         Me.Text = "Form1"
@@ -512,17 +524,17 @@ Partial Class Form1
 
     Friend WithEvents FileList As DataGridView
     Friend WithEvents SourcePath_TextBox As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents LoadSource_Button As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents status As ToolStripStatusLabel
     Friend WithEvents fileslabel As ToolStripStatusLabel
     Friend WithEvents CheckBox1 As CheckBox
-    Friend WithEvents Button2 As Button
+    Friend WithEvents LoadLibary_Button As Button
     Friend WithEvents LibaryList As DataGridView
     Friend WithEvents LibaryPath As TextBox
-    Friend WithEvents Button3 As Button
+    Friend WithEvents CheckDuplicate_Button As Button
     Friend WithEvents CopySelected As Button
     Friend WithEvents UnsortedFolderTextBox As TextBox
     Friend WithEvents Button4 As Button
@@ -552,4 +564,5 @@ Partial Class Form1
     Friend WithEvents Button7 As Button
     Friend WithEvents Button8 As Button
     Friend WithEvents LinkLabel3 As LinkLabel
+    Friend WithEvents HideDupes_Button As Button
 End Class

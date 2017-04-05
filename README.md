@@ -1,5 +1,5 @@
 # CBR-Libary-Downloads-Manager
-A Simple program to help organise digital comic collections.
+A Simple program to help organise digital comic collections and downloads sorting.
 
 I threw this together to help check for new files in my various downloads folders that where new files not in my 
 comic libary.
@@ -15,3 +15,5 @@ It then compares all found files with all the found files in your chosen folder 
 Current only by filename.
 
 Anyway, work in progress. The UI is terrible, like i said it was only thrown together. Now let the cleanup begin!
+
+I plan to extend this to watch downloads folders, and auto extract movies into specified media folders, and cleanup files older than a few weeks (depending on your options etc). Basically a one stop torrent folder organiser/ Auto file manager.

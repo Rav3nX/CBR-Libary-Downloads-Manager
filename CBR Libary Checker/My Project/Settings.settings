@@ -23,5 +23,8 @@
     <Setting Name="Favorites" Type="System.String" Scope="User">
       <Value Profile="(Default)">Test;test2;test3;test4</Value>
     </Setting>
+    <Setting Name="HidePartial" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

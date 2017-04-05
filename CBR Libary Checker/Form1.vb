@@ -16,7 +16,6 @@ Public Class Form1
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         LibaryList.DefaultCellStyle = FileList.DefaultCellStyle
         LibaryList.AlternatingRowsDefaultCellStyle = FileList.AlternatingRowsDefaultCellStyle
-        HideDupes_Button.Text = "Hide Duplicates in Source List"
 
         Dim Favorites() As String = Split(My.Settings.Favorites, ";")
         For Each FavSingle As String In Favorites
@@ -27,25 +26,26 @@ Public Class Form1
 
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
 
+
         status.Text = " LOADING FILES FROM SOURCE.....Please Wait...."
-        FilesTread = New Thread(AddressOf LoadFiles)
+        FilesTread = New Thread(AddressOf LoadSourceFiles)
         FilesTread.IsBackground = True
         FilesTread.Start()
 
     End Sub
 
-    Private Sub LoadFiles()
+    Private Sub LoadSourceFiles()
         Try
             Dim directory As String = SourcePath_TextBox.Text
-            ProgressBar1.Value = 0
+            SourceLibary_ProgressBar.Value = 0
 
             Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-            ProgressBar1.Maximum = Source_FileNames.Count
+            SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
             Dim cnt As Integer
 
             For Each filename As String In Source_FileNames
                 cnt += 1
-                ProgressBar1.Value = cnt
+                SourceLibary_ProgressBar.Value = cnt
                 Dim FirstCharacter As Integer = filename.IndexOf(".unwanted")
                 Dim hide As Boolean = False
 
@@ -86,14 +86,14 @@ Public Class Form1
     End Sub
 
     Private Sub LoadLibary()
-        Dim directory As String = LibaryPath.Text
+        Dim directory As String = LibaryRootPath_TextBox.Text
         status.Text = "Searching...."
         Dim libstr() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-        ProgressBar2.Maximum = libstr.Count
+        MainLibary_ProgressBar.Maximum = libstr.Count
         Dim cnt As Integer
         For Each filename As String In libstr
             cnt += 1
-            ProgressBar2.Value = cnt
+            MainLibary_ProgressBar.Value = cnt
 
             Try
                 Dim filesize As Double = FileLen(filename)
@@ -116,8 +116,6 @@ Public Class Form1
             Next
 
         Next
-        HideDupes_Button.Text = "Hide Duplicates in Source List"
-        HideDupes_Button.Enabled = True
 
     End Sub
 
@@ -127,11 +125,11 @@ Public Class Form1
         CopyThread.Start()
     End Sub
     Private Sub CopyWork()
-        ProgressBar3.Maximum = FileList.SelectedRows.Count
+        Copy_ProgressBar.Maximum = FileList.SelectedRows.Count
         Dim cnt As Integer
         For Each row As DataGridViewRow In FileList.SelectedRows
             cnt += 1
-            ProgressBar3.Value = cnt
+            Copy_ProgressBar.Value = cnt
 
             'MsgBox(row.Cells.Item("FullFileName").Value.ToString)
             Dim srcfilename As String = row.Cells.Item("filename").Value.ToString
@@ -151,13 +149,13 @@ Public Class Form1
         Next
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Options_Panel.Paint
         FileList.DefaultCellStyle.Font = My.Settings.DGVFont
         LibaryList.DefaultCellStyle.Font = My.Settings.DGVFont
 
     End Sub
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
         Dim FntSel As New FontDialog
         If FntSel.ShowDialog = DialogResult.OK Then
             My.Settings.DGVFont = FntSel.Font
@@ -166,20 +164,13 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub FileList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles FileList.CellContentClick
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        If FileList.SelectedRows.Count > 0 Then
-            Process.Start(FileList.SelectedRows.Item(0).Cells.Item("FilePath").Value.ToString)
-        End If
-    End Sub
+    Private Sub Button6_Click(sender As Object, e As EventArgs)
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        If LibaryList.SelectedRows.Count > 0 Then
-            Process.Start(LibaryList.SelectedRows.Item(0).Cells.Item("LibaryFilePath").Value.ToString)
-        End If
 
     End Sub
 
@@ -197,9 +188,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        Options_Panel.Visible = Not (Options_Panel.Visible)
-    End Sub
+
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Dim favstr As String = ""
@@ -212,22 +201,56 @@ Public Class Form1
         My.Settings.Favorites = favstr
     End Sub
 
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 
-
-    End Sub
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         ListBox1.Items.Remove(ListBox1.SelectedItem)
     End Sub
 
-    Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_Button.Click
+#Region "Folder Browser Dialogs and Link Labels"
 
-        If HideDupes Then
-            HideDupes_Button.Text = "Show Duplicate Files in Source"
+    Private Sub Source_Browse_LL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles Source_Browse_LL.LinkClicked
+        Dim Fldlg As New FolderBrowserDialog
+        If Fldlg.ShowDialog = vbOK Then
+            SourcePath_TextBox.Text = Fldlg.SelectedPath
+        End If
+    End Sub
+
+    Private Sub LinkLabel4_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LibaryPathBRSR_LinkLabel.LinkClicked
+        Dim Fldlg As New FolderBrowserDialog
+        If Fldlg.ShowDialog = vbOK Then
+            LibaryRootPath_TextBox.Text = Fldlg.SelectedPath
+        End If
+    End Sub
+
+    Private Sub UnsortedPathBRSR_LinkLabel_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles UnsortedPathBRSR_LinkLabel.LinkClicked
+        Dim Fldlg As New FolderBrowserDialog
+        If Fldlg.ShowDialog = vbOK Then
+            UnsortedFolderTextBox.Text = Fldlg.SelectedPath
+        End If
+    End Sub
+
+#End Region
+
+
+    Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
+        If LibaryList.SelectedRows.Count > 0 Then
+            Process.Start(LibaryList.SelectedRows.Item(0).Cells.Item("LibaryFilePath").Value.ToString)
+        End If
+    End Sub
+
+    Private Sub OpenSource_Libary_Click(sender As Object, e As EventArgs) Handles OpenSource_Libary.Click
+        If FileList.SelectedRows.Count > 0 Then
+            Process.Start(FileList.SelectedRows.Item(0).Cells.Item("FilePath").Value.ToString)
+        End If
+    End Sub
+
+
+#Region "Source View Menu Items"
+    Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_CHKButton.Click
+        If HideDupes_CHKButton.Checked Then
             For Each row As DataGridViewRow In FileList.Rows
                 If Not (IsDBNull(row.Cells("InLibary").Value)) Then
-
                     If row.Cells("InLibary").Value.ToString = "IN LIBARY" Then
                         row.Visible = False
                     End If
@@ -235,13 +258,96 @@ Public Class Form1
 
             Next
         Else
-            HideDupes_Button.Text = "Hide Duplicate Files in Source"
-
             For Each row As DataGridViewRow In FileList.Rows
                 row.Visible = True
             Next
         End If
-
-        HideDupes = Not (HideDupes)
     End Sub
+
+    Private Sub FullFilePathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullFilePathToolStripMenuItem.Click
+        FilePath.Visible = FullFilePathToolStripMenuItem.Checked
+
+    End Sub
+
+    Private Sub FileNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileNameToolStripMenuItem.Click
+        FileName.Visible = FileNameToolStripMenuItem.Checked
+
+    End Sub
+
+    Private Sub FileTypeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileTypeToolStripMenuItem.Click
+        Type.Visible = FileTypeToolStripMenuItem.Checked
+
+    End Sub
+
+    Private Sub UnwantedQtorrentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UnwantedQtorrentToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub FolderPathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderPathToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub DateCreatedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateCreatedToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub FileSizeMbToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileSizeMbToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub InLibaryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InLibaryToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        Me.Close()
+
+    End Sub
+
+    Private Sub ToolStripDropDownButton2_Click(sender As Object, e As EventArgs) Handles ToolStripDropDownButton2.Click
+
+    End Sub
+
+    Private Sub TopToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TopToolStripMenuItem.Click
+        If TopToolStripMenuItem.Checked Then
+            LeftToolStripMenuItem.Checked = False
+            RightToolStripMenuItem.Checked = False
+            Options_Dock()
+        End If
+    End Sub
+    Private Sub Options_Dock()
+        If TopToolStripMenuItem.Checked Then
+            Options_Panel.Dock = DockStyle.Top
+            Options_Panel.Height = 300
+
+        ElseIf LeftToolStripMenuItem.Checked Then
+            Options_Panel.Dock = DockStyle.Left
+        ElseIf RightToolStripMenuItem.Checked Then
+            Options_Panel.Dock = DockStyle.Right
+
+        End If
+    End Sub
+
+    Private Sub LeftToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LeftToolStripMenuItem.Click
+        If LeftToolStripMenuItem.Checked Then
+            RightToolStripMenuItem.Checked = False
+            TopToolStripMenuItem.Checked = False
+            Options_Dock()
+        End If
+    End Sub
+
+    Private Sub RightToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RightToolStripMenuItem.Click
+        If RightToolStripMenuItem.Checked Then
+            LeftToolStripMenuItem.Checked = False
+            TopToolStripMenuItem.Checked = False
+            Options_Dock()
+        End If
+    End Sub
+
+
+
+
+#End Region
+
+
 End Class

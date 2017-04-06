@@ -1,4 +1,5 @@
 ﻿Option Strict On
+Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 
@@ -10,6 +11,9 @@ Public Class Form1
     Private LibaryThread As Thread
     Private CopyThread As Thread
     Private HideDupes As Boolean = True
+    Private SourceLoaded As Boolean = False
+    Private LibaryLoaded As Boolean = False
+
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -27,20 +31,30 @@ Public Class Form1
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
 
 
-        status.Text = " LOADING FILES FROM SOURCE.....Please Wait...."
         FilesTread = New Thread(AddressOf LoadSourceFiles)
         FilesTread.IsBackground = True
         FilesTread.Start()
 
     End Sub
 
+    Private Sub enable_DupeCheck()
+        If SourceLoaded And LibaryLoaded Then
+            CheckUnique_Button.Enabled = True
+        Else
+            CheckUnique_Button.Enabled = False
+        End If
+    End Sub
+
     Private Sub LoadSourceFiles()
         Try
+            status.Text = " Scanning Source Directory....please wait."
             Dim directory As String = SourcePath_TextBox.Text
             SourceLibary_ProgressBar.Value = 0
 
             Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
             SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
+            status.Text = " Loading " & Source_FileNames.Count & " files from source folder.....Please Wait...."
+
             Dim cnt As Integer
 
             For Each filename As String In Source_FileNames
@@ -66,14 +80,15 @@ Public Class Form1
                         Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
 
                         If Not (hide) Then
-                            FileList.Rows.Add(filename, IO.Path.GetFileName(filename), IO.Path.GetExtension(filename), hide, IO.Path.GetDirectoryName(filename), filedate.ToString("dd-MMM-yyyy"), filesizestr)
+                            FileList.Rows.Add(filename, IO.Path.GetFileName(filename), IO.Path.GetExtension(filename), hide, IO.Path.GetDirectoryName(filename), filedate.ToString("dd-MMM-yyyy"), filesizestr, "", FileLen(filename))
                         End If
                     End If
                 Catch ex As Exception
                 End Try
             Next
             status.Text = "Loaded " & Source_FileNames.Count & " Files from " & directory
-
+            SourceLoaded = True
+            enable_DupeCheck()
         Catch ex As Exception
             MsgBox("Error! : " & ex.Message)
         End Try
@@ -87,9 +102,11 @@ Public Class Form1
 
     Private Sub LoadLibary()
         Dim directory As String = LibaryRootPath_TextBox.Text
-        status.Text = "Searching...."
+        status.Text = "Scanning Libary....Please Wait."
         Dim libstr() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
         MainLibary_ProgressBar.Maximum = libstr.Count
+        status.Text = " Loading " & libstr.Count & " files from libary.....Please Wait...."
+
         Dim cnt As Integer
         For Each filename As String In libstr
             cnt += 1
@@ -102,20 +119,13 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Next
+        LibaryLoaded = True
+
+        enable_DupeCheck()
     End Sub
 
-    Private Sub CheckDuplicate_Click(sender As Object, e As EventArgs) Handles CheckDuplicate_Button.Click
-        For Each row As DataGridViewRow In FileList.Rows
-            Dim filename = row.Cells.Item(1).Value.ToString
-            For Each libaryrow As DataGridViewRow In LibaryList.Rows
-                Dim libfilename = libaryrow.Cells.Item(1).Value.ToString
-                'Console.WriteLine(filename & " - " & libfilename)
-                If filename = libfilename Then
-                    row.Cells.Item(7).Value = "IN LIBARY"
-                End If
-            Next
+    Private Sub CheckDuplicate_Click(sender As Object, e As EventArgs)
 
-        Next
 
     End Sub
 
@@ -125,7 +135,10 @@ Public Class Form1
         CopyThread.Start()
     End Sub
     Private Sub CopyWork()
+
         Copy_ProgressBar.Maximum = FileList.SelectedRows.Count
+        CopyProgress_Label.Text = "Begin Copying " & FileList.SelectedRows.Count & " Files...."
+        CopyProgress_Label.Visible = False
         Dim cnt As Integer
         For Each row As DataGridViewRow In FileList.SelectedRows
             cnt += 1
@@ -138,15 +151,23 @@ Public Class Form1
 
             Dim destfilename As String = UnsortedFolderTextBox.Text & "\" & srcfilename
             Try
-                My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename, FileIO.UIOption.AllDialogs)
+                If ShowCopy_CheckBox.Checked Then
+                    My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename, FileIO.UIOption.AllDialogs)
+                Else
+                    My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
+                End If
+                CopyProgress_Label.Text = "Copied " & cnt & " Files of " & FileList.SelectedRows.Count
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
-
+            CopyProgress_Label.Text = "Copied " & cnt & " Files of " & FileList.SelectedRows.Count
             row.Cells.Item(7).Value = "COPIED"
 
-            'MsgBox(destfilename)
+
         Next
+        CopyProgress_Label.Text = "Copied " & cnt & " Files. Copy Complete"
+
+
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Options_Panel.Paint
@@ -201,6 +222,19 @@ Public Class Form1
         My.Settings.Favorites = favstr
     End Sub
 
+    Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
+        For Each row As DataGridViewRow In FileList.Rows
+            Dim filename = row.Cells.Item(1).Value.ToString
+            For Each libaryrow As DataGridViewRow In LibaryList.Rows
+                Dim libfilename = libaryrow.Cells.Item(1).Value.ToString
+                'Console.WriteLine(filename & " - " & libfilename)
+                If filename = libfilename Then
+                    row.Cells.Item(7).Value = "IN LIBARY"
+                End If
+            Next
+
+        Next
+    End Sub
 
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
@@ -280,10 +314,11 @@ Public Class Form1
     End Sub
 
     Private Sub UnwantedQtorrentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UnwantedQtorrentToolStripMenuItem.Click
-
+        unwanted.Visible = UnwantedQtorrentToolStripMenuItem.Checked
     End Sub
 
     Private Sub FolderPathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderPathToolStripMenuItem.Click
+        FilePath.Visible = FolderPathToolStripMenuItem.Checked
 
     End Sub
 
@@ -343,6 +378,54 @@ Public Class Form1
             Options_Dock()
         End If
     End Sub
+
+    Private Sub FileList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles FileList.CellContentClick
+
+    End Sub
+
+    Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles FileList.SelectionChanged
+        If IsNothing(FileList.SelectedRows) Then
+            CopySelected.Enabled = False
+        ElseIf LibaryLoaded And SourceLoaded Then
+            CopySelected.Enabled = True
+        End If
+
+        Dim TotalSelectedSize As Double = 0
+
+
+        If FileList.SelectedRows IsNot Nothing Then
+            For Each row As DataGridViewRow In FileList.SelectedRows
+                Dim RawFileSizeSTR As String
+                If Not (IsDBNull(row.Cells.Item("rawfilesize").Value)) Then
+                    RawFileSizeSTR = row.Cells.Item("rawfilesize").Value.ToString
+                    Dim Value As Double
+                    If Double.TryParse(RawFileSizeSTR, Value) Then
+                        TotalSelectedSize += Value
+                    End If
+                End If
+            Next
+            Dim MBDbl As Double = Math.Round((TotalSelectedSize / 1000000), 2)
+            Dim MBStr As String = MBDbl.ToString("N", CultureInfo.InvariantCulture) & " Mb."
+
+            'dblValue.ToString("N", CultureInfo.InvariantCulture))
+
+            Selection_Label.Text = FileList.SelectedRows.Count & " Files selected. (" & MBStr & ")"
+
+        End If
+    End Sub
+
+    Private Sub ClearSource_Button_Click(sender As Object, e As EventArgs) Handles ClearSource_Button.Click
+        FileList.Rows.Clear()
+        SourceLoaded = False
+        enable_DupeCheck()
+    End Sub
+
+    Private Sub ClearLibary_Button_Click(sender As Object, e As EventArgs) Handles ClearLibary_Button.Click
+        LibaryList.Rows.Clear()
+        LibaryLoaded = False
+        enable_DupeCheck()
+    End Sub
+
 
 
 

@@ -147,6 +147,30 @@ Namespace My
                 Me("HidePartial") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property ComicRackDataFile() As String
+            Get
+                Return CType(Me("ComicRackDataFile"),String)
+            End Get
+            Set
+                Me("ComicRackDataFile") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property Source_GetHashes() As Boolean
+            Get
+                Return CType(Me("Source_GetHashes"),Boolean)
+            End Get
+            Set
+                Me("Source_GetHashes") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

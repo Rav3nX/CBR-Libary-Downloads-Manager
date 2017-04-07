@@ -1,6 +1,8 @@
 ﻿Option Strict On
 Imports System.Globalization
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Security.Cryptography
 Imports System.Threading
 
 
@@ -10,6 +12,8 @@ Public Class Form1
     Private FilesTread As Thread
     Private LibaryThread As Thread
     Private CopyThread As Thread
+    Private HashThread As Thread
+
     Private HideDupes As Boolean = True
     Private SourceLoaded As Boolean = False
     Private LibaryLoaded As Boolean = False
@@ -18,8 +22,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-        LibaryList.DefaultCellStyle = FileList.DefaultCellStyle
-        LibaryList.AlternatingRowsDefaultCellStyle = FileList.AlternatingRowsDefaultCellStyle
+        LibaryList_DGV.DefaultCellStyle = SourceLibary_DGV.DefaultCellStyle
+        LibaryList_DGV.AlternatingRowsDefaultCellStyle = SourceLibary_DGV.AlternatingRowsDefaultCellStyle
 
         Dim Favorites() As String = Split(My.Settings.Favorites, ";")
         For Each FavSingle As String In Favorites
@@ -72,6 +76,10 @@ Public Class Form1
                 If IO.Path.GetExtension(filename) = ".!ut" Then
                     hide = True
                 End If
+                Dim hash As String = ""
+                If GetHashesOnScanToolStripMenuItem.Checked Then
+                    hash = md5_hash(filename)
+                End If
                 Try
                     If Not hide Then
                         Dim filedate As Date = IO.File.GetCreationTime(filename)
@@ -80,7 +88,8 @@ Public Class Form1
                         Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
 
                         If Not (hide) Then
-                            FileList.Rows.Add(filename, IO.Path.GetFileName(filename), IO.Path.GetExtension(filename), hide, IO.Path.GetDirectoryName(filename), filedate.ToString("dd-MMM-yyyy"), filesizestr, "", FileLen(filename))
+                            SourceLibary_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), hide, IO.Path.GetDirectoryName(filename), filedate.ToString("dd-MMM-yyyy"), filesizestr, hash, "", FileLen(filename))
+
                         End If
                     End If
                 Catch ex As Exception
@@ -115,10 +124,11 @@ Public Class Form1
             Try
                 Dim filesize As Double = FileLen(filename)
                 Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
-                LibaryList.Rows.Add(filename, IO.Path.GetFileName(filename), IO.Path.GetExtension(filename), IO.Path.GetDirectoryName(filename), filesizestr)
+                LibaryList_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), IO.Path.GetDirectoryName(filename), filesizestr)
             Catch ex As Exception
             End Try
         Next
+        ' status.Text = "Getting Hashes for files in libary"
         LibaryLoaded = True
 
         enable_DupeCheck()
@@ -136,11 +146,13 @@ Public Class Form1
     End Sub
     Private Sub CopyWork()
 
-        Copy_ProgressBar.Maximum = FileList.SelectedRows.Count
-        CopyProgress_Label.Text = "Begin Copying " & FileList.SelectedRows.Count & " Files...."
-        CopyProgress_Label.Visible = False
+        Copy_ProgressBar.Maximum = SourceLibary_DGV.SelectedRows.Count
+        CopyProgress_Label.Visible = True
+
+        CopyProgress_Label.Text = "Begin Copying " & SourceLibary_DGV.SelectedRows.Count & " Files...."
+        'CopyProgress_Label.Visible = False
         Dim cnt As Integer
-        For Each row As DataGridViewRow In FileList.SelectedRows
+        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
             cnt += 1
             Copy_ProgressBar.Value = cnt
 
@@ -156,11 +168,11 @@ Public Class Form1
                 Else
                     My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
                 End If
-                CopyProgress_Label.Text = "Copied " & cnt & " Files of " & FileList.SelectedRows.Count
+                CopyProgress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
             Catch ex As Exception
                 MsgBox(ex.Message)
             End Try
-            CopyProgress_Label.Text = "Copied " & cnt & " Files of " & FileList.SelectedRows.Count
+            CopyProgress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
             row.Cells.Item(7).Value = "COPIED"
 
 
@@ -171,8 +183,8 @@ Public Class Form1
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Options_Panel.Paint
-        FileList.DefaultCellStyle.Font = My.Settings.DGVFont
-        LibaryList.DefaultCellStyle.Font = My.Settings.DGVFont
+        SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+        LibaryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
 
     End Sub
 
@@ -180,8 +192,8 @@ Public Class Form1
         Dim FntSel As New FontDialog
         If FntSel.ShowDialog = DialogResult.OK Then
             My.Settings.DGVFont = FntSel.Font
-            FileList.DefaultCellStyle.Font = My.Settings.DGVFont
-            LibaryList.DefaultCellStyle.Font = My.Settings.DGVFont
+            SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+            LibaryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
         End If
     End Sub
 
@@ -223,13 +235,13 @@ Public Class Form1
     End Sub
 
     Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
-        For Each row As DataGridViewRow In FileList.Rows
-            Dim filename = row.Cells.Item(1).Value.ToString
-            For Each libaryrow As DataGridViewRow In LibaryList.Rows
-                Dim libfilename = libaryrow.Cells.Item(1).Value.ToString
+        For Each row As DataGridViewRow In SourceLibary_DGV.Rows
+            Dim filename = row.Cells.Item("FileName").Value.ToString
+            For Each libaryrow As DataGridViewRow In LibaryList_DGV.Rows
+                Dim libfilename = libaryrow.Cells.Item("Libary_FileName").Value.ToString
                 'Console.WriteLine(filename & " - " & libfilename)
                 If filename = libfilename Then
-                    row.Cells.Item(7).Value = "IN LIBARY"
+                    row.Cells.Item("InLibary").Value = "IN LIBARY"
                 End If
             Next
 
@@ -268,14 +280,14 @@ Public Class Form1
 
 
     Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
-        If LibaryList.SelectedRows.Count > 0 Then
-            Process.Start(LibaryList.SelectedRows.Item(0).Cells.Item("LibaryFilePath").Value.ToString)
+        If LibaryList_DGV.SelectedRows.Count > 0 Then
+            Process.Start(LibaryList_DGV.SelectedRows.Item(0).Cells.Item("LibaryFilePath").Value.ToString)
         End If
     End Sub
 
     Private Sub OpenSource_Libary_Click(sender As Object, e As EventArgs) Handles OpenSource_Libary.Click
-        If FileList.SelectedRows.Count > 0 Then
-            Process.Start(FileList.SelectedRows.Item(0).Cells.Item("FilePath").Value.ToString)
+        If SourceLibary_DGV.SelectedRows.Count > 0 Then
+            Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("FilePath").Value.ToString)
         End If
     End Sub
 
@@ -283,7 +295,7 @@ Public Class Form1
 #Region "Source View Menu Items"
     Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_CHKButton.Click
         If HideDupes_CHKButton.Checked Then
-            For Each row As DataGridViewRow In FileList.Rows
+            For Each row As DataGridViewRow In SourceLibary_DGV.Rows
                 If Not (IsDBNull(row.Cells("InLibary").Value)) Then
                     If row.Cells("InLibary").Value.ToString = "IN LIBARY" Then
                         row.Visible = False
@@ -292,7 +304,7 @@ Public Class Form1
 
             Next
         Else
-            For Each row As DataGridViewRow In FileList.Rows
+            For Each row As DataGridViewRow In SourceLibary_DGV.Rows
                 row.Visible = True
             Next
         End If
@@ -379,12 +391,12 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub FileList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles FileList.CellContentClick
+    Private Sub FileList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles SourceLibary_DGV.CellContentClick
 
     End Sub
 
-    Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles FileList.SelectionChanged
-        If IsNothing(FileList.SelectedRows) Then
+    Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles SourceLibary_DGV.SelectionChanged
+        If IsNothing(SourceLibary_DGV.SelectedRows) Then
             CopySelected.Enabled = False
         ElseIf LibaryLoaded And SourceLoaded Then
             CopySelected.Enabled = True
@@ -393,8 +405,8 @@ Public Class Form1
         Dim TotalSelectedSize As Double = 0
 
 
-        If FileList.SelectedRows IsNot Nothing Then
-            For Each row As DataGridViewRow In FileList.SelectedRows
+        If SourceLibary_DGV.SelectedRows IsNot Nothing Then
+            For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
                 Dim RawFileSizeSTR As String
                 If Not (IsDBNull(row.Cells.Item("rawfilesize").Value)) Then
                     RawFileSizeSTR = row.Cells.Item("rawfilesize").Value.ToString
@@ -409,28 +421,180 @@ Public Class Form1
 
             'dblValue.ToString("N", CultureInfo.InvariantCulture))
 
-            Selection_Label.Text = FileList.SelectedRows.Count & " Files selected. (" & MBStr & ")"
+            Selection_Label.Text = SourceLibary_DGV.SelectedRows.Count & " Files selected. (" & MBStr & ")"
 
         End If
     End Sub
 
     Private Sub ClearSource_Button_Click(sender As Object, e As EventArgs) Handles ClearSource_Button.Click
-        FileList.Rows.Clear()
+        SourceLibary_DGV.Rows.Clear()
         SourceLoaded = False
         enable_DupeCheck()
     End Sub
 
     Private Sub ClearLibary_Button_Click(sender As Object, e As EventArgs) Handles ClearLibary_Button.Click
-        LibaryList.Rows.Clear()
+        LibaryList_DGV.Rows.Clear()
         LibaryLoaded = False
         enable_DupeCheck()
     End Sub
 
+    Private Sub LinkLabel4_LinkClicked_1(sender As Object, e As LinkLabelLinkClickedEventArgs)
+        Dim FileOpen As New OpenFileDialog
+        FileOpen.ShowDialog()
+
+        Dim ds As New DataSet
+        ds.ReadXml(FileOpen.FileName)
+        For Each datatable As DataTable In ds.Tables
+            Console.WriteLine(datatable.TableName)
+            'For Each row As DataRow In datatable.Rows
+
+            'Next
+
+        Next
+        For Each row As DataRow In ds.Tables.Item("ComicDatabase").Rows
+            Console.WriteLine(row.Item(0))
+        Next
 
 
+    End Sub
 
 
 #End Region
 
+#Region "Crypto and Hash Gen"
+
+
+    ' Function to obtain the desired hash of a file
+    Function hash_generator(ByVal hash_type As String, ByVal file_name As String) As String
+
+        ' We declare the variable : hash
+        Dim hash As HashAlgorithm
+        If hash_type.ToLower = "md5" Then
+            ' Initializes a md5 hash object
+            hash = MD5.Create
+        ElseIf hash_type.ToLower = "sha1" Then
+            ' Initializes a SHA-1 hash object
+            hash = SHA1.Create()
+        ElseIf hash_type.ToLower = "sha256" Then
+            ' Initializes a SHA-256 hash object
+            hash = SHA256.Create()
+        Else
+            MsgBox("Unknown type of hash : " & hash_type, MsgBoxStyle.Critical)
+            Return "False"
+        End If
+
+        ' We declare a variable to be an array of bytes
+        Dim hashValue() As Byte
+
+        ' We create a FileStream for the file passed as a parameter
+        Dim fileStream As FileStream = File.OpenRead(file_name)
+        ' We position the cursor at the beginning of stream
+        fileStream.Position = 0
+        ' We calculate the hash of the file
+        hashValue = hash.ComputeHash(fileStream)
+        ' The array of bytes is converted into hexadecimal before it can be read easily
+        Dim hash_hex = PrintByteArray(hashValue)
+
+        ' We close the open file
+        fileStream.Close()
+
+        ' The hash is returned
+        Return hash_hex
+
+    End Function
+
+    Public Function PrintByteArray(ByVal array() As Byte) As String
+
+        Dim hex_value As String = ""
+
+        ' We traverse the array of bytes
+        Dim i As Integer
+        For i = 0 To array.Length - 1
+
+            ' We convert each byte in hexadecimal
+            hex_value += array(i).ToString("X2")
+
+        Next i
+
+        ' We return the string in lowercase
+        Return hex_value.ToLower
+
+    End Function
+    Function md5_hash(ByVal file_name As String) As String
+        Return hash_generator("md5", file_name)
+    End Function
+
+    Function sha_1(ByVal file_name As String) As String
+        Return hash_generator("sha1", file_name)
+    End Function
+
+    Function sha_256(ByVal file_name As String) As String
+        Return hash_generator("sha256", file_name)
+    End Function
+#End Region
+
+#Region "Hash Generation and Filling"
+
+
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles GetLibaryHashes_Button.Click
+        GetLibaryHashes_Button.Enabled = False
+        GetSourceHashes_Button.Enabled = False
+
+        FilesTread = New Thread(AddressOf GetLibary_Hashes)
+        FilesTread.IsBackground = True
+        FilesTread.Start()
+
+    End Sub
+    Private Sub GetLibary_Hashes()
+        If LibaryList_DGV.Rows.Count > 0 Then
+            status.Text = "Generating Hashes for files"
+            MainLibary_ProgressBar.Maximum = LibaryList_DGV.Rows.Count
+            MainLibary_ProgressBar.Value = 0
+
+            For Each row As DataGridViewRow In LibaryList_DGV.Rows
+                status.Text = "Generating Hashes for files, " & row.Index & " Hashes of " & LibaryList_DGV.Rows.Count & " Calculated."
+                Dim filename As String = row.Cells.Item("Libary_FullFileName").Value.ToString
+                Dim hash As String = md5_hash(filename)
+                row.Cells.Item("Libary_FileHash").Value = hash
+                MainLibary_ProgressBar.Value = row.Index + 1
+            Next
+
+            GetLibaryHashes_Button.Enabled = True
+            GetSourceHashes_Button.Enabled = True
+            status.Text = "Hash Generation Complete."
+        End If
+
+    End Sub
+
+    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles GetSourceHashes_Button.Click
+        GetLibaryHashes_Button.Enabled = False
+        GetSourceHashes_Button.Enabled = False
+
+        FilesTread = New Thread(AddressOf GetSource_Hashes)
+        FilesTread.IsBackground = True
+        FilesTread.Start()
+
+    End Sub
+    Private Sub GetSource_Hashes()
+        If SourceLibary_DGV.Rows.Count > 0 Then
+            status.Text = "Generating Hashes for files"
+            SourceLibary_ProgressBar.Maximum = SourceLibary_DGV.Rows.Count
+            SourceLibary_ProgressBar.Value = 0
+
+            For Each row As DataGridViewRow In SourceLibary_DGV.Rows
+                status.Text = "Generating Hashes for files, " & row.Index & " Hashes of " & SourceLibary_DGV.Rows.Count & " Calculated."
+                Dim filename As String = row.Cells.Item("FullFileName").Value.ToString
+                Dim hash As String = md5_hash(filename)
+                row.Cells.Item("Source_FileHash").Value = hash
+                SourceLibary_ProgressBar.Value = row.Index + 1
+            Next
+
+            GetLibaryHashes_Button.Enabled = True
+            GetSourceHashes_Button.Enabled = True
+            status.Text = "Hash Generation Complete."
+        End If
+    End Sub
+
+#End Region
 
 End Class

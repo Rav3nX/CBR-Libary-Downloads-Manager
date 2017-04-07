@@ -123,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="micon.ico" />
+    <None Include="Resources\hash-512.png" />
+    <None Include="Resources\circle_hashtag-512.png" />
     <None Include="Resources\Delete.png" />
     <None Include="Resources\compare_balance-512.png" />
     <None Include="Resources\eye-24-256.png" />

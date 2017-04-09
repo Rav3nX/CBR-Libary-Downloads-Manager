@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="HideUnwanted" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="torrentfolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\RAVIENSERVER\2015Torrents\0-Day Week of 2015.05.13</Value>
+    </Setting>
+    <Setting Name="unsortedfolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\RAVIENSERVER\Comics\Comics</Value>
+    </Setting>
+    <Setting Name="LibaryFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\RAVIENSERVER\Comics\Comics</Value>
+    </Setting>
+    <Setting Name="DGVFont" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Test" Type="System.Windows.Forms.CheckedListBox" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Favorites" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Test;test2;test3;test4</Value>
+    </Setting>
+    <Setting Name="HidePartial" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ComicRackDataFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Source_GetHashes" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

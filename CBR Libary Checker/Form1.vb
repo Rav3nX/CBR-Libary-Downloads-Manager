@@ -1,4 +1,5 @@
-﻿Option Strict On
+﻿'Option Strict On
+Imports System.ComponentModel
 Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -8,11 +9,14 @@ Imports System.Threading
 
 
 Public Class Form1
-
+    Private Source_DS As New ComicInfoDB
+    Private Libary_DS As New ComicInfoDB
     Private FilesTread As Thread
     Private LibaryThread As Thread
     Private CopyThread As Thread
     Private HashThread As Thread
+
+
 
     Private HideDupes As Boolean = True
     Private SourceLoaded As Boolean = False
@@ -48,60 +52,85 @@ Public Class Form1
             CheckUnique_Button.Enabled = False
         End If
     End Sub
+    Private WithEvents backgroundWorker1 As New BackgroundWorker
+    Private sourceprogressvalue As Integer
+    Private sourceprogressmax As Integer
 
     Private Sub LoadSourceFiles()
-        Try
-            status.Text = " Scanning Source Directory....please wait."
-            Dim directory As String = SourcePath_TextBox.Text
-            SourceLibary_ProgressBar.Value = 0
+        'Try
+        status.Text = " Scanning Source Directory....please wait."
+        Dim directory As String = SourcePath_TextBox.Text
 
-            Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-            SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
-            status.Text = " Loading " & Source_FileNames.Count & " files from source folder.....Please Wait...."
+        SourceLibary_ProgressBar.Value = 0
 
-            Dim cnt As Integer
+        Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
+        'SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
+        SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
 
-            For Each filename As String In Source_FileNames
-                cnt += 1
-                SourceLibary_ProgressBar.Value = cnt
-                Dim FirstCharacter As Integer = filename.IndexOf(".unwanted")
-                Dim hide As Boolean = False
+        status.Text = " Loading " & Source_FileNames.Count & " files from source folder.....Please Wait...."
 
-                If My.Settings.HideUnwanted And Not (FirstCharacter = -1) Then
-                    hide = True
-                End If
-                If IO.Path.GetExtension(filename) = ".!qB" Then
-                    hide = True
-                End If
-                If IO.Path.GetExtension(filename) = ".!ut" Then
-                    hide = True
-                End If
-                Dim hash As String = ""
-                If GetHashesOnScanToolStripMenuItem.Checked Then
-                    hash = md5_hash(filename)
-                End If
-                Try
-                    If Not hide Then
-                        Dim filedate As Date = IO.File.GetCreationTime(filename)
-                        ' Dim infoReader As System.IO.FileInfo = My.Computer.FileSystem.GetFileInfo(filename)
-                        Dim filesize As Double = FileLen(filename)
-                        Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
+        Dim cnt As Integer
 
-                        If Not (hide) Then
-                            SourceLibary_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), hide, IO.Path.GetDirectoryName(filename), filedate.ToString("dd-MMM-yyyy"), filesizestr, hash, "", FileLen(filename))
+        For Each filename As String In Source_FileNames
+            cnt += 1
+            SourceLibary_ProgressBar.Value = cnt
 
-                        End If
+            Dim FirstCharacter As Integer = filename.IndexOf(".unwanted")
+            Dim hide As Boolean = False
+
+            If My.Settings.HideUnwanted And Not (FirstCharacter = -1) Then
+                hide = True
+            End If
+            If IO.Path.GetExtension(filename) = ".!qB" Then
+                hide = True
+            End If
+            If IO.Path.GetExtension(filename) = ".!ut" Then
+                hide = True
+            End If
+            Dim hash As String = ""
+            If GetHashesOnScanToolStripMenuItem.Checked Then
+                hash = md5_hash(filename)
+            End If
+            Try
+                If Not hide Then
+                    Dim filedate As Date = IO.File.GetCreationTime(filename)
+                    ' Dim infoReader As System.IO.FileInfo = My.Computer.FileSystem.GetFileInfo(filename)
+                    Dim filesize As Double = FileLen(filename)
+                    Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
+
+                    If Not (hide) Then
+                        Dim newrow As ComicInfoDB.SOURCEL_DBRow
+
+                        newrow = ComicInfoDB.SOURCEL_DB.NewRow
+
+                        newrow("File Name") = IO.Path.GetFileName(filename)
+                        newrow("Full File Name") = filename
+                        newrow("File Type") = IO.Path.GetExtension(filename)
+                        newrow("File Path") = IO.Path.GetDirectoryName(filename)
+                        Dim RelPath As String = IO.Path.GetDirectoryName(filename)
+                        RelPath = RelPath.Remove(0, directory.Length) & "\"
+                        newrow("Path Rel Root") = RelPath
+                        newrow("File Size") = filesizestr
+                        newrow("Date Created") = filedate.ToString("dd-MMM-yyyy")
+                        newrow("SHA1 Hash") = hash
+                        'sync
+                        ComicInfoDB.SOURCEL_DB.Rows.Add(newrow)
+
                     End If
-                Catch ex As Exception
-                End Try
-            Next
-            status.Text = "Loaded " & Source_FileNames.Count & " Files from " & directory
-            SourceLoaded = True
-            enable_DupeCheck()
-        Catch ex As Exception
-            MsgBox("Error! : " & ex.Message)
-        End Try
+                End If
+            Catch ex As Exception
+            End Try
+        Next
+        status.Text = "Loaded " & Source_FileNames.Count & " Files from " & directory
+        SourceLoaded = True
+        enable_DupeCheck()
+        'Catch ex As Exception
+        'MsgBox("Error! :   " & ex.Message)
+        'End Try
     End Sub
+
+
+
 
     Private Sub LoadLibary_Button_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
         LibaryThread = New Thread(AddressOf LoadLibary)
@@ -122,9 +151,33 @@ Public Class Form1
             MainLibary_ProgressBar.Value = cnt
 
             Try
+                Dim hash As String = ""
+                If GetHashesOnScanToolStripMenuItem.Checked Then
+                    hash = md5_hash(filename)
+                End If
                 Dim filesize As Double = FileLen(filename)
                 Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
-                LibaryList_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), IO.Path.GetDirectoryName(filename), filesizestr)
+                Dim filedate As Date = IO.File.GetCreationTime(filename)
+
+                Dim newrow As ComicInfoDB.LIBARY_DBRow
+
+
+                newrow = ComicInfoDB.LIBARY_DB.NewRow
+
+                newrow("File Name") = IO.Path.GetFileName(filename)
+                newrow("Full File Name") = filename
+                newrow("File Type") = IO.Path.GetExtension(filename)
+                newrow("File Path") = IO.Path.GetDirectoryName(filename)
+                Dim RelPath As String = IO.Path.GetDirectoryName(filename)
+                RelPath = RelPath.Remove(0, directory.Length) & "\"
+                newrow("Path Rel Root") = RelPath
+                newrow("File Size") = filesizestr
+                newrow("Date Created") = filedate.ToString("dd-MMM-yyyy")
+                newrow("SHA1 Hash") = hash
+
+                ComicInfoDB.LIBARY_DB.Rows.Add(newrow)
+
+                'LibaryList_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), IO.Path.GetDirectoryName(filename), filesizestr)
             Catch ex As Exception
             End Try
         Next
@@ -134,10 +187,7 @@ Public Class Form1
         enable_DupeCheck()
     End Sub
 
-    Private Sub CheckDuplicate_Click(sender As Object, e As EventArgs)
 
-
-    End Sub
 
     Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
         CopyThread = New Thread(AddressOf CopyWork)
@@ -311,26 +361,26 @@ Public Class Form1
     End Sub
 
     Private Sub FullFilePathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullFilePathToolStripMenuItem.Click
-        FilePath.Visible = FullFilePathToolStripMenuItem.Checked
+        'FilePath.Visible = FullFilePathToolStripMenuItem.Checked
 
     End Sub
 
     Private Sub FileNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileNameToolStripMenuItem.Click
-        FileName.Visible = FileNameToolStripMenuItem.Checked
+        ' FileName.Visible = FileNameToolStripMenuItem.Checked
 
     End Sub
 
     Private Sub FileTypeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileTypeToolStripMenuItem.Click
-        Type.Visible = FileTypeToolStripMenuItem.Checked
+        ' Type.Visible = FileTypeToolStripMenuItem.Checked
 
     End Sub
 
     Private Sub UnwantedQtorrentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UnwantedQtorrentToolStripMenuItem.Click
-        unwanted.Visible = UnwantedQtorrentToolStripMenuItem.Checked
+        'unwanted.Visible = UnwantedQtorrentToolStripMenuItem.Checked
     End Sub
 
     Private Sub FolderPathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderPathToolStripMenuItem.Click
-        FilePath.Visible = FolderPathToolStripMenuItem.Checked
+        'FilePath.Visible = FolderPathToolStripMenuItem.Checked
 
     End Sub
 
@@ -408,8 +458,8 @@ Public Class Form1
         If SourceLibary_DGV.SelectedRows IsNot Nothing Then
             For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
                 Dim RawFileSizeSTR As String
-                If Not (IsDBNull(row.Cells.Item("rawfilesize").Value)) Then
-                    RawFileSizeSTR = row.Cells.Item("rawfilesize").Value.ToString
+                If Not (IsDBNull(row.Cells.Item("FileSizeDataGridViewTextBoxColumn").Value)) Then
+                    RawFileSizeSTR = row.Cells.Item("FileSizeDataGridViewTextBoxColumn").Value.ToString
                     Dim Value As Double
                     If Double.TryParse(RawFileSizeSTR, Value) Then
                         TotalSelectedSize += Value
@@ -427,13 +477,15 @@ Public Class Form1
     End Sub
 
     Private Sub ClearSource_Button_Click(sender As Object, e As EventArgs) Handles ClearSource_Button.Click
-        SourceLibary_DGV.Rows.Clear()
+        'SourceLibary_DGV.Rows.Clear()
+        ComicInfoDB.SOURCEL_DB.Clear()
         SourceLoaded = False
         enable_DupeCheck()
     End Sub
 
     Private Sub ClearLibary_Button_Click(sender As Object, e As EventArgs) Handles ClearLibary_Button.Click
-        LibaryList_DGV.Rows.Clear()
+        'LibaryList_DGV.Rows.Clear()
+        ComicInfoDB.LIBARY_DB.Clear()
         LibaryLoaded = False
         enable_DupeCheck()
     End Sub

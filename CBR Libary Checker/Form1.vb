@@ -1,4 +1,5 @@
-﻿'Option Strict On
+﻿Option Strict Off
+
 Imports System.ComponentModel
 Imports System.Globalization
 Imports System.IO
@@ -16,6 +17,7 @@ Public Class Form1
     Private CopyThread As Thread
     Private HashThread As Thread
 
+    Private Source_Progress_Maximum As Integer = 100
 
 
     Private HideDupes As Boolean = True
@@ -25,7 +27,7 @@ Public Class Form1
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        ' System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         LibaryList_DGV.DefaultCellStyle = SourceLibary_DGV.DefaultCellStyle
         LibaryList_DGV.AlternatingRowsDefaultCellStyle = SourceLibary_DGV.AlternatingRowsDefaultCellStyle
 
@@ -37,7 +39,6 @@ Public Class Form1
     End Sub
 
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
-
 
         FilesTread = New Thread(AddressOf LoadSourceFiles)
         FilesTread.IsBackground = True
@@ -52,28 +53,44 @@ Public Class Form1
             CheckUnique_Button.Enabled = False
         End If
     End Sub
-    Private WithEvents backgroundWorker1 As New BackgroundWorker
-    Private sourceprogressvalue As Integer
-    Private sourceprogressmax As Integer
+    Private Sub UpdateSourceProgressBar(ByVal New_Value As String)
+        If Me.InvokeRequired Then
+            Dim args() As String = {New_Value}
+            Me.Invoke(New Action(Of String)(AddressOf UpdateSourceProgressBar), args)
+            Return
+        End If
+        SourceLibary_ProgressBar.Maximum = Source_Progress_Maximum
+        SourceLibary_ProgressBar.Value = CInt(New_Value)
+    End Sub
+    Private Sub UpdateStatusText(ByVal New_Value As String)
+        If Me.InvokeRequired Then
+            Dim args() As String = {New_Value}
+            Me.Invoke(New Action(Of String)(AddressOf UpdateStatusText), args)
+            Return
+        End If
+        status.Text = New_Value
+    End Sub
 
     Private Sub LoadSourceFiles()
         'Try
         status.Text = " Scanning Source Directory....please wait."
         Dim directory As String = SourcePath_TextBox.Text
 
-        SourceLibary_ProgressBar.Value = 0
 
         Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-        'SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
-        SourceLibary_ProgressBar.Maximum = Source_FileNames.Count
 
-        status.Text = " Loading " & Source_FileNames.Count & " files from source folder.....Please Wait...."
+        'Thread Safe Progress Bar Updating
+        Source_Progress_Maximum = Source_FileNames.Count
+        UpdateSourceProgressBar(0)
+        'Thread Safe status update
+        UpdateStatusText(" Loading " & Source_FileNames.Count & " files from source folder.....Please Wait....")
 
         Dim cnt As Integer
 
         For Each filename As String In Source_FileNames
             cnt += 1
-            SourceLibary_ProgressBar.Value = cnt
+            UpdateSourceProgressBar(cnt)
+            'SourceLibary_ProgressBar.Value = cnt
 
             Dim FirstCharacter As Integer = filename.IndexOf(".unwanted")
             Dim hide As Boolean = False
@@ -121,12 +138,18 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Next
-        status.Text = "Loaded " & Source_FileNames.Count & " Files from " & directory
+        UpdateStatusText("Loaded " & Source_FileNames.Count & " Files from " & directory)
+
         SourceLoaded = True
         enable_DupeCheck()
+        refreshdgv()
         'Catch ex As Exception
         'MsgBox("Error! :   " & ex.Message)
         'End Try
+    End Sub
+    Private Sub refreshdgv()
+        SourceLibary_DGV.Refresh()
+
     End Sub
 
 

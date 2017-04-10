@@ -27,6 +27,19 @@ Partial Class Form1
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.SourceLibary_DGV = New System.Windows.Forms.DataGridView()
+        Me.FileIDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileNameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullFileNameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileTypeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FilePathDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PathRelRootDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DateCreatedDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileSizeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SHA1HashDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.UniqueStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CopyStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SOURCELDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ComicInfoDB = New CBR_Libary_Checker.ComicInfoDB()
         Me.Options_Panel = New System.Windows.Forms.Panel()
         Me.Options_FlowLayoutPanel = New System.Windows.Forms.FlowLayoutPanel()
         Me.Source_GroupBox = New System.Windows.Forms.GroupBox()
@@ -47,10 +60,23 @@ Partial Class Form1
         Me.UnsortedFolderTextBox = New System.Windows.Forms.TextBox()
         Me.LibaryRootPath_TextBox = New System.Windows.Forms.TextBox()
         Me.LibaryList_DGV = New System.Windows.Forms.DataGridView()
+        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ThumbnailIMGDataGridViewImageColumn1 = New System.Windows.Forms.DataGridViewImageColumn()
+        Me.LIBARYDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
+        Me.SourceToolStrip = New System.Windows.Forms.ToolStrip()
         Me.LoadSource_Button = New System.Windows.Forms.ToolStripButton()
         Me.SourceLibary_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.Scan_Options_ToolStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
@@ -96,50 +122,24 @@ Partial Class Form1
         Me.TopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LeftToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SOURCELDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ComicInfoDB = New CBR_Libary_Checker.ComicInfoDB()
-        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ThumbnailIMGDataGridViewImageColumn1 = New System.Windows.Forms.DataGridViewImageColumn()
-        Me.LIBARYDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.FileIDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileNameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullFileNameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileTypeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilePathDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PathRelRootDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DateCreatedDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileSizeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SHA1HashDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UniqueStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CopyStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.SourceLibary_DGV, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ComicInfoDB, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Options_Panel.SuspendLayout()
         Me.Options_FlowLayoutPanel.SuspendLayout()
         Me.Source_GroupBox.SuspendLayout()
         Me.Destination_GroupBox.SuspendLayout()
         CType(Me.LibaryList_DGV, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.ToolStrip3.SuspendLayout()
+        Me.SourceToolStrip.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ComicInfoDB, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SourceLibary_DGV
@@ -172,6 +172,111 @@ Partial Class Form1
         Me.SourceLibary_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.SourceLibary_DGV.Size = New System.Drawing.Size(1082, 359)
         Me.SourceLibary_DGV.TabIndex = 0
+        '
+        'FileIDDataGridViewTextBoxColumn
+        '
+        Me.FileIDDataGridViewTextBoxColumn.DataPropertyName = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn.FillWeight = 79.47787!
+        Me.FileIDDataGridViewTextBoxColumn.HeaderText = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn.Name = "FileIDDataGridViewTextBoxColumn"
+        Me.FileIDDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FileIDDataGridViewTextBoxColumn.Width = 48
+        '
+        'FileNameDataGridViewTextBoxColumn
+        '
+        Me.FileNameDataGridViewTextBoxColumn.DataPropertyName = "File Name"
+        Me.FileNameDataGridViewTextBoxColumn.HeaderText = "File Name"
+        Me.FileNameDataGridViewTextBoxColumn.Name = "FileNameDataGridViewTextBoxColumn"
+        Me.FileNameDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FileNameDataGridViewTextBoxColumn.Width = 73
+        '
+        'FullFileNameDataGridViewTextBoxColumn
+        '
+        Me.FullFileNameDataGridViewTextBoxColumn.DataPropertyName = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn.HeaderText = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn.Name = "FullFileNameDataGridViewTextBoxColumn"
+        Me.FullFileNameDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FullFileNameDataGridViewTextBoxColumn.Width = 90
+        '
+        'FileTypeDataGridViewTextBoxColumn
+        '
+        Me.FileTypeDataGridViewTextBoxColumn.DataPropertyName = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn.FillWeight = 60.0!
+        Me.FileTypeDataGridViewTextBoxColumn.HeaderText = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn.Name = "FileTypeDataGridViewTextBoxColumn"
+        Me.FileTypeDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FileTypeDataGridViewTextBoxColumn.Width = 69
+        '
+        'FilePathDataGridViewTextBoxColumn
+        '
+        Me.FilePathDataGridViewTextBoxColumn.DataPropertyName = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn.HeaderText = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn.Name = "FilePathDataGridViewTextBoxColumn"
+        Me.FilePathDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FilePathDataGridViewTextBoxColumn.Visible = False
+        Me.FilePathDataGridViewTextBoxColumn.Width = 68
+        '
+        'PathRelRootDataGridViewTextBoxColumn
+        '
+        Me.PathRelRootDataGridViewTextBoxColumn.DataPropertyName = "Path Rel Root"
+        Me.PathRelRootDataGridViewTextBoxColumn.FillWeight = 80.0!
+        Me.PathRelRootDataGridViewTextBoxColumn.HeaderText = "Libary Location"
+        Me.PathRelRootDataGridViewTextBoxColumn.Name = "PathRelRootDataGridViewTextBoxColumn"
+        Me.PathRelRootDataGridViewTextBoxColumn.ReadOnly = True
+        Me.PathRelRootDataGridViewTextBoxColumn.Width = 96
+        '
+        'DateCreatedDataGridViewTextBoxColumn
+        '
+        Me.DateCreatedDataGridViewTextBoxColumn.DataPropertyName = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn.FillWeight = 80.0!
+        Me.DateCreatedDataGridViewTextBoxColumn.HeaderText = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn.Name = "DateCreatedDataGridViewTextBoxColumn"
+        Me.DateCreatedDataGridViewTextBoxColumn.ReadOnly = True
+        Me.DateCreatedDataGridViewTextBoxColumn.Visible = False
+        Me.DateCreatedDataGridViewTextBoxColumn.Width = 87
+        '
+        'FileSizeDataGridViewTextBoxColumn
+        '
+        Me.FileSizeDataGridViewTextBoxColumn.DataPropertyName = "File Size"
+        Me.FileSizeDataGridViewTextBoxColumn.FillWeight = 65.0!
+        Me.FileSizeDataGridViewTextBoxColumn.HeaderText = "File Size"
+        Me.FileSizeDataGridViewTextBoxColumn.Name = "FileSizeDataGridViewTextBoxColumn"
+        Me.FileSizeDataGridViewTextBoxColumn.ReadOnly = True
+        Me.FileSizeDataGridViewTextBoxColumn.Width = 66
+        '
+        'SHA1HashDataGridViewTextBoxColumn
+        '
+        Me.SHA1HashDataGridViewTextBoxColumn.DataPropertyName = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn.HeaderText = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn.Name = "SHA1HashDataGridViewTextBoxColumn"
+        Me.SHA1HashDataGridViewTextBoxColumn.ReadOnly = True
+        Me.SHA1HashDataGridViewTextBoxColumn.Width = 81
+        '
+        'UniqueStatusDataGridViewTextBoxColumn
+        '
+        Me.UniqueStatusDataGridViewTextBoxColumn.DataPropertyName = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn.HeaderText = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn.Name = "UniqueStatusDataGridViewTextBoxColumn"
+        Me.UniqueStatusDataGridViewTextBoxColumn.ReadOnly = True
+        Me.UniqueStatusDataGridViewTextBoxColumn.Width = 91
+        '
+        'CopyStatusDataGridViewTextBoxColumn
+        '
+        Me.CopyStatusDataGridViewTextBoxColumn.DataPropertyName = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn.HeaderText = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn.Name = "CopyStatusDataGridViewTextBoxColumn"
+        Me.CopyStatusDataGridViewTextBoxColumn.ReadOnly = True
+        Me.CopyStatusDataGridViewTextBoxColumn.Width = 82
+        '
+        'SOURCELDBBindingSource
+        '
+        Me.SOURCELDBBindingSource.DataMember = "SOURCEL_DB"
+        Me.SOURCELDBBindingSource.DataSource = Me.ComicInfoDB
+        '
+        'ComicInfoDB
+        '
+        Me.ComicInfoDB.DataSetName = "ComicInfoDB"
+        Me.ComicInfoDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'Options_Panel
         '
@@ -405,6 +510,103 @@ Partial Class Form1
         Me.LibaryList_DGV.Size = New System.Drawing.Size(1082, 338)
         Me.LibaryList_DGV.TabIndex = 1
         '
+        'FileIDDataGridViewTextBoxColumn1
+        '
+        Me.FileIDDataGridViewTextBoxColumn1.DataPropertyName = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn1.HeaderText = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn1.Name = "FileIDDataGridViewTextBoxColumn1"
+        Me.FileIDDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.FileIDDataGridViewTextBoxColumn1.Visible = False
+        '
+        'FileNameDataGridViewTextBoxColumn1
+        '
+        Me.FileNameDataGridViewTextBoxColumn1.DataPropertyName = "File Name"
+        Me.FileNameDataGridViewTextBoxColumn1.HeaderText = "File Name"
+        Me.FileNameDataGridViewTextBoxColumn1.Name = "FileNameDataGridViewTextBoxColumn1"
+        Me.FileNameDataGridViewTextBoxColumn1.ReadOnly = True
+        '
+        'PathRelRootDataGridViewTextBoxColumn1
+        '
+        Me.PathRelRootDataGridViewTextBoxColumn1.DataPropertyName = "Path Rel Root"
+        Me.PathRelRootDataGridViewTextBoxColumn1.HeaderText = "Libary Path"
+        Me.PathRelRootDataGridViewTextBoxColumn1.Name = "PathRelRootDataGridViewTextBoxColumn1"
+        Me.PathRelRootDataGridViewTextBoxColumn1.ReadOnly = True
+        '
+        'FullFileNameDataGridViewTextBoxColumn1
+        '
+        Me.FullFileNameDataGridViewTextBoxColumn1.DataPropertyName = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn1.HeaderText = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn1.Name = "FullFileNameDataGridViewTextBoxColumn1"
+        Me.FullFileNameDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.FullFileNameDataGridViewTextBoxColumn1.Visible = False
+        '
+        'FileTypeDataGridViewTextBoxColumn1
+        '
+        Me.FileTypeDataGridViewTextBoxColumn1.DataPropertyName = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn1.HeaderText = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn1.Name = "FileTypeDataGridViewTextBoxColumn1"
+        Me.FileTypeDataGridViewTextBoxColumn1.ReadOnly = True
+        '
+        'FilePathDataGridViewTextBoxColumn1
+        '
+        Me.FilePathDataGridViewTextBoxColumn1.DataPropertyName = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn1.HeaderText = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn1.Name = "FilePathDataGridViewTextBoxColumn1"
+        Me.FilePathDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.FilePathDataGridViewTextBoxColumn1.Visible = False
+        '
+        'DateCreatedDataGridViewTextBoxColumn1
+        '
+        Me.DateCreatedDataGridViewTextBoxColumn1.DataPropertyName = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn1.HeaderText = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn1.Name = "DateCreatedDataGridViewTextBoxColumn1"
+        Me.DateCreatedDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.DateCreatedDataGridViewTextBoxColumn1.Visible = False
+        '
+        'FileSizeDataGridViewTextBoxColumn1
+        '
+        Me.FileSizeDataGridViewTextBoxColumn1.DataPropertyName = "File Size"
+        Me.FileSizeDataGridViewTextBoxColumn1.HeaderText = "File Size"
+        Me.FileSizeDataGridViewTextBoxColumn1.Name = "FileSizeDataGridViewTextBoxColumn1"
+        Me.FileSizeDataGridViewTextBoxColumn1.ReadOnly = True
+        '
+        'SHA1HashDataGridViewTextBoxColumn1
+        '
+        Me.SHA1HashDataGridViewTextBoxColumn1.DataPropertyName = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn1.HeaderText = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn1.Name = "SHA1HashDataGridViewTextBoxColumn1"
+        Me.SHA1HashDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.SHA1HashDataGridViewTextBoxColumn1.Visible = False
+        '
+        'UniqueStatusDataGridViewTextBoxColumn1
+        '
+        Me.UniqueStatusDataGridViewTextBoxColumn1.DataPropertyName = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn1.HeaderText = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn1.Name = "UniqueStatusDataGridViewTextBoxColumn1"
+        Me.UniqueStatusDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.UniqueStatusDataGridViewTextBoxColumn1.Visible = False
+        '
+        'CopyStatusDataGridViewTextBoxColumn1
+        '
+        Me.CopyStatusDataGridViewTextBoxColumn1.DataPropertyName = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn1.HeaderText = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn1.Name = "CopyStatusDataGridViewTextBoxColumn1"
+        Me.CopyStatusDataGridViewTextBoxColumn1.ReadOnly = True
+        Me.CopyStatusDataGridViewTextBoxColumn1.Visible = False
+        '
+        'ThumbnailIMGDataGridViewImageColumn1
+        '
+        Me.ThumbnailIMGDataGridViewImageColumn1.DataPropertyName = "Thumbnail IMG"
+        Me.ThumbnailIMGDataGridViewImageColumn1.HeaderText = "Thumbnail IMG"
+        Me.ThumbnailIMGDataGridViewImageColumn1.Name = "ThumbnailIMGDataGridViewImageColumn1"
+        Me.ThumbnailIMGDataGridViewImageColumn1.ReadOnly = True
+        Me.ThumbnailIMGDataGridViewImageColumn1.Visible = False
+        '
+        'LIBARYDBBindingSource
+        '
+        Me.LIBARYDBBindingSource.DataMember = "LIBARY_DB"
+        Me.LIBARYDBBindingSource.DataSource = Me.ComicInfoDB
+        '
         'StatusStrip1
         '
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
@@ -433,7 +635,7 @@ Partial Class Form1
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.SourceLibary_DGV)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.ToolStrip3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SourceToolStrip)
         '
         'SplitContainer1.Panel2
         '
@@ -445,17 +647,17 @@ Partial Class Form1
         Me.SplitContainer1.SplitterWidth = 3
         Me.SplitContainer1.TabIndex = 6
         '
-        'ToolStrip3
+        'SourceToolStrip
         '
-        Me.ToolStrip3.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.GetSourceHashes_Button, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.Selection_Label})
-        Me.ToolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
-        Me.ToolStrip3.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Padding = New System.Windows.Forms.Padding(5, 6, 5, 6)
-        Me.ToolStrip3.Size = New System.Drawing.Size(1082, 39)
-        Me.ToolStrip3.TabIndex = 1
-        Me.ToolStrip3.Text = "ToolStrip3"
+        Me.SourceToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.GetSourceHashes_Button, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.Selection_Label})
+        Me.SourceToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
+        Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
+        Me.SourceToolStrip.Name = "SourceToolStrip"
+        Me.SourceToolStrip.Padding = New System.Windows.Forms.Padding(5, 6, 5, 6)
+        Me.SourceToolStrip.Size = New System.Drawing.Size(1082, 39)
+        Me.SourceToolStrip.TabIndex = 1
+        Me.SourceToolStrip.Text = "ToolStrip3"
         '
         'LoadSource_Button
         '
@@ -825,208 +1027,6 @@ Partial Class Form1
         Me.RightToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
         Me.RightToolStripMenuItem.Text = "Right"
         '
-        'SOURCELDBBindingSource
-        '
-        Me.SOURCELDBBindingSource.DataMember = "SOURCEL_DB"
-        Me.SOURCELDBBindingSource.DataSource = Me.ComicInfoDB
-        '
-        'ComicInfoDB
-        '
-        Me.ComicInfoDB.DataSetName = "ComicInfoDB"
-        Me.ComicInfoDB.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'FileIDDataGridViewTextBoxColumn1
-        '
-        Me.FileIDDataGridViewTextBoxColumn1.DataPropertyName = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn1.HeaderText = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn1.Name = "FileIDDataGridViewTextBoxColumn1"
-        Me.FileIDDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.FileIDDataGridViewTextBoxColumn1.Visible = False
-        '
-        'FileNameDataGridViewTextBoxColumn1
-        '
-        Me.FileNameDataGridViewTextBoxColumn1.DataPropertyName = "File Name"
-        Me.FileNameDataGridViewTextBoxColumn1.HeaderText = "File Name"
-        Me.FileNameDataGridViewTextBoxColumn1.Name = "FileNameDataGridViewTextBoxColumn1"
-        Me.FileNameDataGridViewTextBoxColumn1.ReadOnly = True
-        '
-        'PathRelRootDataGridViewTextBoxColumn1
-        '
-        Me.PathRelRootDataGridViewTextBoxColumn1.DataPropertyName = "Path Rel Root"
-        Me.PathRelRootDataGridViewTextBoxColumn1.HeaderText = "Libary Path"
-        Me.PathRelRootDataGridViewTextBoxColumn1.Name = "PathRelRootDataGridViewTextBoxColumn1"
-        Me.PathRelRootDataGridViewTextBoxColumn1.ReadOnly = True
-        '
-        'FullFileNameDataGridViewTextBoxColumn1
-        '
-        Me.FullFileNameDataGridViewTextBoxColumn1.DataPropertyName = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn1.HeaderText = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn1.Name = "FullFileNameDataGridViewTextBoxColumn1"
-        Me.FullFileNameDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.FullFileNameDataGridViewTextBoxColumn1.Visible = False
-        '
-        'FileTypeDataGridViewTextBoxColumn1
-        '
-        Me.FileTypeDataGridViewTextBoxColumn1.DataPropertyName = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn1.HeaderText = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn1.Name = "FileTypeDataGridViewTextBoxColumn1"
-        Me.FileTypeDataGridViewTextBoxColumn1.ReadOnly = True
-        '
-        'FilePathDataGridViewTextBoxColumn1
-        '
-        Me.FilePathDataGridViewTextBoxColumn1.DataPropertyName = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn1.HeaderText = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn1.Name = "FilePathDataGridViewTextBoxColumn1"
-        Me.FilePathDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.FilePathDataGridViewTextBoxColumn1.Visible = False
-        '
-        'DateCreatedDataGridViewTextBoxColumn1
-        '
-        Me.DateCreatedDataGridViewTextBoxColumn1.DataPropertyName = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn1.HeaderText = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn1.Name = "DateCreatedDataGridViewTextBoxColumn1"
-        Me.DateCreatedDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.DateCreatedDataGridViewTextBoxColumn1.Visible = False
-        '
-        'FileSizeDataGridViewTextBoxColumn1
-        '
-        Me.FileSizeDataGridViewTextBoxColumn1.DataPropertyName = "File Size"
-        Me.FileSizeDataGridViewTextBoxColumn1.HeaderText = "File Size"
-        Me.FileSizeDataGridViewTextBoxColumn1.Name = "FileSizeDataGridViewTextBoxColumn1"
-        Me.FileSizeDataGridViewTextBoxColumn1.ReadOnly = True
-        '
-        'SHA1HashDataGridViewTextBoxColumn1
-        '
-        Me.SHA1HashDataGridViewTextBoxColumn1.DataPropertyName = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn1.HeaderText = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn1.Name = "SHA1HashDataGridViewTextBoxColumn1"
-        Me.SHA1HashDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.SHA1HashDataGridViewTextBoxColumn1.Visible = False
-        '
-        'UniqueStatusDataGridViewTextBoxColumn1
-        '
-        Me.UniqueStatusDataGridViewTextBoxColumn1.DataPropertyName = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn1.HeaderText = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn1.Name = "UniqueStatusDataGridViewTextBoxColumn1"
-        Me.UniqueStatusDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.UniqueStatusDataGridViewTextBoxColumn1.Visible = False
-        '
-        'CopyStatusDataGridViewTextBoxColumn1
-        '
-        Me.CopyStatusDataGridViewTextBoxColumn1.DataPropertyName = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn1.HeaderText = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn1.Name = "CopyStatusDataGridViewTextBoxColumn1"
-        Me.CopyStatusDataGridViewTextBoxColumn1.ReadOnly = True
-        Me.CopyStatusDataGridViewTextBoxColumn1.Visible = False
-        '
-        'ThumbnailIMGDataGridViewImageColumn1
-        '
-        Me.ThumbnailIMGDataGridViewImageColumn1.DataPropertyName = "Thumbnail IMG"
-        Me.ThumbnailIMGDataGridViewImageColumn1.HeaderText = "Thumbnail IMG"
-        Me.ThumbnailIMGDataGridViewImageColumn1.Name = "ThumbnailIMGDataGridViewImageColumn1"
-        Me.ThumbnailIMGDataGridViewImageColumn1.ReadOnly = True
-        Me.ThumbnailIMGDataGridViewImageColumn1.Visible = False
-        '
-        'LIBARYDBBindingSource
-        '
-        Me.LIBARYDBBindingSource.DataMember = "LIBARY_DB"
-        Me.LIBARYDBBindingSource.DataSource = Me.ComicInfoDB
-        '
-        'FileIDDataGridViewTextBoxColumn
-        '
-        Me.FileIDDataGridViewTextBoxColumn.DataPropertyName = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn.FillWeight = 79.47787!
-        Me.FileIDDataGridViewTextBoxColumn.HeaderText = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn.Name = "FileIDDataGridViewTextBoxColumn"
-        Me.FileIDDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FileIDDataGridViewTextBoxColumn.Width = 48
-        '
-        'FileNameDataGridViewTextBoxColumn
-        '
-        Me.FileNameDataGridViewTextBoxColumn.DataPropertyName = "File Name"
-        Me.FileNameDataGridViewTextBoxColumn.HeaderText = "File Name"
-        Me.FileNameDataGridViewTextBoxColumn.Name = "FileNameDataGridViewTextBoxColumn"
-        Me.FileNameDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FileNameDataGridViewTextBoxColumn.Width = 73
-        '
-        'FullFileNameDataGridViewTextBoxColumn
-        '
-        Me.FullFileNameDataGridViewTextBoxColumn.DataPropertyName = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn.HeaderText = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn.Name = "FullFileNameDataGridViewTextBoxColumn"
-        Me.FullFileNameDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FullFileNameDataGridViewTextBoxColumn.Width = 90
-        '
-        'FileTypeDataGridViewTextBoxColumn
-        '
-        Me.FileTypeDataGridViewTextBoxColumn.DataPropertyName = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn.FillWeight = 60.0!
-        Me.FileTypeDataGridViewTextBoxColumn.HeaderText = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn.Name = "FileTypeDataGridViewTextBoxColumn"
-        Me.FileTypeDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FileTypeDataGridViewTextBoxColumn.Width = 69
-        '
-        'FilePathDataGridViewTextBoxColumn
-        '
-        Me.FilePathDataGridViewTextBoxColumn.DataPropertyName = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn.HeaderText = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn.Name = "FilePathDataGridViewTextBoxColumn"
-        Me.FilePathDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FilePathDataGridViewTextBoxColumn.Visible = False
-        Me.FilePathDataGridViewTextBoxColumn.Width = 68
-        '
-        'PathRelRootDataGridViewTextBoxColumn
-        '
-        Me.PathRelRootDataGridViewTextBoxColumn.DataPropertyName = "Path Rel Root"
-        Me.PathRelRootDataGridViewTextBoxColumn.FillWeight = 80.0!
-        Me.PathRelRootDataGridViewTextBoxColumn.HeaderText = "Libary Location"
-        Me.PathRelRootDataGridViewTextBoxColumn.Name = "PathRelRootDataGridViewTextBoxColumn"
-        Me.PathRelRootDataGridViewTextBoxColumn.ReadOnly = True
-        Me.PathRelRootDataGridViewTextBoxColumn.Width = 96
-        '
-        'DateCreatedDataGridViewTextBoxColumn
-        '
-        Me.DateCreatedDataGridViewTextBoxColumn.DataPropertyName = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn.FillWeight = 80.0!
-        Me.DateCreatedDataGridViewTextBoxColumn.HeaderText = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn.Name = "DateCreatedDataGridViewTextBoxColumn"
-        Me.DateCreatedDataGridViewTextBoxColumn.ReadOnly = True
-        Me.DateCreatedDataGridViewTextBoxColumn.Visible = False
-        Me.DateCreatedDataGridViewTextBoxColumn.Width = 87
-        '
-        'FileSizeDataGridViewTextBoxColumn
-        '
-        Me.FileSizeDataGridViewTextBoxColumn.DataPropertyName = "File Size"
-        Me.FileSizeDataGridViewTextBoxColumn.FillWeight = 65.0!
-        Me.FileSizeDataGridViewTextBoxColumn.HeaderText = "File Size"
-        Me.FileSizeDataGridViewTextBoxColumn.Name = "FileSizeDataGridViewTextBoxColumn"
-        Me.FileSizeDataGridViewTextBoxColumn.ReadOnly = True
-        Me.FileSizeDataGridViewTextBoxColumn.Width = 66
-        '
-        'SHA1HashDataGridViewTextBoxColumn
-        '
-        Me.SHA1HashDataGridViewTextBoxColumn.DataPropertyName = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn.HeaderText = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn.Name = "SHA1HashDataGridViewTextBoxColumn"
-        Me.SHA1HashDataGridViewTextBoxColumn.ReadOnly = True
-        Me.SHA1HashDataGridViewTextBoxColumn.Width = 81
-        '
-        'UniqueStatusDataGridViewTextBoxColumn
-        '
-        Me.UniqueStatusDataGridViewTextBoxColumn.DataPropertyName = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn.HeaderText = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn.Name = "UniqueStatusDataGridViewTextBoxColumn"
-        Me.UniqueStatusDataGridViewTextBoxColumn.ReadOnly = True
-        Me.UniqueStatusDataGridViewTextBoxColumn.Width = 91
-        '
-        'CopyStatusDataGridViewTextBoxColumn
-        '
-        Me.CopyStatusDataGridViewTextBoxColumn.DataPropertyName = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn.HeaderText = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn.Name = "CopyStatusDataGridViewTextBoxColumn"
-        Me.CopyStatusDataGridViewTextBoxColumn.ReadOnly = True
-        Me.CopyStatusDataGridViewTextBoxColumn.Width = 82
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1041,6 +1041,8 @@ Partial Class Form1
         Me.Name = "Form1"
         Me.Text = "Form1"
         CType(Me.SourceLibary_DGV, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ComicInfoDB, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Options_Panel.ResumeLayout(False)
         Me.Options_FlowLayoutPanel.ResumeLayout(False)
         Me.Source_GroupBox.ResumeLayout(False)
@@ -1048,6 +1050,7 @@ Partial Class Form1
         Me.Destination_GroupBox.ResumeLayout(False)
         Me.Destination_GroupBox.PerformLayout()
         CType(Me.LibaryList_DGV, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -1056,17 +1059,14 @@ Partial Class Form1
         Me.SplitContainer1.Panel2.PerformLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        Me.ToolStrip3.ResumeLayout(False)
-        Me.ToolStrip3.PerformLayout()
+        Me.SourceToolStrip.ResumeLayout(False)
+        Me.SourceToolStrip.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ComicInfoDB, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1089,7 +1089,7 @@ Partial Class Form1
     Friend WithEvents Options_Panel As Panel
     Friend WithEvents ToolStripButton1 As ToolStripButton
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents ToolStrip3 As ToolStrip
+    Friend WithEvents SourceToolStrip As ToolStrip
     Friend WithEvents LoadSource_Button As ToolStripButton
     Friend WithEvents SourceLibary_ProgressBar As ToolStripProgressBar
     Friend WithEvents ToolStrip2 As ToolStrip

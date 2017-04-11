@@ -13,4 +13,9 @@
         TabFunctions.TAB_OpenNewTabedForm(Me, New Libary_Settings)
 
     End Sub
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        TabFunctions.TAB_OpenNewTabedForm(Me, LibaryViewer)
+
+    End Sub
 End Class

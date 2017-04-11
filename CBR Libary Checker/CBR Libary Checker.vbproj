@@ -100,6 +100,18 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LibaryItem.Designer.vb">
+      <DependentUpon>LibaryItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LibaryItem.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LibaryViewer.Designer.vb">
+      <DependentUpon>LibaryViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LibaryViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Libary_Settings.Designer.vb">
       <DependentUpon>Libary_Settings.vb</DependentUpon>
     </Compile>
@@ -135,6 +147,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LibaryItem.resx">
+      <DependentUpon>LibaryItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LibaryViewer.resx">
+      <DependentUpon>LibaryViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Libary_Settings.resx">
       <DependentUpon>Libary_Settings.vb</DependentUpon>

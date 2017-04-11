@@ -500,7 +500,7 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddSOURCEL_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As SOURCEL_DBRow
+        Public Overloads Function AddSOURCEL_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As SOURCEL_DBRow
             Dim rowSOURCEL_DBRow As SOURCEL_DBRow = CType(Me.NewRow,SOURCEL_DBRow)
             Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
             rowSOURCEL_DBRow.ItemArray = columnValuesArray
@@ -561,7 +561,7 @@ Partial Public Class ComicInfoDB
             MyBase.Columns.Add(Me.columnPath_Rel_Root)
             Me.columnDate_Created = New Global.System.Data.DataColumn("Date Created", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnDate_Created)
-            Me.columnFile_Size = New Global.System.Data.DataColumn("File Size", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            Me.columnFile_Size = New Global.System.Data.DataColumn("File Size", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFile_Size)
             Me.columnSHA1_Hash = New Global.System.Data.DataColumn("SHA1 Hash", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnSHA1_Hash)
@@ -893,7 +893,7 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddLIBARY_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As LIBARY_DBRow
+        Public Overloads Function AddLIBARY_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As LIBARY_DBRow
             Dim rowLIBARY_DBRow As LIBARY_DBRow = CType(Me.NewRow,LIBARY_DBRow)
             Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
             rowLIBARY_DBRow.ItemArray = columnValuesArray
@@ -954,7 +954,7 @@ Partial Public Class ComicInfoDB
             MyBase.Columns.Add(Me.columnPath_Rel_Root)
             Me.columnDate_Created = New Global.System.Data.DataColumn("Date Created", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnDate_Created)
-            Me.columnFile_Size = New Global.System.Data.DataColumn("File Size", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            Me.columnFile_Size = New Global.System.Data.DataColumn("File Size", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFile_Size)
             Me.columnSHA1_Hash = New Global.System.Data.DataColumn("SHA1 Hash", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnSHA1_Hash)
@@ -1214,10 +1214,10 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property File_Size() As String
+        Public Property File_Size() As Double
             Get
                 Try 
-                    Return CType(Me(Me.tableSOURCEL_DB.File_SizeColumn),String)
+                    Return CType(Me(Me.tableSOURCEL_DB.File_SizeColumn),Double)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("The value for column 'File Size' in table 'SOURCEL_DB' is DBNull.", e)
                 End Try
@@ -1511,10 +1511,10 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property File_Size() As String
+        Public Property File_Size() As Double
             Get
                 Try 
-                    Return CType(Me(Me.tableLIBARY_DB.File_SizeColumn),String)
+                    Return CType(Me(Me.tableLIBARY_DB.File_SizeColumn),Double)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("The value for column 'File Size' in table 'LIBARY_DB' is DBNull.", e)
                 End Try

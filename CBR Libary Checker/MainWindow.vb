@@ -8,4 +8,9 @@
         Me.Close()
 
     End Sub
+
+    Private Sub LibarySettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LibarySettingsToolStripMenuItem.Click
+        TabFunctions.TAB_OpenNewTabedForm(Me, New Libary_Settings)
+
+    End Sub
 End Class

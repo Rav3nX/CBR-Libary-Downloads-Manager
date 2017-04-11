@@ -16,6 +16,8 @@ Public Class Form1
     Private LibaryThread As Thread
     Private CopyThread As Thread
     Private HashThread As Thread
+    Private CopyProg As Thread
+
 
     Private Source_Progress_Maximum As Integer = 100
     Private Libary_Progress_Maximum As Integer = 100
@@ -122,7 +124,7 @@ Public Class Form1
 
                     ' Dim infoReader As System.IO.FileInfo = My.Computer.FileSystem.GetFileInfo(filename)
                     Dim filesize As Double = FileLen(filename)
-                    Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
+                    Dim filesizestr As Double = Math.Round(filesize / 1000000, 3)
 
                     If Not (hide) Then
                         Dim newrow As ComicInfoDB.SOURCEL_DBRow
@@ -182,7 +184,7 @@ Public Class Form1
     End Sub
 
     Private Sub LoadLibary()
-        Dim directory As String = LibaryRootPath_TextBox.Text
+        Dim directory As String = My.Settings.LibaryFolder
         UpdateStatusText("Scanning Libary....Please Wait.")
 
         Dim libstr() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
@@ -202,7 +204,7 @@ Public Class Form1
                     hash = md5_hash(filename)
                 End If
                 Dim filesize As Double = FileLen(filename)
-                Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
+                Dim filesizestr As Double = Math.Round(filesize / 1000000, 3)
                 Dim filedate As Date = IO.File.GetCreationTime(filename)
 
                 Dim newrow As ComicInfoDB.LIBARY_DBRow
@@ -235,48 +237,7 @@ Public Class Form1
 
 
 
-    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
-        CopyThread = New Thread(AddressOf CopyWork)
-        CopyThread.IsBackground = True
-        CopyThread.Start()
-    End Sub
-    Private Sub CopyWork()
 
-        Copy_ProgressBar.Maximum = SourceLibary_DGV.SelectedRows.Count
-        CopyProgress_Label.Visible = True
-
-        CopyProgress_Label.Text = "Begin Copying " & SourceLibary_DGV.SelectedRows.Count & " Files...."
-        'CopyProgress_Label.Visible = False
-        Dim cnt As Integer
-        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
-            cnt += 1
-            Copy_ProgressBar.Value = cnt
-
-            'MsgBox(row.Cells.Item("FullFileName").Value.ToString)
-            Dim srcfilename As String = row.Cells.Item("filename").Value.ToString
-            Dim srcfullfilename As String = row.Cells.Item("FullFileName").Value.ToString
-
-
-            Dim destfilename As String = UnsortedFolderTextBox.Text & "\" & srcfilename
-            Try
-                If ShowCopy_CheckBox.Checked Then
-                    My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename, FileIO.UIOption.AllDialogs)
-                Else
-                    My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
-                End If
-                CopyProgress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-            CopyProgress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
-            row.Cells.Item(7).Value = "COPIED"
-
-
-        Next
-        CopyProgress_Label.Text = "Copied " & cnt & " Files. Copy Complete"
-
-
-    End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Options_Panel.Paint
         SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
@@ -356,24 +317,27 @@ Public Class Form1
 #Region "Folder Browser Dialogs and Link Labels"
 
     Private Sub Source_Browse_LL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles Source_Browse_LL.LinkClicked
-        Dim Fldlg As New FolderBrowserDialog
-        If Fldlg.ShowDialog = vbOK Then
-            SourcePath_TextBox.Text = Fldlg.SelectedPath
-        End If
+        Using Fldlg As New FolderBrowserDialog
+            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
+            Fldlg.SelectedPath = SourcePath_TextBox.Text
+            If Fldlg.ShowDialog = vbOK Then
+                SourcePath_TextBox.Text = Fldlg.SelectedPath
+            End If
+        End Using
+
     End Sub
 
-    Private Sub LinkLabel4_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LibaryPathBRSR_LinkLabel.LinkClicked
-        Dim Fldlg As New FolderBrowserDialog
-        If Fldlg.ShowDialog = vbOK Then
-            LibaryRootPath_TextBox.Text = Fldlg.SelectedPath
-        End If
-    End Sub
+
 
     Private Sub UnsortedPathBRSR_LinkLabel_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles UnsortedPathBRSR_LinkLabel.LinkClicked
-        Dim Fldlg As New FolderBrowserDialog
-        If Fldlg.ShowDialog = vbOK Then
-            UnsortedFolderTextBox.Text = Fldlg.SelectedPath
-        End If
+        Using Fldlg As New FolderBrowserDialog
+            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
+            Fldlg.SelectedPath = UnsortedFolderTextBox.Text
+            If Fldlg.ShowDialog = vbOK Then
+                UnsortedFolderTextBox.Text = Fldlg.SelectedPath
+            End If
+        End Using
+
     End Sub
 
 #End Region
@@ -381,13 +345,13 @@ Public Class Form1
 
     Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
         If LibaryList_DGV.SelectedRows.Count > 0 Then
-            Process.Start(LibaryList_DGV.SelectedRows.Item(0).Cells.Item("LibaryFilePath").Value.ToString)
+            Process.Start(LibaryList_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn1").Value.ToString)
         End If
     End Sub
 
     Private Sub OpenSource_Libary_Click(sender As Object, e As EventArgs) Handles OpenSource_Libary.Click
         If SourceLibary_DGV.SelectedRows.Count > 0 Then
-            Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("File Path").Value.ToString)
+            Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn").Value.ToString)
         End If
     End Sub
 
@@ -619,6 +583,99 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub ToolStripButton1_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        TabFunctions.CloseME(Me)
+    End Sub
+
+    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
+        CopyThread = New Thread(AddressOf CopyWork)
+        CopyThread.IsBackground = True
+        CopyThread.Start()
+    End Sub
+
+
+
+    Private Sub CopyWork()
+
+
+
+        Dim CopyProgress As New CopyProgDialog
+        CopyProgress.Show()
+        CopyProgress.ProgressBar.Maximum = SourceLibary_DGV.SelectedRows.Count
+        'CopyProgress_Label.Visible = True
+
+        CopyProgress.Progress_Label.Text = "Begin Copying " & SourceLibary_DGV.SelectedRows.Count & " Files...."
+        'CopyProgress_Label.Visible = False
+        Dim cnt As Integer
+        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
+            cnt += 1
+            CopyProgress.ProgressBar.Value = cnt
+
+            'MsgBox(row.Cells.Item("FullFileName").Value.ToString)
+            Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
+
+
+            Dim destfilename As String = UnsortedFolderTextBox.Text & "\" & srcfilename
+
+            Try
+                CopyProgress.CurrentFileNameLabel.Text = srcfilename
+                Dim cpyTask As New CopyThread()
+                Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
+                cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
+                cpyTask.srcfullfilename = srcfullfilename
+                cpyTask.destfilename = destfilename
+                Thread1.Start()
+                Thread1.Join()
+                If cpyTask.copyok Then
+                    CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
+                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
+                Else
+                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
+                End If
+
+
+                CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
+
+            Catch ex As Exception
+
+                MsgBox(ex.Message)
+            End Try
+
+
+
+
+        Next
+        CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files. Copy Complete"
+        CopyProgress.Close()
+
+
+    End Sub
 #End Region
 
 End Class
+
+Class CopyThread
+    Public srcfullfilename As String
+    Public destfilename As String
+    Public showsysteminfo As Boolean = False
+    Public copyok As Boolean
+
+    Sub CopyFile()
+        Try
+            If showsysteminfo Then
+                My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename, FileIO.UIOption.AllDialogs)
+            Else
+                My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
+            End If
+            copyok = True
+        Catch ex As Exception
+            copyok = False
+        End Try
+
+    End Sub
+End Class
+
+
+
+

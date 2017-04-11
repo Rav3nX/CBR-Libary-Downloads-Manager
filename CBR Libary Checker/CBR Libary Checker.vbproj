@@ -87,11 +87,23 @@
     <Compile Include="ComicInfoDB.vb">
       <DependentUpon>ComicInfoDB.xsd</DependentUpon>
     </Compile>
+    <Compile Include="CopyProgDialog.Designer.vb">
+      <DependentUpon>CopyProgDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CopyProgDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libary_Settings.Designer.vb">
+      <DependentUpon>Libary_Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Libary_Settings.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.Designer.vb">
@@ -118,8 +130,14 @@
     <Compile Include="TabFunctions.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CopyProgDialog.resx">
+      <DependentUpon>CopyProgDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Libary_Settings.resx">
+      <DependentUpon>Libary_Settings.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.vb</DependentUpon>

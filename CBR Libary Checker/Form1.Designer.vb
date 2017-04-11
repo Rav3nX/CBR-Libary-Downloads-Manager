@@ -497,7 +497,7 @@ Partial Class Form1
         'SourceToolStrip
         '
         Me.SourceToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.GetSourceHashes_Button, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.Selection_Label})
+        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.Selection_Label, Me.GetSourceHashes_Button})
         Me.SourceToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
@@ -584,7 +584,6 @@ Partial Class Form1
         '
         'HideDupes_CHKButton
         '
-        Me.HideDupes_CHKButton.CheckOnClick = True
         Me.HideDupes_CHKButton.Name = "HideDupes_CHKButton"
         Me.HideDupes_CHKButton.Size = New System.Drawing.Size(246, 22)
         Me.HideDupes_CHKButton.Text = "Hide Files Already in Main Libary"
@@ -690,6 +689,7 @@ Partial Class Form1
         '
         'GetSourceHashes_Button
         '
+        Me.GetSourceHashes_Button.Enabled = False
         Me.GetSourceHashes_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.hash_512
         Me.GetSourceHashes_Button.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.GetSourceHashes_Button.Name = "GetSourceHashes_Button"

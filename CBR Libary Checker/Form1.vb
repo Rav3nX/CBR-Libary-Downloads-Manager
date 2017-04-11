@@ -358,20 +358,35 @@ Public Class Form1
 
 #Region "Source View Menu Items"
     Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_CHKButton.Click
-        If HideDupes_CHKButton.Checked Then
-            For Each row As DataGridViewRow In SourceLibary_DGV.Rows
-                If Not (IsDBNull(row.Cells("InLibary").Value)) Then
-                    If row.Cells("InLibary").Value.ToString = "IN LIBARY" Then
-                        row.Visible = False
-                    End If
-                End If
 
-            Next
-        Else
-            For Each row As DataGridViewRow In SourceLibary_DGV.Rows
-                row.Visible = True
-            Next
-        End If
+        For i As Integer = ComicInfoDB.SOURCEL_DB.Rows.Count - 1 To 0 Step -1
+            If Not (IsDBNull(ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status"))) Then
+
+                If ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status") = "In Libary" Then
+                    ComicInfoDB.SOURCEL_DB.Rows.Item(i).Delete()
+                End If
+            End If
+        Next i
+
+        '     For Each row As DataRow In ComicInfoDB.SOURCEL_DB.Rows
+        '    If Not (IsDBNull(row("Unique Status"))) Then
+        '   If row("Unique Status") = "In Libary" Then
+        '  ComicInfoDB.SOURCEL_DB.RemoveSOURCEL_DBRow(row)
+
+        'row.Delete()
+        'End If
+        'End If
+        'Next
+        'For Each row As DataGridViewRow In SourceLibary_DGV.Rows
+        'If row.Cells("UniqueStatusDataGridViewTextBoxColumn").Value.ToString = "In Libary" Then
+
+        'row.Visible = False
+        ' End If
+        'End If
+
+        ' Next
+
+
     End Sub
 
 

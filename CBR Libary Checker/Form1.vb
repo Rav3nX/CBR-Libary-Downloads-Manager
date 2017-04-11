@@ -18,6 +18,7 @@ Public Class Form1
     Private HashThread As Thread
 
     Private Source_Progress_Maximum As Integer = 100
+    Private Libary_Progress_Maximum As Integer = 100
 
 
     Private HideDupes As Boolean = True
@@ -40,9 +41,10 @@ Public Class Form1
 
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
 
-        FilesTread = New Thread(AddressOf LoadSourceFiles)
-        FilesTread.IsBackground = True
-        FilesTread.Start()
+        'FilesTread = New Thread(AddressOf LoadSourceFiles)
+        'FilesTread.IsBackground = True
+        'FilesTread.Start()
+        LoadSourceFiles()
 
     End Sub
 
@@ -70,6 +72,7 @@ Public Class Form1
         End If
         status.Text = New_Value
     End Sub
+
 
     Private Sub LoadSourceFiles()
         'Try
@@ -110,7 +113,13 @@ Public Class Form1
             End If
             Try
                 If Not hide Then
-                    Dim filedate As Date = IO.File.GetCreationTime(filename)
+                    Dim filedate As Date
+                    Try
+                        filedate = IO.File.GetCreationTime(filename)
+                    Catch ex As Exception
+
+                    End Try
+
                     ' Dim infoReader As System.IO.FileInfo = My.Computer.FileSystem.GetFileInfo(filename)
                     Dim filesize As Double = FileLen(filename)
                     Dim filesizestr As String = Math.Round(filesize / 1000000, 3) & " Mb"
@@ -136,6 +145,8 @@ Public Class Form1
                     End If
                 End If
             Catch ex As Exception
+                Console.WriteLine(ex.Message)
+
             End Try
         Next
         UpdateStatusText("Loaded " & Source_FileNames.Count & " Files from " & directory)
@@ -148,30 +159,42 @@ Public Class Form1
         'End Try
     End Sub
     Private Sub refreshdgv()
-        SourceLibary_DGV.Refresh()
+        'SourceLibary_DGV.Refresh()
 
     End Sub
 
 
-
+    Private Sub UpdateLibaryProgressBar(ByVal New_Value As String)
+        If Me.InvokeRequired Then
+            Dim args() As String = {New_Value}
+            Me.Invoke(New Action(Of String)(AddressOf UpdateLibaryProgressBar), args)
+            Return
+        End If
+        MainLibary_ProgressBar.Maximum = Libary_Progress_Maximum
+        MainLibary_ProgressBar.Value = CInt(New_Value)
+    End Sub
 
     Private Sub LoadLibary_Button_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
-        LibaryThread = New Thread(AddressOf LoadLibary)
-        LibaryThread.IsBackground = True
-        LibaryThread.Start()
+        'LibaryThread = New Thread(AddressOf LoadLibary)
+        'LibaryThread.IsBackground = True
+        'LibaryThread.Start()
+        LoadLibary()
     End Sub
 
     Private Sub LoadLibary()
         Dim directory As String = LibaryRootPath_TextBox.Text
-        status.Text = "Scanning Libary....Please Wait."
+        UpdateStatusText("Scanning Libary....Please Wait.")
+
         Dim libstr() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-        MainLibary_ProgressBar.Maximum = libstr.Count
-        status.Text = " Loading " & libstr.Count & " files from libary.....Please Wait...."
+        Libary_Progress_Maximum = libstr.Count
+
+        UpdateLibaryProgressBar(0)
+        UpdateStatusText(" Loading " & libstr.Count & " files from libary.....Please Wait....")
 
         Dim cnt As Integer
         For Each filename As String In libstr
             cnt += 1
-            MainLibary_ProgressBar.Value = cnt
+            UpdateLibaryProgressBar(cnt)
 
             Try
                 Dim hash As String = ""
@@ -206,7 +229,7 @@ Public Class Form1
         Next
         ' status.Text = "Getting Hashes for files in libary"
         LibaryLoaded = True
-
+        UpdateStatusText("Done loading Libary.")
         enable_DupeCheck()
     End Sub
 
@@ -308,17 +331,21 @@ Public Class Form1
     End Sub
 
     Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
-        For Each row As DataGridViewRow In SourceLibary_DGV.Rows
-            Dim filename = row.Cells.Item("FileName").Value.ToString
-            For Each libaryrow As DataGridViewRow In LibaryList_DGV.Rows
-                Dim libfilename = libaryrow.Cells.Item("Libary_FileName").Value.ToString
-                'Console.WriteLine(filename & " - " & libfilename)
-                If filename = libfilename Then
-                    row.Cells.Item("InLibary").Value = "IN LIBARY"
+
+        For Each row As DataRow In ComicInfoDB.SOURCEL_DB.Rows
+
+            Dim filename As String = row("File Name")
+
+            For Each LibaryRow As DataRow In ComicInfoDB.LIBARY_DB.Rows
+
+                If filename = LibaryRow("File Name") Then
+                    row("Unique Status") = "In Libary"
                 End If
+
             Next
 
         Next
+
     End Sub
 
 
@@ -360,7 +387,7 @@ Public Class Form1
 
     Private Sub OpenSource_Libary_Click(sender As Object, e As EventArgs) Handles OpenSource_Libary.Click
         If SourceLibary_DGV.SelectedRows.Count > 0 Then
-            Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("FilePath").Value.ToString)
+            Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("File Path").Value.ToString)
         End If
     End Sub
 
@@ -383,90 +410,12 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub FullFilePathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FullFilePathToolStripMenuItem.Click
-        'FilePath.Visible = FullFilePathToolStripMenuItem.Checked
 
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs)
+        TabFunctions.CloseME(Me)
     End Sub
 
-    Private Sub FileNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileNameToolStripMenuItem.Click
-        ' FileName.Visible = FileNameToolStripMenuItem.Checked
-
-    End Sub
-
-    Private Sub FileTypeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileTypeToolStripMenuItem.Click
-        ' Type.Visible = FileTypeToolStripMenuItem.Checked
-
-    End Sub
-
-    Private Sub UnwantedQtorrentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UnwantedQtorrentToolStripMenuItem.Click
-        'unwanted.Visible = UnwantedQtorrentToolStripMenuItem.Checked
-    End Sub
-
-    Private Sub FolderPathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderPathToolStripMenuItem.Click
-        'FilePath.Visible = FolderPathToolStripMenuItem.Checked
-
-    End Sub
-
-    Private Sub DateCreatedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateCreatedToolStripMenuItem.Click
-
-    End Sub
-
-    Private Sub FileSizeMbToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileSizeMbToolStripMenuItem.Click
-
-    End Sub
-
-    Private Sub InLibaryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InLibaryToolStripMenuItem.Click
-
-    End Sub
-
-    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
-        Me.Close()
-
-    End Sub
-
-    Private Sub ToolStripDropDownButton2_Click(sender As Object, e As EventArgs) Handles ToolStripDropDownButton2.Click
-
-    End Sub
-
-    Private Sub TopToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TopToolStripMenuItem.Click
-        If TopToolStripMenuItem.Checked Then
-            LeftToolStripMenuItem.Checked = False
-            RightToolStripMenuItem.Checked = False
-            Options_Dock()
-        End If
-    End Sub
-    Private Sub Options_Dock()
-        If TopToolStripMenuItem.Checked Then
-            Options_Panel.Dock = DockStyle.Top
-            Options_Panel.Height = 300
-
-        ElseIf LeftToolStripMenuItem.Checked Then
-            Options_Panel.Dock = DockStyle.Left
-        ElseIf RightToolStripMenuItem.Checked Then
-            Options_Panel.Dock = DockStyle.Right
-
-        End If
-    End Sub
-
-    Private Sub LeftToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LeftToolStripMenuItem.Click
-        If LeftToolStripMenuItem.Checked Then
-            RightToolStripMenuItem.Checked = False
-            TopToolStripMenuItem.Checked = False
-            Options_Dock()
-        End If
-    End Sub
-
-    Private Sub RightToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RightToolStripMenuItem.Click
-        If RightToolStripMenuItem.Checked Then
-            LeftToolStripMenuItem.Checked = False
-            TopToolStripMenuItem.Checked = False
-            Options_Dock()
-        End If
-    End Sub
-
-    Private Sub FileList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles SourceLibary_DGV.CellContentClick
-
-    End Sub
 
     Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles SourceLibary_DGV.SelectionChanged
         If IsNothing(SourceLibary_DGV.SelectedRows) Then

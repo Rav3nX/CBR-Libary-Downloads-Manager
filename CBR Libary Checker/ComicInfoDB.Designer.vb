@@ -340,8 +340,6 @@ Partial Public Class ComicInfoDB
         
         Private columnCopy_Status As Global.System.Data.DataColumn
         
-        Private columnThumbnail_IMG As Global.System.Data.DataColumn
-        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -466,14 +464,6 @@ Partial Public Class ComicInfoDB
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Thumbnail_IMGColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnThumbnail_IMG
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -510,9 +500,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddSOURCEL_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String, ByVal Thumbnail_IMG() As Byte) As SOURCEL_DBRow
+        Public Overloads Function AddSOURCEL_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As SOURCEL_DBRow
             Dim rowSOURCEL_DBRow As SOURCEL_DBRow = CType(Me.NewRow,SOURCEL_DBRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status, Thumbnail_IMG}
+            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
             rowSOURCEL_DBRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowSOURCEL_DBRow)
             Return rowSOURCEL_DBRow
@@ -552,7 +542,6 @@ Partial Public Class ComicInfoDB
             Me.columnSHA1_Hash = MyBase.Columns("SHA1 Hash")
             Me.columnUnique_Status = MyBase.Columns("Unique Status")
             Me.columnCopy_Status = MyBase.Columns("Copy Status")
-            Me.columnThumbnail_IMG = MyBase.Columns("Thumbnail IMG")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -580,8 +569,6 @@ Partial Public Class ComicInfoDB
             MyBase.Columns.Add(Me.columnUnique_Status)
             Me.columnCopy_Status = New Global.System.Data.DataColumn("Copy Status", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCopy_Status)
-            Me.columnThumbnail_IMG = New Global.System.Data.DataColumn("Thumbnail IMG", GetType(Byte()), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnThumbnail_IMG)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnFile_ID}, true))
             Me.columnFile_ID.AutoIncrement = true
             Me.columnFile_ID.AutoIncrementSeed = 1
@@ -746,8 +733,6 @@ Partial Public Class ComicInfoDB
         
         Private columnCopy_Status As Global.System.Data.DataColumn
         
-        Private columnThumbnail_IMG As Global.System.Data.DataColumn
-        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -872,14 +857,6 @@ Partial Public Class ComicInfoDB
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Thumbnail_IMGColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnThumbnail_IMG
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -916,9 +893,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddLIBARY_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String, ByVal Thumbnail_IMG() As Byte) As LIBARY_DBRow
+        Public Overloads Function AddLIBARY_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As String, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As LIBARY_DBRow
             Dim rowLIBARY_DBRow As LIBARY_DBRow = CType(Me.NewRow,LIBARY_DBRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status, Thumbnail_IMG}
+            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
             rowLIBARY_DBRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowLIBARY_DBRow)
             Return rowLIBARY_DBRow
@@ -958,7 +935,6 @@ Partial Public Class ComicInfoDB
             Me.columnSHA1_Hash = MyBase.Columns("SHA1 Hash")
             Me.columnUnique_Status = MyBase.Columns("Unique Status")
             Me.columnCopy_Status = MyBase.Columns("Copy Status")
-            Me.columnThumbnail_IMG = MyBase.Columns("Thumbnail IMG")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -986,8 +962,6 @@ Partial Public Class ComicInfoDB
             MyBase.Columns.Add(Me.columnUnique_Status)
             Me.columnCopy_Status = New Global.System.Data.DataColumn("Copy Status", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCopy_Status)
-            Me.columnThumbnail_IMG = New Global.System.Data.DataColumn("Thumbnail IMG", GetType(Byte()), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnThumbnail_IMG)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnFile_ID}, true))
             Me.columnFile_ID.AutoIncrement = true
             Me.columnFile_ID.AutoIncrementSeed = 1
@@ -1300,21 +1274,6 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property Thumbnail_IMG() As Byte()
-            Get
-                Try 
-                    Return CType(Me(Me.tableSOURCEL_DB.Thumbnail_IMGColumn),Byte())
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Thumbnail IMG' in table 'SOURCEL_DB' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableSOURCEL_DB.Thumbnail_IMGColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsFile_NameNull() As Boolean
             Return Me.IsNull(Me.tableSOURCEL_DB.File_NameColumn)
         End Function
@@ -1431,18 +1390,6 @@ Partial Public Class ComicInfoDB
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetCopy_StatusNull()
             Me(Me.tableSOURCEL_DB.Copy_StatusColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsThumbnail_IMGNull() As Boolean
-            Return Me.IsNull(Me.tableSOURCEL_DB.Thumbnail_IMGColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetThumbnail_IMGNull()
-            Me(Me.tableSOURCEL_DB.Thumbnail_IMGColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -1624,21 +1571,6 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property Thumbnail_IMG() As Byte()
-            Get
-                Try 
-                    Return CType(Me(Me.tableLIBARY_DB.Thumbnail_IMGColumn),Byte())
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'Thumbnail IMG' in table 'LIBARY_DB' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tableLIBARY_DB.Thumbnail_IMGColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsFile_NameNull() As Boolean
             Return Me.IsNull(Me.tableLIBARY_DB.File_NameColumn)
         End Function
@@ -1755,18 +1687,6 @@ Partial Public Class ComicInfoDB
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetCopy_StatusNull()
             Me(Me.tableLIBARY_DB.Copy_StatusColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsThumbnail_IMGNull() As Boolean
-            Return Me.IsNull(Me.tableLIBARY_DB.Thumbnail_IMGColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetThumbnail_IMGNull()
-            Me(Me.tableLIBARY_DB.Thumbnail_IMGColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

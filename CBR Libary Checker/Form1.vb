@@ -7,7 +7,14 @@ Imports System.Runtime.CompilerServices
 Imports System.Security.Cryptography
 Imports System.Threading
 
+Public Structure ProgressReport
+    Property Min As Integer
+    Property Max As Integer
+    Property Current As Integer
+    Property ReportType As String
+    Property TextMessage As String
 
+End Structure
 
 Public Class Form1
     Private Source_DS As New ComicInfoDB
@@ -18,35 +25,40 @@ Public Class Form1
     Private HashThread As Thread
     Private CopyProg As Thread
 
-
-    Private Source_Progress_Maximum As Integer = 100
-    Private Libary_Progress_Maximum As Integer = 100
+    Private WithEvents LoadSource_BackgroundWorker As New BackgroundWorker
+    Private WithEvents LoadLibrary_BackgroundWorker As New BackgroundWorker
 
 
     Private HideDupes As Boolean = True
     Private SourceLoaded As Boolean = False
     Private LibaryLoaded As Boolean = False
 
+    Public Sub New()
 
+        InitializeComponent()
+        LoadSource_BackgroundWorker.WorkerReportsProgress = True
+        LoadSource_BackgroundWorker.WorkerSupportsCancellation = False
+        LoadLibrary_BackgroundWorker.WorkerReportsProgress = True
+        LoadLibrary_BackgroundWorker.WorkerSupportsCancellation = False
+
+        For Each column As DataGridViewColumn In SourceLibary_DGV.Columns
+            column.MinimumWidth = 110
+        Next
+        For Each column As DataGridViewColumn In LibraryList_DGV.Columns
+            column.MinimumWidth = 110
+        Next
+
+    End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-        LibaryList_DGV.DefaultCellStyle = SourceLibary_DGV.DefaultCellStyle
-        LibaryList_DGV.AlternatingRowsDefaultCellStyle = SourceLibary_DGV.AlternatingRowsDefaultCellStyle
+        LibraryList_DGV.DefaultCellStyle = SourceLibary_DGV.DefaultCellStyle
+        LibraryList_DGV.AlternatingRowsDefaultCellStyle = SourceLibary_DGV.AlternatingRowsDefaultCellStyle
 
         Dim Favorites() As String = Split(My.Settings.Favorites, ";")
         For Each FavSingle As String In Favorites
             ListBox1.Items.Add(FavSingle)
         Next
-
-    End Sub
-
-    Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
-
-        'FilesTread = New Thread(AddressOf LoadSourceFiles)
-        'FilesTread.IsBackground = True
-        'FilesTread.Start()
-        LoadSourceFiles()
 
     End Sub
 
@@ -57,45 +69,59 @@ Public Class Form1
             CheckUnique_Button.Enabled = False
         End If
     End Sub
-    Private Sub UpdateSourceProgressBar(ByVal New_Value As String)
-        If Me.InvokeRequired Then
-            Dim args() As String = {New_Value}
-            Me.Invoke(New Action(Of String)(AddressOf UpdateSourceProgressBar), args)
-            Return
-        End If
-        SourceLibary_ProgressBar.Maximum = Source_Progress_Maximum
-        SourceLibary_ProgressBar.Value = CInt(New_Value)
-    End Sub
-    Private Sub UpdateStatusText(ByVal New_Value As String)
-        If Me.InvokeRequired Then
-            Dim args() As String = {New_Value}
-            Me.Invoke(New Action(Of String)(AddressOf UpdateStatusText), args)
-            Return
-        End If
-        status.Text = New_Value
-    End Sub
 
 
-    Private Sub LoadSourceFiles()
-        'Try
-        status.Text = " Scanning Source Directory....please wait."
+#Region "Load Source List"
+
+    Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
+        If Not (LoadSource_BackgroundWorker.IsBusy) Then LoadSource_BackgroundWorker.RunWorkerAsync()
+    End Sub
+
+    Private Sub LoadSource_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles LoadSource_BackgroundWorker.ProgressChanged
+        Dim ProgressReport As New ProgressReport
+        ProgressReport = CType(e.UserState, ProgressReport)
+        Select Case ProgressReport.ReportType
+            Case "start"
+                SourceLibary_ProgressBar.Maximum = ProgressReport.Max
+                SourceLibary_ProgressBar.Minimum = ProgressReport.Min
+                SourceLibary_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+                'SourceLibary_ProgressBar.Value = e.ProgressPercentage
+            Case "update"
+                SourceLibary_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+            Case "finish"
+                status.Text = ProgressReport.TextMessage
+                SourceLibary_ProgressBar.Value = 0
+        End Select
+    End Sub
+
+    Private Sub LoadSource_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadSource_BackgroundWorker.RunWorkerCompleted
+        SourceLibary_DGV.Visible = False
+        SourceLibary_DGV.Visible = True
+        SourceLoaded = True
+        enable_DupeCheck()
+    End Sub
+
+    Private Sub LoadSourceFiles(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles LoadSource_BackgroundWorker.DoWork
+
+        'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim ProgressReport As New ProgressReport
+
         Dim directory As String = SourcePath_TextBox.Text
-
-
         Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-
-        'Thread Safe Progress Bar Updating
-        Source_Progress_Maximum = Source_FileNames.Count
-        UpdateSourceProgressBar(0)
-        'Thread Safe status update
-        UpdateStatusText(" Loading " & Source_FileNames.Count & " files from source folder.....Please Wait....")
-
         Dim cnt As Integer
+        ProgressReport.ReportType = "start"
+        ProgressReport.Min = 0
+        ProgressReport.Max = Source_FileNames.Count
+        ProgressReport.Current = 0
+        ProgressReport.TextMessage = "Found " & Source_FileNames.Count & " files....Begining search"
+
+
+        LoadSource_BackgroundWorker.ReportProgress(0, ProgressReport)
 
         For Each filename As String In Source_FileNames
             cnt += 1
-            UpdateSourceProgressBar(cnt)
-            'SourceLibary_ProgressBar.Value = cnt
 
             Dim FirstCharacter As Integer = filename.IndexOf(".unwanted")
             Dim hide As Boolean = False
@@ -119,18 +145,13 @@ Public Class Form1
                     Try
                         filedate = IO.File.GetCreationTime(filename)
                     Catch ex As Exception
-
                     End Try
-
-                    ' Dim infoReader As System.IO.FileInfo = My.Computer.FileSystem.GetFileInfo(filename)
                     Dim filesize As Double = FileLen(filename)
                     Dim filesizestr As Double = Math.Round(filesize / 1000000, 3)
 
                     If Not (hide) Then
                         Dim newrow As ComicInfoDB.SOURCEL_DBRow
-
                         newrow = ComicInfoDB.SOURCEL_DB.NewRow
-
                         newrow("File Name") = IO.Path.GetFileName(filename)
                         newrow("Full File Name") = filename
                         newrow("File Type") = IO.Path.GetExtension(filename)
@@ -144,6 +165,11 @@ Public Class Form1
                         'sync
                         ComicInfoDB.SOURCEL_DB.Rows.Add(newrow)
 
+                        ProgressReport.Current = cnt
+                        ProgressReport.ReportType = "update"
+                        ProgressReport.TextMessage = "Loading Source files. Processed " & cnt & " of " & Source_FileNames.Count & " files."
+                        LoadSource_BackgroundWorker.ReportProgress(0, ProgressReport)
+
                     End If
                 End If
             Catch ex As Exception
@@ -151,67 +177,77 @@ Public Class Form1
 
             End Try
         Next
-        UpdateStatusText("Loaded " & Source_FileNames.Count & " Files from " & directory)
+
+        ProgressReport.TextMessage = "Loading Source complete. " & Source_FileNames.Count & " Added to list."
+        ProgressReport.ReportType = "finish"
+        LoadSource_BackgroundWorker.ReportProgress(0, ProgressReport)
 
         SourceLoaded = True
+
+    End Sub
+#End Region
+
+#Region "Load Library List"
+
+    Private Sub LoadLibary_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
+        If Not (LoadLibrary_BackgroundWorker.IsBusy) Then LoadLibrary_BackgroundWorker.RunWorkerAsync()
+    End Sub
+
+    Private Sub LoadLirbary_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles LoadLibrary_BackgroundWorker.ProgressChanged
+        Dim ProgressReport As New ProgressReport
+        ProgressReport = CType(e.UserState, ProgressReport)
+        Select Case ProgressReport.ReportType
+            Case "start"
+                MainLibrary_ProgressBar.Maximum = ProgressReport.Max
+                MainLibrary_ProgressBar.Minimum = ProgressReport.Min
+                MainLibrary_ProgressBar.Value = ProgressReport.Current
+                status2.Text = ProgressReport.TextMessage
+                'SourceLibary_ProgressBar.Value = e.ProgressPercentage
+            Case "update"
+                MainLibrary_ProgressBar.Value = ProgressReport.Current
+                status2.Text = ProgressReport.TextMessage
+            Case "finish"
+                status2.Text = ProgressReport.TextMessage
+                MainLibrary_ProgressBar.Value = 0
+        End Select
+    End Sub
+
+    Private Sub LoadLibrary_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadLibrary_BackgroundWorker.RunWorkerCompleted
+        LibraryList_DGV.Visible = False
+        LibraryList_DGV.Visible = True
+        LibaryLoaded = True
         enable_DupeCheck()
-        refreshdgv()
-        'Catch ex As Exception
-        'MsgBox("Error! :   " & ex.Message)
-        'End Try
-    End Sub
-    Private Sub refreshdgv()
-        'SourceLibary_DGV.Refresh()
-
     End Sub
 
+    Private Sub LoadLibraryFiles(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles LoadLibrary_BackgroundWorker.DoWork
 
-    Private Sub UpdateLibaryProgressBar(ByVal New_Value As String)
-        If Me.InvokeRequired Then
-            Dim args() As String = {New_Value}
-            Me.Invoke(New Action(Of String)(AddressOf UpdateLibaryProgressBar), args)
-            Return
-        End If
-        MainLibary_ProgressBar.Maximum = Libary_Progress_Maximum
-        MainLibary_ProgressBar.Value = CInt(New_Value)
-    End Sub
-
-    Private Sub LoadLibary_Button_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
-        'LibaryThread = New Thread(AddressOf LoadLibary)
-        'LibaryThread.IsBackground = True
-        'LibaryThread.Start()
-        LoadLibary()
-    End Sub
-
-    Private Sub LoadLibary()
+        Dim ProgressReport As New ProgressReport
         Dim directory As String = My.Settings.LibaryFolder
-        UpdateStatusText("Scanning Libary....Please Wait.")
-
-        Dim libstr() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
-        Libary_Progress_Maximum = libstr.Count
-
-        UpdateLibaryProgressBar(0)
-        UpdateStatusText(" Loading " & libstr.Count & " files from libary.....Please Wait....")
-
+        Dim Library_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
         Dim cnt As Integer
-        For Each filename As String In libstr
+
+        ProgressReport.ReportType = "start" ' UPDATE STATUS BAR AND PROGRESS BAR
+        ProgressReport.Min = 0
+        ProgressReport.Max = Library_FileNames.Count
+        ProgressReport.Current = 0
+        ProgressReport.TextMessage = "Found " & Library_FileNames.Count & " files....Begining search"
+        LoadLibrary_BackgroundWorker.ReportProgress(0, ProgressReport) 'CALL PROGRESSREPOT
+
+        For Each filename As String In Library_FileNames
             cnt += 1
-            UpdateLibaryProgressBar(cnt)
 
             Try
                 Dim hash As String = ""
                 If GetHashesOnScanToolStripMenuItem.Checked Then
                     hash = md5_hash(filename)
                 End If
+
                 Dim filesize As Double = FileLen(filename)
                 Dim filesizestr As Double = Math.Round(filesize / 1000000, 3)
                 Dim filedate As Date = IO.File.GetCreationTime(filename)
 
                 Dim newrow As ComicInfoDB.LIBARY_DBRow
-
-
                 newrow = ComicInfoDB.LIBARY_DB.NewRow
-
                 newrow("File Name") = IO.Path.GetFileName(filename)
                 newrow("Full File Name") = filename
                 newrow("File Type") = IO.Path.GetExtension(filename)
@@ -223,25 +259,28 @@ Public Class Form1
                 newrow("Date Created") = filedate.ToString("dd-MMM-yyyy")
                 newrow("SHA1 Hash") = hash
 
-                ComicInfoDB.LIBARY_DB.Rows.Add(newrow)
+                ComicInfoDB.LIBARY_DB.Rows.Add(newrow) ' ADD THE ROW TO THE DATASET
 
-                'LibaryList_DGV.Rows.Add(IO.Path.GetFileName(filename), filename, IO.Path.GetExtension(filename), IO.Path.GetDirectoryName(filename), filesizestr)
+                ProgressReport.Current = cnt
+                ProgressReport.ReportType = "update"
+                ProgressReport.TextMessage = "Loading Main Library Files. Processed " & cnt & " of " & Library_FileNames.Count & " files."
+                LoadLibrary_BackgroundWorker.ReportProgress(0, ProgressReport) 'REPORT THE STATUS OF FILE PROCESSING.
+
             Catch ex As Exception
             End Try
         Next
-        ' status.Text = "Getting Hashes for files in libary"
+
         LibaryLoaded = True
-        UpdateStatusText("Done loading Libary.")
-        enable_DupeCheck()
+
     End Sub
 
 
+#End Region
 
 
-
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Options_Panel.Paint
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs)
         SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-        LibaryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+        LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
 
     End Sub
 
@@ -250,7 +289,7 @@ Public Class Form1
         If FntSel.ShowDialog = DialogResult.OK Then
             My.Settings.DGVFont = FntSel.Font
             SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-            LibaryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+            LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
         End If
     End Sub
 
@@ -344,8 +383,8 @@ Public Class Form1
 
 
     Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
-        If LibaryList_DGV.SelectedRows.Count > 0 Then
-            Process.Start(LibaryList_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn1").Value.ToString)
+        If LibraryList_DGV.SelectedRows.Count > 0 Then
+            Process.Start(LibraryList_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn1").Value.ToString)
         End If
     End Sub
 
@@ -549,17 +588,17 @@ Public Class Form1
 
     End Sub
     Private Sub GetLibary_Hashes()
-        If LibaryList_DGV.Rows.Count > 0 Then
+        If LibraryList_DGV.Rows.Count > 0 Then
             status.Text = "Generating Hashes for files"
-            MainLibary_ProgressBar.Maximum = LibaryList_DGV.Rows.Count
-            MainLibary_ProgressBar.Value = 0
+            MainLibrary_ProgressBar.Maximum = LibraryList_DGV.Rows.Count
+            MainLibrary_ProgressBar.Value = 0
 
-            For Each row As DataGridViewRow In LibaryList_DGV.Rows
-                status.Text = "Generating Hashes for files, " & row.Index & " Hashes of " & LibaryList_DGV.Rows.Count & " Calculated."
+            For Each row As DataGridViewRow In LibraryList_DGV.Rows
+                status.Text = "Generating Hashes for files, " & row.Index & " Hashes of " & LibraryList_DGV.Rows.Count & " Calculated."
                 Dim filename As String = row.Cells.Item("Libary_FullFileName").Value.ToString
                 Dim hash As String = md5_hash(filename)
                 row.Cells.Item("Libary_FileHash").Value = hash
-                MainLibary_ProgressBar.Value = row.Index + 1
+                MainLibrary_ProgressBar.Value = row.Index + 1
             Next
 
             GetLibaryHashes_Button.Enabled = True
@@ -666,8 +705,28 @@ Public Class Form1
 
 
     End Sub
-#End Region
 
+
+#End Region
+    Private Sub VerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerticalToolStripMenuItem.Click
+        SplitContainer1.Orientation = Orientation.Vertical
+        HorizontalToolStripMenuItem.Checked = False
+    End Sub
+
+    Private Sub HorizontalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HorizontalToolStripMenuItem.Click
+        SplitContainer1.Orientation = Orientation.Horizontal
+        VerticalToolStripMenuItem.Checked = False
+    End Sub
+
+    Private Sub SourceToolStrip_ItemClicked(sender As Object, e As EventArgs) Handles SourceToolStrip.SizeChanged
+
+    End Sub
+
+    Private Sub SourceToolStrip_Resize(sender As Object, e As EventArgs) Handles SourceToolStrip.Resize
+        If SplitContainer1.Orientation = Orientation.Vertical Then
+            ToolStrip2.Height = SourceToolStrip.Height
+        End If
+    End Sub
 End Class
 
 Class CopyThread

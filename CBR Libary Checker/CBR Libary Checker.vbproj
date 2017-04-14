@@ -93,6 +93,12 @@
     <Compile Include="CopyProgDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CustomGroupBoxMinable.designer.vb">
+      <DependentUpon>CustomGroupBoxMinable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CustomGroupBoxMinable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     <EmbeddedResource Include="CopyProgDialog.resx">
       <DependentUpon>CopyProgDialog.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CustomGroupBoxMinable.resx">
+      <DependentUpon>CustomGroupBoxMinable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
@@ -168,6 +177,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="ComicInfoDB.xsc">
       <DependentUpon>ComicInfoDB.xsd</DependentUpon>
     </None>

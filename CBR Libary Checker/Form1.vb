@@ -27,6 +27,7 @@ Public Class Form1
 
     Private WithEvents LoadSource_BackgroundWorker As New BackgroundWorker
     Private WithEvents LoadLibrary_BackgroundWorker As New BackgroundWorker
+    Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
 
 
     Private HideDupes As Boolean = True
@@ -40,6 +41,11 @@ Public Class Form1
         LoadSource_BackgroundWorker.WorkerSupportsCancellation = False
         LoadLibrary_BackgroundWorker.WorkerReportsProgress = True
         LoadLibrary_BackgroundWorker.WorkerSupportsCancellation = False
+        CopySelected_BackgroundWorker.WorkerReportsProgress = True
+        CopySelected_BackgroundWorker.WorkerSupportsCancellation = True
+
+        SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+        LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
 
         For Each column As DataGridViewColumn In SourceLibary_DGV.Columns
             column.MinimumWidth = 110
@@ -74,7 +80,10 @@ Public Class Form1
 #Region "Load Source List"
 
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
-        If Not (LoadSource_BackgroundWorker.IsBusy) Then LoadSource_BackgroundWorker.RunWorkerAsync()
+        If Not (LoadSource_BackgroundWorker.IsBusy) Then
+            SOURCELDBBindingSource.SuspendBinding()
+            LoadSource_BackgroundWorker.RunWorkerAsync()
+        End If
     End Sub
 
     Private Sub LoadSource_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles LoadSource_BackgroundWorker.ProgressChanged
@@ -97,6 +106,7 @@ Public Class Form1
     End Sub
 
     Private Sub LoadSource_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadSource_BackgroundWorker.RunWorkerCompleted
+        SOURCELDBBindingSource.ResumeBinding()
         SourceLibary_DGV.Visible = False
         SourceLibary_DGV.Visible = True
         SourceLoaded = True
@@ -190,7 +200,10 @@ Public Class Form1
 #Region "Load Library List"
 
     Private Sub LoadLibary_Click(sender As Object, e As EventArgs) Handles LoadLibary_Button.Click
-        If Not (LoadLibrary_BackgroundWorker.IsBusy) Then LoadLibrary_BackgroundWorker.RunWorkerAsync()
+        If Not (LoadLibrary_BackgroundWorker.IsBusy) Then
+            LIBARYDBBindingSource.SuspendBinding()
+            LoadLibrary_BackgroundWorker.RunWorkerAsync()
+        End If
     End Sub
 
     Private Sub LoadLirbary_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles LoadLibrary_BackgroundWorker.ProgressChanged
@@ -213,6 +226,7 @@ Public Class Form1
     End Sub
 
     Private Sub LoadLibrary_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadLibrary_BackgroundWorker.RunWorkerCompleted
+        LIBARYDBBindingSource.ResumeBinding()
         LibraryList_DGV.Visible = False
         LibraryList_DGV.Visible = True
         LibaryLoaded = True
@@ -270,19 +284,14 @@ Public Class Form1
             End Try
         Next
 
+        ProgressReport.TextMessage = "Loading Library complete. " & Library_FileNames.Count & " Added to list."
+        ProgressReport.ReportType = "finish"
+        LoadLibrary_BackgroundWorker.ReportProgress(0, ProgressReport)
         LibaryLoaded = True
-
     End Sub
 
 
 #End Region
-
-
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs)
-        SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-        LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-
-    End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
         Dim FntSel As New FontDialog
@@ -294,14 +303,6 @@ Public Class Form1
     End Sub
 
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub Button6_Click(sender As Object, e As EventArgs)
-
-
-    End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         ListBox1.Items.Add(SourcePath_TextBox.Text)
@@ -331,21 +332,14 @@ Public Class Form1
     End Sub
 
     Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
-
         For Each row As DataRow In ComicInfoDB.SOURCEL_DB.Rows
-
             Dim filename As String = row("File Name")
-
             For Each LibaryRow As DataRow In ComicInfoDB.LIBARY_DB.Rows
-
                 If filename = LibaryRow("File Name") Then
                     row("Unique Status") = "In Libary"
                 End If
-
             Next
-
         Next
-
     End Sub
 
 
@@ -641,39 +635,64 @@ Public Class Form1
         TabFunctions.CloseME(Me)
     End Sub
 
+
+
+#Region "Copy Files Region"
+
     Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
-        CopyThread = New Thread(AddressOf CopyWork)
-        CopyThread.IsBackground = True
-        CopyThread.Start()
+        If Not (CopySelected_BackgroundWorker.IsBusy) Then
+            CopySelected_BackgroundWorker.RunWorkerAsync()
+        End If
     End Sub
 
+    Private Sub CopyFiles_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles CopySelected_BackgroundWorker.ProgressChanged
+        Dim ProgressReport As New ProgressReport
+        ProgressReport = CType(e.UserState, ProgressReport)
+        Select Case ProgressReport.ReportType
+            Case "start"
+                Copy_ProgressBar.Maximum = ProgressReport.Max
+                Copy_ProgressBar.Minimum = ProgressReport.Min
+                Copy_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+                'SourceLibary_ProgressBar.Value = e.ProgressPercentage
+            Case "update"
+                Copy_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+            Case "finish"
+                status.Text = ProgressReport.TextMessage
+                Copy_ProgressBar.Value = 0
+        End Select
+    End Sub
 
+    Private Sub CopyFiles_RunWorkerCompleted(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles CopySelected_BackgroundWorker.RunWorkerCompleted
 
-    Private Sub CopyWork()
+    End Sub
 
+    Private Sub CopyFiles_DoWork(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles CopySelected_BackgroundWorker.DoWork
 
+        'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim ProgressReport As New ProgressReport
+        ProgressReport.ReportType = "start"
+        ProgressReport.Min = 0
+        ProgressReport.Max = SourceLibary_DGV.SelectedRows.Count
+        ProgressReport.Current = 0
+        ProgressReport.TextMessage = "Found " & SourceLibary_DGV.SelectedRows.Count & " files....Begining copy operation..."
+        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
 
-        Dim CopyProgress As New CopyProgDialog
-        CopyProgress.Show()
-        CopyProgress.ProgressBar.Maximum = SourceLibary_DGV.SelectedRows.Count
-        'CopyProgress_Label.Visible = True
-
-        CopyProgress.Progress_Label.Text = "Begin Copying " & SourceLibary_DGV.SelectedRows.Count & " Files...."
-        'CopyProgress_Label.Visible = False
         Dim cnt As Integer
         For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
-            cnt += 1
-            CopyProgress.ProgressBar.Value = cnt
 
-            'MsgBox(row.Cells.Item("FullFileName").Value.ToString)
+            cnt += 1
+
             Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
             Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
-
-
             Dim destfilename As String = UnsortedFolderTextBox.Text & "\" & srcfilename
+            ProgressReport.Current = cnt
+            ProgressReport.ReportType = "update"
+            ProgressReport.TextMessage = cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count & " copied. Current File: " & srcfilename
+            CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
 
             Try
-                CopyProgress.CurrentFileNameLabel.Text = srcfilename
                 Dim cpyTask As New CopyThread()
                 Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
                 cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
@@ -682,29 +701,25 @@ Public Class Form1
                 Thread1.Start()
                 Thread1.Join()
                 If cpyTask.copyok Then
-                    CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
                     row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
                 Else
                     row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
                 End If
 
-
-                CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count
-
             Catch ex As Exception
-
                 MsgBox(ex.Message)
             End Try
 
-
-
-
         Next
-        CopyProgress.Progress_Label.Text = "Copied " & cnt & " Files. Copy Complete"
-        CopyProgress.Close()
+        ProgressReport.Current = cnt
+        ProgressReport.ReportType = "finish"
+        ProgressReport.TextMessage = cnt & " Files copied to " & UnsortedFolderTextBox.Text
+        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
 
 
     End Sub
+#End Region
+
 
 
 #End Region

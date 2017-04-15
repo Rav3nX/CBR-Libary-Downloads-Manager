@@ -450,7 +450,7 @@ Public Class Form1
                     End If
                 End If
             Next
-            Dim MBDbl As Double = Math.Round((TotalSelectedSize / 1000000), 2)
+            Dim MBDbl As Double = TotalSelectedSize
             Dim MBStr As String = MBDbl.ToString("N", CultureInfo.InvariantCulture) & " Mb."
 
             'dblValue.ToString("N", CultureInfo.InvariantCulture))
@@ -742,6 +742,8 @@ Public Class Form1
             ToolStrip2.Height = SourceToolStrip.Height
         End If
     End Sub
+
+
 End Class
 
 Class CopyThread

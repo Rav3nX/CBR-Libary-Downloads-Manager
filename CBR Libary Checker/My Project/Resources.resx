@@ -121,6 +121,18 @@
   <data name="Search-Folder-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Search-Folder-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hash-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hash-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder-icon-512x512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder-icon-512x512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh-double-rounded-flat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh-double-rounded-flat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="circle_hashtag-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\circle_hashtag-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -130,16 +142,16 @@
   <data name="compare_balance-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\compare_balance-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="eye-24-256" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\eye-24-256.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BlueSpots" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueSpots.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="eye-24-256" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eye-24-256.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="hash-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hash-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Creative-Freedom-Shimmer-Folder-New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Creative-Freedom-Shimmer-Folder-New.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

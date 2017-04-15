@@ -202,6 +202,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="micon.ico" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\Creative-Freedom-Shimmer-Folder-New.ico" />
+    <None Include="Resources\folder-icon-512x512.png" />
+    <None Include="Resources\refresh-double-rounded-flat.png" />
     <None Include="Resources\hash-512.png" />
     <None Include="Resources\circle_hashtag-512.png" />
     <None Include="Resources\Delete.png" />

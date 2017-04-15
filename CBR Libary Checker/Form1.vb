@@ -28,7 +28,7 @@ Public Class Form1
     Private WithEvents LoadSource_BackgroundWorker As New BackgroundWorker
     Private WithEvents LoadLibrary_BackgroundWorker As New BackgroundWorker
     Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
-
+    Private WithEvents TreeViewFiller_BackgroundWorker As New BackgroundWorker
 
     Private HideDupes As Boolean = True
     Private SourceLoaded As Boolean = False
@@ -65,6 +65,9 @@ Public Class Form1
         For Each FavSingle As String In Favorites
             ListBox1.Items.Add(FavSingle)
         Next
+        status.Text = "Loading Folders List...."
+        TreeViewFiller_BackgroundWorker.RunWorkerAsync()
+        'PopulateTreeView()
 
     End Sub
 
@@ -293,6 +296,87 @@ Public Class Form1
 
 #End Region
 
+#Region "Library Tree Node Section"
+
+    Private TreeView_Nodes_Collection As New List(Of TreeNode)
+
+    Private Sub PopulateTreeView()
+        Dim rootNode As TreeNode
+
+        Dim info As New DirectoryInfo(My.Settings.LibaryFolder)
+        If info.Exists Then
+            rootNode = New TreeNode(info.Name)
+            rootNode.Tag = info
+            GetDirectories(info.GetDirectories(), rootNode)
+            TreeView1.Nodes.Add(rootNode)
+        End If
+
+    End Sub
+
+    Private Sub GetDirectories(ByVal subDirs() As DirectoryInfo, ByVal nodeToAddTo As TreeNode)
+
+        Dim aNode As TreeNode
+        Dim subSubDirs() As DirectoryInfo
+        Dim subDir As DirectoryInfo
+        For Each subDir In subDirs
+            Try
+                aNode = New TreeNode(subDir.Name, 0, 0)
+                aNode.Tag = subDir
+                aNode.ImageKey = "folder"
+                subSubDirs = subDir.GetDirectories()
+                If subSubDirs.Length <> 0 Then
+                    GetDirectories(subSubDirs, aNode)
+                End If
+                nodeToAddTo.Nodes.Add(aNode)
+            Catch ex As Exception
+            End Try
+        Next subDir
+    End Sub
+
+
+    Private Sub LoadTreeView_BGW(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles TreeViewFiller_BackgroundWorker.DoWork
+
+        Dim rootNode As TreeNode
+
+        Dim info As New DirectoryInfo(My.Settings.LibaryFolder)
+        If info.Exists Then
+            rootNode = New TreeNode(info.Name)
+            rootNode.Tag = info
+            GetDirectories(info.GetDirectories(), rootNode)
+            TreeView_Nodes_Collection.Add(rootNode)
+
+            'TreeView_Nodes_Collection.
+            'TreeView_Nodes_Collection.Add(rootNode)
+        End If
+    End Sub
+    Private Sub LoadTreeView_BGW_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles TreeViewFiller_BackgroundWorker.RunWorkerCompleted
+        TreeView1.Nodes.Clear()
+        For Each treenode As TreeNode In TreeView_Nodes_Collection
+            TreeView1.Nodes.Add(treenode)
+        Next
+        TreeView_Nodes_Collection.Clear()
+        status.Text = "Library folders loaded"
+
+    End Sub
+
+    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+
+        If Not (TreeViewFiller_BackgroundWorker.IsBusy) Then TreeViewFiller_BackgroundWorker.RunWorkerAsync()
+
+    End Sub
+
+    Private Sub NewFolder_Button_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles NewFolder_Button.ItemClicked
+        If TreeView1.SelectedNode IsNot Nothing Then
+            Dim test As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            'If (Not System.IO.Directory.Exists(YourPath)) Then
+            'System.IO.Directory.CreateDirectory(YourPath)
+            'End If
+            MsgBox("tag: " & test.FullName & " Name: " & TreeView1.SelectedNode.Name)
+        End If
+    End Sub
+
+#End Region
+
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
         Dim FntSel As New FontDialog
         If FntSel.ShowDialog = DialogResult.OK Then
@@ -400,25 +484,6 @@ Public Class Form1
                 End If
             End If
         Next i
-
-        '     For Each row As DataRow In ComicInfoDB.SOURCEL_DB.Rows
-        '    If Not (IsDBNull(row("Unique Status"))) Then
-        '   If row("Unique Status") = "In Libary" Then
-        '  ComicInfoDB.SOURCEL_DB.RemoveSOURCEL_DBRow(row)
-
-        'row.Delete()
-        'End If
-        'End If
-        'Next
-        'For Each row As DataGridViewRow In SourceLibary_DGV.Rows
-        'If row.Cells("UniqueStatusDataGridViewTextBoxColumn").Value.ToString = "In Libary" Then
-
-        'row.Visible = False
-        ' End If
-        'End If
-
-        ' Next
-
 
     End Sub
 
@@ -723,13 +788,14 @@ Public Class Form1
 
 
 #End Region
+
     Private Sub VerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerticalToolStripMenuItem.Click
-        SplitContainer1.Orientation = Orientation.Vertical
+        DGVsSplitContainer.Orientation = Orientation.Vertical
         HorizontalToolStripMenuItem.Checked = False
     End Sub
 
     Private Sub HorizontalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HorizontalToolStripMenuItem.Click
-        SplitContainer1.Orientation = Orientation.Horizontal
+        DGVsSplitContainer.Orientation = Orientation.Horizontal
         VerticalToolStripMenuItem.Checked = False
     End Sub
 
@@ -738,7 +804,7 @@ Public Class Form1
     End Sub
 
     Private Sub SourceToolStrip_Resize(sender As Object, e As EventArgs) Handles SourceToolStrip.Resize
-        If SplitContainer1.Orientation = Orientation.Vertical Then
+        If DGVsSplitContainer.Orientation = Orientation.Vertical Then
             ToolStrip2.Height = SourceToolStrip.Height
         End If
     End Sub

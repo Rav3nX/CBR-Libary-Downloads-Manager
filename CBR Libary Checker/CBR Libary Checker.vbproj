@@ -106,6 +106,12 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LibaryFolderDialog.Designer.vb">
+      <DependentUpon>LibaryFolderDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LibaryFolderDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LibaryItem.Designer.vb">
       <DependentUpon>LibaryItem.vb</DependentUpon>
     </Compile>
@@ -163,6 +169,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LibaryFolderDialog.resx">
+      <DependentUpon>LibaryFolderDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LibaryItem.resx">
       <DependentUpon>LibaryItem.vb</DependentUpon>
     </EmbeddedResource>
@@ -211,6 +220,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="micon.ico" />
+    <None Include="Resources\Dark-Horse-v2-icon.png" />
+    <None Include="Resources\Settings-L-icon.png" />
     <None Include="Resources\041-favor_add.png" />
     <None Include="Resources\Icons8-Windows-8-Files-View-File.ico" />
     <None Include="Resources\backgg.png" />

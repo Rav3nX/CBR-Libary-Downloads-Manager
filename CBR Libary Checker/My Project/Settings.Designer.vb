@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\\RAVIENSERVER\2015Torrents\0-Day Week of 2015.05.13")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\\RAVIENSERVER\Comics\Comics\Guardians of the Galaxy Collection (1990-2016)")>  _
         Public Property torrentfolder() As String
             Get
                 Return CType(Me("torrentfolder"),String)

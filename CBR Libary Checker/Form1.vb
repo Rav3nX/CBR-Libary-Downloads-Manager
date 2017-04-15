@@ -29,6 +29,11 @@ Public Class Form1
     Private HashThread As Thread
     Private CopyProg As Thread
 
+    Private SourcePath As String
+    Private LibraryPath As String
+    Private CopyDestination As String
+    Private FilesToCopy_RowCollection As DataGridViewSelectedRowCollection
+
     Private WithEvents LoadSource_BackgroundWorker As New BackgroundWorker
     Private WithEvents LoadLibrary_BackgroundWorker As New BackgroundWorker
     Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
@@ -97,6 +102,7 @@ Public Class Form1
     Private Sub LoadSource_Click(sender As Object, e As EventArgs) Handles LoadSource_Button.Click
         If Not (LoadSource_BackgroundWorker.IsBusy) Then
             SOURCELDBBindingSource.SuspendBinding()
+            SourcePath = SourcePath_ComboBox.Text
             LoadSource_BackgroundWorker.RunWorkerAsync()
         End If
     End Sub
@@ -133,7 +139,7 @@ Public Class Form1
         'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
         Dim ProgressReport As New ProgressReport
 
-        Dim directory As String = SourcePath_ComboBox.Text
+        Dim directory As String = SourcePath
         Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
         Dim cnt As Integer
         ProgressReport.ReportType = "start"
@@ -308,6 +314,150 @@ Public Class Form1
 
 #End Region
 
+#Region "Copy Files Region"
+
+    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button.Click
+        If Not (CopySelected_BackgroundWorker.IsBusy) Then
+            CopyDestination = DestinationFolder_TextBox.Text
+            FilesToCopy_RowCollection = SourceLibary_DGV.SelectedRows
+            CopySelected_BackgroundWorker.RunWorkerAsync()
+        End If
+    End Sub
+
+    Private Sub CopyFiles_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles CopySelected_BackgroundWorker.ProgressChanged
+        Dim ProgressReport As New ProgressReport
+        ProgressReport = CType(e.UserState, ProgressReport)
+        Select Case ProgressReport.ReportType
+            Case "start"
+                Copy_ProgressBar.Maximum = ProgressReport.Max
+                Copy_ProgressBar.Minimum = ProgressReport.Min
+                Copy_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+                'SourceLibary_ProgressBar.Value = e.ProgressPercentage
+            Case "update"
+                Copy_ProgressBar.Value = ProgressReport.Current
+                status.Text = ProgressReport.TextMessage
+            Case "finish"
+                status.Text = ProgressReport.TextMessage
+                Copy_ProgressBar.Value = 0
+        End Select
+    End Sub
+
+    Private Sub CopyFiles_RunWorkerCompleted(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles CopySelected_BackgroundWorker.RunWorkerCompleted
+
+    End Sub
+
+    Private Sub CopyFiles_DoWork(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles CopySelected_BackgroundWorker.DoWork
+
+        'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim ProgressReport As New ProgressReport
+        ProgressReport.ReportType = "start"
+        ProgressReport.Min = 0
+        ProgressReport.Max = FilesToCopy_RowCollection.Count 'SourceLibary_DGV.SelectedRows.Count
+        ProgressReport.Current = 0
+        ProgressReport.TextMessage = "Found " & SourceLibary_DGV.SelectedRows.Count & " files....Begining copy operation..."
+        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
+
+        Dim cnt As Integer
+        For Each row As DataGridViewRow In FilesToCopy_RowCollection 'SourceLibary_DGV.SelectedRows
+
+            cnt += 1
+
+            Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim destfilename As String = CopyDestination & "\" & srcfilename
+            ProgressReport.Current = cnt
+            ProgressReport.ReportType = "update"
+            ProgressReport.TextMessage = cnt & " Files of " & FilesToCopy_RowCollection.Count & " copied. Current File: " & srcfilename
+            CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
+
+            Try
+                Dim cpyTask As New CopyThread()
+                Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
+                'cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
+                cpyTask.srcfullfilename = srcfullfilename
+                cpyTask.destfilename = destfilename
+                Thread1.Start()
+                Thread1.Join()
+                If cpyTask.copyok Then
+                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
+                Else
+                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
+                End If
+
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+
+        Next
+        ProgressReport.Current = cnt
+        ProgressReport.ReportType = "finish"
+        ProgressReport.TextMessage = cnt & " Copy Complete. " & cnt & " Files copied to " & DestinationFolder_TextBox.Text
+        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
+
+
+    End Sub
+#End Region
+
+#Region "Drag and Drop"
+    Private Sub SourceLibary_DGV_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles SourceLibary_DGV.CellMouseDown ' SOURCE DATAGRIDVIEW DRAG OFF
+        Try
+            If Me.SourceLibary_DGV.SelectedRows.Count = 0 Then
+                Exit Sub
+            End If
+
+            Dim info As DataGridView.HitTestInfo = Me.SourceLibary_DGV.HitTest(e.X, e.Y)
+            Dim rows As DataGridViewSelectedRowCollection = Me.SourceLibary_DGV.SelectedRows
+            Me.SourceLibary_DGV.DoDragDrop(rows, DragDropEffects.Copy)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub treeTwo_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView1.DragOver
+        e.Effect = DragDropEffects.Copy
+        Dim pt As New Point(e.X, e.Y)
+        pt = TreeView1.PointToClient(pt)
+        Dim node As TreeNode = TreeView1.GetNodeAt(pt)
+        If Not node Is Nothing Then
+            e.Effect = DragDropEffects.Copy
+            'node.Expand()
+            TreeView1.SelectedNode = node
+        End If
+        'End If
+    End Sub
+
+    Private Sub treeTwo_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView1.DragDrop
+
+        ' Dim tree As TreeView = CType(sender, TreeView)
+        Dim pt As New Point(e.X, e.Y)
+        pt = TreeView1.PointToClient(pt)
+        Dim node As TreeNode = TreeView1.GetNodeAt(pt)
+
+        If TypeOf e.Data Is DataObject Then ' CHECKS IT IS A DATA OBJECT
+
+            Dim rows As DataGridViewSelectedRowCollection = TryCast(e.Data.GetData(GetType(DataGridViewSelectedRowCollection)), DataGridViewSelectedRowCollection) ' GET THE COLLECTION
+            Dim DirInfo As DirectoryInfo = CType(node.Tag, DirectoryInfo)                                                                                                   'GET THE DESTINATION FOLDER
+            If MsgBox("Are you sure you wish to copy these " & rows.Count & " Comics to the folder : " & vbLf & DirInfo.FullName, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+                If Not (CopySelected_BackgroundWorker.IsBusy) Then
+                    CopyDestination = DirInfo.FullName 'DROPED ON NODE PATH
+                    FilesToCopy_RowCollection = rows 'SELECTED ROWS TO COPY ROW COLLECTION
+                    CopySelected_BackgroundWorker.RunWorkerAsync() 'GOGOBABY FUCK YEAH
+                Else
+                    MsgBox("A copy operation is already underway. Please wait untill this is finished!", MsgBoxStyle.Critical)
+                End If
+
+            End If
+
+        End If
+    End Sub
+
+
+
+#End Region
+
 #Region "Library COLLECTION Tree Node Section"
 
     Private TreeView_Nodes_Collection As New List(Of TreeNode)
@@ -366,7 +516,7 @@ Public Class Form1
         status.Text = "Library folders loaded"
     End Sub
 
-    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles RefreshFolderList_Button.Click
 
         If Not (TreeViewFiller_BackgroundWorker.IsBusy) Then TreeViewFiller_BackgroundWorker.RunWorkerAsync()
 
@@ -398,7 +548,7 @@ Public Class Form1
     End Sub
 
 
-    Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseDoubleClick
+    Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) 'Handles TreeView1.NodeMouseDoubleClick
         If TreeView1.SelectedNode IsNot Nothing Then
             Dim DirInfo As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
             DestinationFolder_TextBox.Text = DirInfo.FullName
@@ -425,7 +575,12 @@ Public Class Form1
 
     End Sub
 
-
+    Private Sub ToolStripButton3_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        Dim librarySetDialog As New LibaryFolderDialog
+        If librarySetDialog.ShowDialog = DialogResult.OK Then
+            RefreshFolderList_Button.PerformClick()
+        End If
+    End Sub
 
 
 #End Region
@@ -531,6 +686,16 @@ Public Class Form1
 #End Region ' CHECK UNIQ, ETC
 
 #Region "MISC BUTTONS"
+
+    Private Sub VerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerticalToolStripMenuItem.Click ' SPLIT CONTAINER (DATAGRID VIEWS) LAYOUT DIRECTION
+        DGVsSplitContainer.Orientation = Orientation.Vertical
+        HorizontalToolStripMenuItem.Checked = False
+    End Sub
+
+    Private Sub HorizontalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HorizontalToolStripMenuItem.Click ' SPLIT CONTAINER (DATAGRID VIEWS) LAYOUT DIRECTION
+        DGVsSplitContainer.Orientation = Orientation.Horizontal
+        VerticalToolStripMenuItem.Checked = False
+    End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
         Dim FntSel As New FontDialog
@@ -658,6 +823,11 @@ Public Class Form1
         FilesTread.Start()
 
     End Sub
+
+    Private Sub SourceLibary_DGV_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles SourceLibary_DGV.CellContentClick
+
+    End Sub
+
     Private Sub GetLibary_Hashes()
         If LibraryList_DGV.Rows.Count > 0 Then
             status.Text = "Generating Hashes for files"
@@ -712,102 +882,13 @@ Public Class Form1
 
 
 
-#Region "Copy Files Region"
 
-    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button.Click
-        If Not (CopySelected_BackgroundWorker.IsBusy) Then
-            CopySelected_BackgroundWorker.RunWorkerAsync()
-        End If
-    End Sub
-
-    Private Sub CopyFiles_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles CopySelected_BackgroundWorker.ProgressChanged
-        Dim ProgressReport As New ProgressReport
-        ProgressReport = CType(e.UserState, ProgressReport)
-        Select Case ProgressReport.ReportType
-            Case "start"
-                Copy_ProgressBar.Maximum = ProgressReport.Max
-                Copy_ProgressBar.Minimum = ProgressReport.Min
-                Copy_ProgressBar.Value = ProgressReport.Current
-                status.Text = ProgressReport.TextMessage
-                'SourceLibary_ProgressBar.Value = e.ProgressPercentage
-            Case "update"
-                Copy_ProgressBar.Value = ProgressReport.Current
-                status.Text = ProgressReport.TextMessage
-            Case "finish"
-                status.Text = ProgressReport.TextMessage
-                Copy_ProgressBar.Value = 0
-        End Select
-    End Sub
-
-    Private Sub CopyFiles_RunWorkerCompleted(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles CopySelected_BackgroundWorker.RunWorkerCompleted
-
-    End Sub
-
-    Private Sub CopyFiles_DoWork(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles CopySelected_BackgroundWorker.DoWork
-
-        'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
-        Dim ProgressReport As New ProgressReport
-        ProgressReport.ReportType = "start"
-        ProgressReport.Min = 0
-        ProgressReport.Max = SourceLibary_DGV.SelectedRows.Count
-        ProgressReport.Current = 0
-        ProgressReport.TextMessage = "Found " & SourceLibary_DGV.SelectedRows.Count & " files....Begining copy operation..."
-        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
-
-        Dim cnt As Integer
-        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
-
-            cnt += 1
-
-            Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
-            Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
-            Dim destfilename As String = DestinationFolder_TextBox.Text & "\" & srcfilename
-            ProgressReport.Current = cnt
-            ProgressReport.ReportType = "update"
-            ProgressReport.TextMessage = cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count & " copied. Current File: " & srcfilename
-            CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
-
-            Try
-                Dim cpyTask As New CopyThread()
-                Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
-                'cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
-                cpyTask.srcfullfilename = srcfullfilename
-                cpyTask.destfilename = destfilename
-                Thread1.Start()
-                Thread1.Join()
-                If cpyTask.copyok Then
-                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
-                Else
-                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
-                End If
-
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-
-        Next
-        ProgressReport.Current = cnt
-        ProgressReport.ReportType = "finish"
-        ProgressReport.TextMessage = cnt & " Files copied to " & DestinationFolder_TextBox.Text
-        CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
-
-
-    End Sub
-#End Region
 
 
 
 #End Region
 
-    Private Sub VerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerticalToolStripMenuItem.Click
-        DGVsSplitContainer.Orientation = Orientation.Vertical
-        HorizontalToolStripMenuItem.Checked = False
-    End Sub
 
-    Private Sub HorizontalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HorizontalToolStripMenuItem.Click
-        DGVsSplitContainer.Orientation = Orientation.Horizontal
-        VerticalToolStripMenuItem.Checked = False
-    End Sub
 
     Private Sub BrowseSource_Button_Click(sender As Object, e As EventArgs)
 

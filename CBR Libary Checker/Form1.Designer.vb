@@ -106,10 +106,13 @@ Partial Class Form1
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.FolderTreeViewToolStrip = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+        Me.RefreshFolderList_Button = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.NewFolder_Button = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.SourcePath_ComboBox = New System.Windows.Forms.ToolStripComboBox()
@@ -142,6 +145,8 @@ Partial Class Form1
         Me.Main_SplitContainer.Panel1.SuspendLayout()
         Me.Main_SplitContainer.Panel2.SuspendLayout()
         Me.Main_SplitContainer.SuspendLayout()
+        Me.Panel2.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FolderTreeViewToolStrip.SuspendLayout()
         Me.ToolStrip3.SuspendLayout()
         Me.NodeContextMenuStrip.SuspendLayout()
@@ -162,10 +167,10 @@ Partial Class Form1
         '
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.status, Me.ToolStripStatusLabel1, Me.status2, Me.ToolStripStatusLabel2, Me.Copy_ProgressBar})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 1174)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 1150)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 12, 0)
-        Me.StatusStrip1.Size = New System.Drawing.Size(1848, 29)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1849, 29)
         Me.StatusStrip1.TabIndex = 5
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -216,8 +221,8 @@ Partial Class Form1
         '
         Me.DGVsSplitContainer.Panel2.Controls.Add(Me.LibraryList_DGV)
         Me.DGVsSplitContainer.Panel2.Controls.Add(Me.ToolStrip2)
-        Me.DGVsSplitContainer.Size = New System.Drawing.Size(1420, 1112)
-        Me.DGVsSplitContainer.SplitterDistance = 513
+        Me.DGVsSplitContainer.Size = New System.Drawing.Size(1421, 1088)
+        Me.DGVsSplitContainer.SplitterDistance = 501
         Me.DGVsSplitContainer.SplitterWidth = 11
         Me.DGVsSplitContainer.TabIndex = 6
         '
@@ -239,7 +244,7 @@ Partial Class Form1
         Me.SourceLibary_DGV.Name = "SourceLibary_DGV"
         Me.SourceLibary_DGV.ReadOnly = True
         Me.SourceLibary_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.SourceLibary_DGV.Size = New System.Drawing.Size(1420, 399)
+        Me.SourceLibary_DGV.Size = New System.Drawing.Size(1421, 387)
         Me.SourceLibary_DGV.TabIndex = 0
         '
         'FileIDDataGridViewTextBoxColumn
@@ -349,7 +354,7 @@ Partial Class Form1
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
         Me.SourceToolStrip.Padding = New System.Windows.Forms.Padding(7, 9, 7, 9)
-        Me.SourceToolStrip.Size = New System.Drawing.Size(1420, 69)
+        Me.SourceToolStrip.Size = New System.Drawing.Size(1421, 69)
         Me.SourceToolStrip.TabIndex = 1
         Me.SourceToolStrip.Text = "ToolStrip3"
         '
@@ -595,10 +600,10 @@ Partial Class Form1
         Me.Panel1.Controls.Add(Me.DestinationFolder_TextBox)
         Me.Panel1.Controls.Add(Me.UnsortedPathBRSR_LinkLabel)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 468)
+        Me.Panel1.Location = New System.Drawing.Point(0, 456)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1420, 45)
+        Me.Panel1.Size = New System.Drawing.Size(1421, 45)
         Me.Panel1.TabIndex = 2
         '
         'Label3
@@ -620,7 +625,7 @@ Partial Class Form1
         Me.DestinationFolder_TextBox.Location = New System.Drawing.Point(196, 9)
         Me.DestinationFolder_TextBox.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.DestinationFolder_TextBox.Name = "DestinationFolder_TextBox"
-        Me.DestinationFolder_TextBox.Size = New System.Drawing.Size(1072, 26)
+        Me.DestinationFolder_TextBox.Size = New System.Drawing.Size(1073, 26)
         Me.DestinationFolder_TextBox.TabIndex = 8
         Me.DestinationFolder_TextBox.Text = Global.CBR_Libary_Checker.My.MySettings.Default.unsortedfolder
         '
@@ -628,7 +633,7 @@ Partial Class Form1
         '
         Me.UnsortedPathBRSR_LinkLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.UnsortedPathBRSR_LinkLabel.AutoSize = True
-        Me.UnsortedPathBRSR_LinkLabel.Location = New System.Drawing.Point(1280, 9)
+        Me.UnsortedPathBRSR_LinkLabel.Location = New System.Drawing.Point(1281, 9)
         Me.UnsortedPathBRSR_LinkLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.UnsortedPathBRSR_LinkLabel.Name = "UnsortedPathBRSR_LinkLabel"
         Me.UnsortedPathBRSR_LinkLabel.Size = New System.Drawing.Size(128, 18)
@@ -650,7 +655,7 @@ Partial Class Form1
         Me.LibraryList_DGV.Name = "LibraryList_DGV"
         Me.LibraryList_DGV.RowTemplate.Height = 24
         Me.LibraryList_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.LibraryList_DGV.Size = New System.Drawing.Size(1420, 540)
+        Me.LibraryList_DGV.Size = New System.Drawing.Size(1421, 528)
         Me.LibraryList_DGV.TabIndex = 4
         '
         'FileIDDataGridViewTextBoxColumn1
@@ -739,7 +744,7 @@ Partial Class Form1
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
         Me.ToolStrip2.Padding = New System.Windows.Forms.Padding(7, 9, 7, 9)
-        Me.ToolStrip2.Size = New System.Drawing.Size(1420, 48)
+        Me.ToolStrip2.Size = New System.Drawing.Size(1421, 48)
         Me.ToolStrip2.TabIndex = 2
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -798,13 +803,14 @@ Partial Class Form1
         '
         Me.Main_SplitContainer.Panel2.Controls.Add(Me.DGVsSplitContainer)
         Me.Main_SplitContainer.Panel2.Controls.Add(Me.ToolStrip3)
-        Me.Main_SplitContainer.Size = New System.Drawing.Size(1848, 1147)
+        Me.Main_SplitContainer.Size = New System.Drawing.Size(1849, 1123)
         Me.Main_SplitContainer.SplitterDistance = 416
         Me.Main_SplitContainer.SplitterWidth = 12
         Me.Main_SplitContainer.TabIndex = 9
         '
         'TreeView1
         '
+        Me.TreeView1.AllowDrop = True
         Me.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView1.ImageIndex = 0
         Me.TreeView1.ImageList = Me.ImageList1
@@ -813,7 +819,7 @@ Partial Class Form1
         Me.TreeView1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.SelectedImageIndex = 5
-        Me.TreeView1.Size = New System.Drawing.Size(416, 868)
+        Me.TreeView1.Size = New System.Drawing.Size(416, 844)
         Me.TreeView1.TabIndex = 1
         '
         'ImageList1
@@ -832,33 +838,43 @@ Partial Class Form1
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.PictureBox1)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(0, 916)
+        Me.Panel2.Location = New System.Drawing.Point(0, 892)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(416, 231)
         Me.Panel2.TabIndex = 2
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox1.Location = New System.Drawing.Point(108, 9)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(200, 210)
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
         '
         'FolderTreeViewToolStrip
         '
         Me.FolderTreeViewToolStrip.AutoSize = False
         Me.FolderTreeViewToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.FolderTreeViewToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton2, Me.ToolStripSeparator4, Me.NewFolder_Button})
+        Me.FolderTreeViewToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshFolderList_Button, Me.ToolStripSeparator4, Me.NewFolder_Button, Me.ToolStripSeparator6, Me.ToolStripButton3})
         Me.FolderTreeViewToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.FolderTreeViewToolStrip.Name = "FolderTreeViewToolStrip"
         Me.FolderTreeViewToolStrip.Size = New System.Drawing.Size(416, 48)
         Me.FolderTreeViewToolStrip.TabIndex = 0
         Me.FolderTreeViewToolStrip.Text = "ToolStrip3"
         '
-        'ToolStripButton2
+        'RefreshFolderList_Button
         '
-        Me.ToolStripButton2.AutoSize = False
-        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton2.Image = Global.CBR_Libary_Checker.My.Resources.Resources.refresh
-        Me.ToolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(35, 37)
-        Me.ToolStripButton2.Text = "ToolStripButton2"
+        Me.RefreshFolderList_Button.AutoSize = False
+        Me.RefreshFolderList_Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.RefreshFolderList_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.refresh
+        Me.RefreshFolderList_Button.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RefreshFolderList_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RefreshFolderList_Button.Name = "RefreshFolderList_Button"
+        Me.RefreshFolderList_Button.Size = New System.Drawing.Size(35, 37)
+        Me.RefreshFolderList_Button.Text = "Refresh List"
         '
         'ToolStripSeparator4
         '
@@ -874,7 +890,23 @@ Partial Class Form1
         Me.NewFolder_Button.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.NewFolder_Button.Name = "NewFolder_Button"
         Me.NewFolder_Button.Size = New System.Drawing.Size(42, 42)
-        Me.NewFolder_Button.Text = "ToolStripButton3"
+        Me.NewFolder_Button.Text = "New Folder"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 48)
+        '
+        'ToolStripButton3
+        '
+        Me.ToolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolStripButton3.AutoSize = False
+        Me.ToolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton3.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Settings_L_icon
+        Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton3.Name = "ToolStripButton3"
+        Me.ToolStripButton3.Size = New System.Drawing.Size(45, 45)
+        Me.ToolStripButton3.Text = "ToolStripButton3"
         '
         'ToolStrip3
         '
@@ -885,7 +917,7 @@ Partial Class Form1
         Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.SourcePath_ComboBox, Me.BrowseSource_Button, Me.ToolStripSeparator5, Me.AddToFave_Button})
         Me.ToolStrip3.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip3.Name = "ToolStrip3"
-        Me.ToolStrip3.Size = New System.Drawing.Size(1420, 35)
+        Me.ToolStrip3.Size = New System.Drawing.Size(1421, 35)
         Me.ToolStrip3.TabIndex = 23
         Me.ToolStrip3.Text = "ToolStrip3"
         '
@@ -956,7 +988,7 @@ Partial Class Form1
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ListView_ToolStripSplitButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1848, 27)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1849, 27)
         Me.ToolStrip1.TabIndex = 7
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -972,12 +1004,13 @@ Partial Class Form1
         '
         'ListView_ToolStripSplitButton1
         '
-        Me.ListView_ToolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ListView_ToolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ListView_ToolStripSplitButton1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VerticalToolStripMenuItem, Me.HorizontalToolStripMenuItem})
+        Me.ListView_ToolStripSplitButton1.ForeColor = System.Drawing.Color.Yellow
         Me.ListView_ToolStripSplitButton1.Image = CType(resources.GetObject("ListView_ToolStripSplitButton1.Image"), System.Drawing.Image)
         Me.ListView_ToolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ListView_ToolStripSplitButton1.Name = "ListView_ToolStripSplitButton1"
-        Me.ListView_ToolStripSplitButton1.Size = New System.Drawing.Size(39, 24)
+        Me.ListView_ToolStripSplitButton1.Size = New System.Drawing.Size(151, 24)
         Me.ListView_ToolStripSplitButton1.Text = "List View Direction"
         '
         'VerticalToolStripMenuItem
@@ -998,7 +1031,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1848, 1203)
+        Me.ClientSize = New System.Drawing.Size(1849, 1179)
         Me.Controls.Add(Me.Main_SplitContainer)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.ToolStrip1)
@@ -1030,6 +1063,8 @@ Partial Class Form1
         Me.Main_SplitContainer.Panel2.ResumeLayout(False)
         CType(Me.Main_SplitContainer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Main_SplitContainer.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.FolderTreeViewToolStrip.ResumeLayout(False)
         Me.FolderTreeViewToolStrip.PerformLayout()
         Me.ToolStrip3.ResumeLayout(False)
@@ -1120,7 +1155,7 @@ Partial Class Form1
     Friend WithEvents HorizontalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Main_SplitContainer As SplitContainer
     Friend WithEvents FolderTreeViewToolStrip As ToolStrip
-    Friend WithEvents ToolStripButton2 As ToolStripButton
+    Friend WithEvents RefreshFolderList_Button As ToolStripButton
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
     Friend WithEvents NewFolder_Button As ToolStripButton
@@ -1141,4 +1176,7 @@ Partial Class Form1
     Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
     Friend WithEvents SourcePath_ComboBox As ToolStripComboBox
     Friend WithEvents AddToFave_Button As ToolStripButton
+    Friend WithEvents ToolStripSeparator6 As ToolStripSeparator
+    Friend WithEvents ToolStripButton3 As ToolStripButton
+    Friend WithEvents PictureBox1 As PictureBox
 End Class

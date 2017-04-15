@@ -28,6 +28,7 @@ Public Class Form1
     Private CopyThread As Thread
     Private HashThread As Thread
     Private CopyProg As Thread
+    Private LastBrowserSplitterWidth As Integer
 
     Private SourcePath As String
     Private LibraryPath As String
@@ -465,10 +466,10 @@ Public Class Form1
 
     Private Sub PopulateTreeView()
         Dim rootNode As TreeNode
-
         Dim info As New DirectoryInfo(My.Settings.LibaryFolder)
         If info.Exists Then
             rootNode = New TreeNode(info.Name)
+            rootNode.ImageKey = "bluefolder"
             rootNode.Tag = info
             GetDirectories(info.GetDirectories(), rootNode)
             TreeView1.Nodes.Add(rootNode)
@@ -477,7 +478,6 @@ Public Class Form1
     End Sub
 
     Private Sub GetDirectories(ByVal subDirs() As DirectoryInfo, ByVal nodeToAddTo As TreeNode)
-
         Dim aNode As TreeNode
         Dim subSubDirs() As DirectoryInfo
         Dim subDir As DirectoryInfo
@@ -485,7 +485,8 @@ Public Class Form1
             Try
                 aNode = New TreeNode(subDir.Name, 0, 0)
                 aNode.Tag = subDir
-                aNode.ImageKey = "folder"
+                aNode.ImageKey = "bluefolder"
+                aNode.SelectedImageKey = "redfolder"
                 subSubDirs = subDir.GetDirectories()
                 If subSubDirs.Length <> 0 Then
                     GetDirectories(subSubDirs, aNode)
@@ -576,7 +577,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub ToolStripButton3_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+    Private Sub ToolStripButton3_Click_1(sender As Object, e As EventArgs) Handles LibrarySettings_Button.Click
         Dim librarySetDialog As New LibaryFolderDialog
         If librarySetDialog.ShowDialog = DialogResult.OK Then
             RefreshFolderList_Button.PerformClick()
@@ -684,7 +685,18 @@ Public Class Form1
 #End Region ' CHECK UNIQ, ETC
 
 #Region "MISC BUTTONS"
-
+    Private Sub HideShowLibrary_Treeview_Button_Click(sender As Object, e As EventArgs) Handles HideShowLibrary_Treeview_Button.Click    ' SHOW / HIDE THE LIBRARY BROWSER PLANE
+        With Main_SplitContainer
+            If .Panel1.Visible Then
+                LastBrowserSplitterWidth = .SplitterDistance
+                .Panel1.Visible = False
+                .SplitterDistance = 0
+            Else
+                .Panel1.Visible = True
+                .SplitterDistance = LastBrowserSplitterWidth
+            End If
+        End With
+    End Sub
     Private Sub VerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerticalToolStripMenuItem.Click ' SPLIT CONTAINER (DATAGRID VIEWS) LAYOUT DIRECTION
         DGVsSplitContainer.Orientation = Orientation.Vertical
         HorizontalToolStripMenuItem.Checked = False
@@ -886,11 +898,6 @@ Public Class Form1
 
 #End Region
 
-
-
-    Private Sub BrowseSource_Button_Click(sender As Object, e As EventArgs)
-
-    End Sub
 
 
 End Class

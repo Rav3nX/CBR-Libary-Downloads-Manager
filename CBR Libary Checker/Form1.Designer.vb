@@ -239,12 +239,12 @@ Partial Class Form1
         Me.SourceLibary_DGV.DataSource = Me.SOURCELDBBindingSource
         Me.SourceLibary_DGV.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SourceLibary_DGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.SourceLibary_DGV.Location = New System.Drawing.Point(0, 69)
+        Me.SourceLibary_DGV.Location = New System.Drawing.Point(0, 72)
         Me.SourceLibary_DGV.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.SourceLibary_DGV.Name = "SourceLibary_DGV"
         Me.SourceLibary_DGV.ReadOnly = True
         Me.SourceLibary_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.SourceLibary_DGV.Size = New System.Drawing.Size(1421, 387)
+        Me.SourceLibary_DGV.Size = New System.Drawing.Size(1421, 384)
         Me.SourceLibary_DGV.TabIndex = 0
         '
         'FileIDDataGridViewTextBoxColumn
@@ -354,7 +354,7 @@ Partial Class Form1
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
         Me.SourceToolStrip.Padding = New System.Windows.Forms.Padding(7, 9, 7, 9)
-        Me.SourceToolStrip.Size = New System.Drawing.Size(1421, 69)
+        Me.SourceToolStrip.Size = New System.Drawing.Size(1421, 72)
         Me.SourceToolStrip.TabIndex = 1
         Me.SourceToolStrip.Text = "ToolStrip3"
         '

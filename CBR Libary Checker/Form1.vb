@@ -381,6 +381,7 @@ Public Class Form1
                 Thread1.Join()
                 If cpyTask.copyok Then
                     row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
+                    row.Cells.Item("UniqueStatusDataGridViewTextBoxColumn").Value = "In Library"
                 Else
                     row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
                 End If
@@ -587,9 +588,6 @@ Public Class Form1
 
 #Region "Source Section Buttons and Subs"
 
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
-
-    End Sub
     Private Sub AddToFave_Button_Click(sender As Object, e As EventArgs) Handles AddToFave_Button.Click
         SourcePath_ComboBox.Items.Add(SourcePath_ComboBox.Text)
     End Sub
@@ -619,7 +617,7 @@ Public Class Form1
             Dim filename As String = row("File Name")
             For Each LibaryRow As DataRow In ComicInfoDB.LIBARY_DB.Rows
                 If filename = LibaryRow("File Name") Then
-                    row("Unique Status") = "In Libary"
+                    row("Unique Status") = "In Library"
                 End If
             Next
         Next
@@ -674,7 +672,7 @@ Public Class Form1
         For i As Integer = ComicInfoDB.SOURCEL_DB.Rows.Count - 1 To 0 Step -1
             If Not (IsDBNull(ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status"))) Then
 
-                If ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status") = "In Libary" Then
+                If ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status") = "In Library" Then
                     ComicInfoDB.SOURCEL_DB.Rows.Item(i).Delete()
                 End If
             End If

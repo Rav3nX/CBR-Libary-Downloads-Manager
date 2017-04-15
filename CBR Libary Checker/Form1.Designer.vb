@@ -23,17 +23,18 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.SOURCELDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.ComicInfoDB = New CBR_Libary_Checker.ComicInfoDB()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.status2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Copy_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.DGVsSplitContainer = New System.Windows.Forms.SplitContainer()
         Me.SourceLibary_DGV = New System.Windows.Forms.DataGridView()
         Me.FileIDDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -48,55 +49,15 @@ Partial Class Form1
         Me.UniqueStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CopyStatusDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SourceToolStrip = New System.Windows.Forms.ToolStrip()
-        Me.SourceLibary_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Selection_Label = New System.Windows.Forms.ToolStripLabel()
-        Me.LibraryList_DGV = New System.Windows.Forms.DataGridView()
-        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.LIBARYDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.MainLibrary_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
-        Me.Main_SplitContainer = New System.Windows.Forms.SplitContainer()
-        Me.TreeView1 = New System.Windows.Forms.TreeView()
-        Me.NewFolder_Button = New System.Windows.Forms.ToolStrip()
-        Me.CustomGroupBoxMinable3 = New CBR_Libary_Checker.CustomGroupBoxMinable()
-        Me.Copy_ProgressBar = New System.Windows.Forms.ProgressBar()
-        Me.CopySelected = New System.Windows.Forms.Button()
-        Me.UnsortedPathBRSR_LinkLabel = New System.Windows.Forms.LinkLabel()
-        Me.ShowCopy_CheckBox = New System.Windows.Forms.CheckBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.UnsortedFolderTextBox = New System.Windows.Forms.TextBox()
-        Me.CustomGroupBoxMinable2 = New CBR_Libary_Checker.CustomGroupBoxMinable()
-        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
-        Me.Source_Browse_LL = New System.Windows.Forms.LinkLabel()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.SourcePath_TextBox = New System.Windows.Forms.TextBox()
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
-        Me.NewFolder = New System.Windows.Forms.ToolStripButton()
         Me.LoadSource_Button = New System.Windows.Forms.ToolStripButton()
+        Me.SourceLibary_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.Scan_Options_ToolStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.HidePartial_Check = New System.Windows.Forms.ToolStripMenuItem()
         Me.HideUnwanted_Check = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.GetHashesOnScanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenSource_Libary = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripDropDownButton1 = New System.Windows.Forms.ToolStripDropDownButton()
         Me.HideDupes_CHKButton = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
@@ -111,13 +72,54 @@ Partial Class Form1
         Me.InLibaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.Set_Font_Button = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.CheckUnique_Button = New System.Windows.Forms.ToolStripButton()
         Me.ClearSource_Button = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.GetSourceHashes_Button = New System.Windows.Forms.ToolStripButton()
+        Me.CopySelected_Button = New System.Windows.Forms.ToolStripButton()
+        Me.Selection_Label = New System.Windows.Forms.ToolStripLabel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.DestinationFolder_TextBox = New System.Windows.Forms.TextBox()
+        Me.UnsortedPathBRSR_LinkLabel = New System.Windows.Forms.LinkLabel()
+        Me.LibraryList_DGV = New System.Windows.Forms.DataGridView()
+        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.LIBARYDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.LoadLibary_Button = New System.Windows.Forms.ToolStripButton()
+        Me.MainLibrary_ProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.OpenDest_ToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.ClearLibary_Button = New System.Windows.Forms.ToolStripButton()
         Me.GetLibaryHashes_Button = New System.Windows.Forms.ToolStripButton()
+        Me.Main_SplitContainer = New System.Windows.Forms.SplitContainer()
+        Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.FolderTreeViewToolStrip = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.NewFolder_Button = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStrip3 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.SourcePath_ComboBox = New System.Windows.Forms.ToolStripComboBox()
+        Me.BrowseSource_Button = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.AddToFave_Button = New System.Windows.Forms.ToolStripButton()
+        Me.NodeContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SetThisFolderAsCopyDestinationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.LoadThisFolderInLibraryListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.ListView_ToolStripSplitButton1 = New System.Windows.Forms.ToolStripSplitButton()
@@ -132,6 +134,7 @@ Partial Class Form1
         Me.DGVsSplitContainer.SuspendLayout()
         CType(Me.SourceLibary_DGV, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SourceToolStrip.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         CType(Me.LibraryList_DGV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ToolStrip2.SuspendLayout()
@@ -139,9 +142,9 @@ Partial Class Form1
         Me.Main_SplitContainer.Panel1.SuspendLayout()
         Me.Main_SplitContainer.Panel2.SuspendLayout()
         Me.Main_SplitContainer.SuspendLayout()
-        Me.NewFolder_Button.SuspendLayout()
-        Me.CustomGroupBoxMinable3.SuspendLayout()
-        Me.CustomGroupBoxMinable2.SuspendLayout()
+        Me.FolderTreeViewToolStrip.SuspendLayout()
+        Me.ToolStrip3.SuspendLayout()
+        Me.NodeContextMenuStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -158,37 +161,48 @@ Partial Class Form1
         'StatusStrip1
         '
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.status, Me.ToolStripStatusLabel1, Me.status2})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 827)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.status, Me.ToolStripStatusLabel1, Me.status2, Me.ToolStripStatusLabel2, Me.Copy_ProgressBar})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 1174)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 10, 0)
-        Me.StatusStrip1.Size = New System.Drawing.Size(1153, 22)
+        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 12, 0)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1848, 29)
         Me.StatusStrip1.TabIndex = 5
         Me.StatusStrip1.Text = "StatusStrip1"
         '
         'status
         '
         Me.status.Name = "status"
-        Me.status.Size = New System.Drawing.Size(277, 17)
+        Me.status.Size = New System.Drawing.Size(346, 24)
         Me.status.Text = "Josh Cronin. 2017. CBR Libary Downloads Manager."
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 17)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(13, 24)
         Me.ToolStripStatusLabel1.Text = "|"
         '
         'status2
         '
         Me.status2.Name = "status2"
-        Me.status2.Size = New System.Drawing.Size(0, 17)
+        Me.status2.Size = New System.Drawing.Size(0, 24)
+        '
+        'ToolStripStatusLabel2
+        '
+        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(94, 24)
+        Me.ToolStripStatusLabel2.Text = "Copy Status: "
+        '
+        'Copy_ProgressBar
+        '
+        Me.Copy_ProgressBar.Name = "Copy_ProgressBar"
+        Me.Copy_ProgressBar.Size = New System.Drawing.Size(251, 23)
         '
         'DGVsSplitContainer
         '
         Me.DGVsSplitContainer.BackColor = System.Drawing.Color.DimGray
         Me.DGVsSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DGVsSplitContainer.Location = New System.Drawing.Point(0, 244)
-        Me.DGVsSplitContainer.Margin = New System.Windows.Forms.Padding(2)
+        Me.DGVsSplitContainer.Location = New System.Drawing.Point(0, 35)
+        Me.DGVsSplitContainer.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.DGVsSplitContainer.Name = "DGVsSplitContainer"
         Me.DGVsSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -196,43 +210,36 @@ Partial Class Form1
         '
         Me.DGVsSplitContainer.Panel1.Controls.Add(Me.SourceLibary_DGV)
         Me.DGVsSplitContainer.Panel1.Controls.Add(Me.SourceToolStrip)
+        Me.DGVsSplitContainer.Panel1.Controls.Add(Me.Panel1)
         '
         'DGVsSplitContainer.Panel2
         '
         Me.DGVsSplitContainer.Panel2.Controls.Add(Me.LibraryList_DGV)
         Me.DGVsSplitContainer.Panel2.Controls.Add(Me.ToolStrip2)
-        Me.DGVsSplitContainer.Size = New System.Drawing.Size(883, 556)
-        Me.DGVsSplitContainer.SplitterDistance = 259
-        Me.DGVsSplitContainer.SplitterWidth = 8
+        Me.DGVsSplitContainer.Size = New System.Drawing.Size(1420, 1112)
+        Me.DGVsSplitContainer.SplitterDistance = 513
+        Me.DGVsSplitContainer.SplitterWidth = 11
         Me.DGVsSplitContainer.TabIndex = 6
         '
         'SourceLibary_DGV
         '
         Me.SourceLibary_DGV.AllowUserToAddRows = False
         Me.SourceLibary_DGV.AllowUserToOrderColumns = True
-        DataGridViewCellStyle5.BackColor = System.Drawing.Color.PaleTurquoise
-        Me.SourceLibary_DGV.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.PaleTurquoise
+        Me.SourceLibary_DGV.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.SourceLibary_DGV.AutoGenerateColumns = False
         Me.SourceLibary_DGV.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
         Me.SourceLibary_DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.SourceLibary_DGV.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.FileIDDataGridViewTextBoxColumn, Me.FileNameDataGridViewTextBoxColumn, Me.FullFileNameDataGridViewTextBoxColumn, Me.FileTypeDataGridViewTextBoxColumn, Me.FilePathDataGridViewTextBoxColumn, Me.PathRelRootDataGridViewTextBoxColumn, Me.DateCreatedDataGridViewTextBoxColumn, Me.FileSizeDataGridViewTextBoxColumn, Me.SHA1HashDataGridViewTextBoxColumn, Me.UniqueStatusDataGridViewTextBoxColumn, Me.CopyStatusDataGridViewTextBoxColumn})
         Me.SourceLibary_DGV.DataSource = Me.SOURCELDBBindingSource
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.SourceLibary_DGV.DefaultCellStyle = DataGridViewCellStyle7
         Me.SourceLibary_DGV.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SourceLibary_DGV.GridColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.SourceLibary_DGV.Location = New System.Drawing.Point(0, 66)
-        Me.SourceLibary_DGV.Margin = New System.Windows.Forms.Padding(2)
+        Me.SourceLibary_DGV.Location = New System.Drawing.Point(0, 69)
+        Me.SourceLibary_DGV.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.SourceLibary_DGV.Name = "SourceLibary_DGV"
         Me.SourceLibary_DGV.ReadOnly = True
         Me.SourceLibary_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.SourceLibary_DGV.Size = New System.Drawing.Size(883, 193)
+        Me.SourceLibary_DGV.Size = New System.Drawing.Size(1420, 399)
         Me.SourceLibary_DGV.TabIndex = 0
         '
         'FileIDDataGridViewTextBoxColumn
@@ -300,9 +307,9 @@ Partial Class Form1
         'FileSizeDataGridViewTextBoxColumn
         '
         Me.FileSizeDataGridViewTextBoxColumn.DataPropertyName = "File Size"
-        DataGridViewCellStyle6.Format = "0.00"" Mb"""
-        DataGridViewCellStyle6.NullValue = Nothing
-        Me.FileSizeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle2.Format = "0.00"" Mb"""
+        DataGridViewCellStyle2.NullValue = Nothing
+        Me.FileSizeDataGridViewTextBoxColumn.DefaultCellStyle = DataGridViewCellStyle2
         Me.FileSizeDataGridViewTextBoxColumn.FillWeight = 65.0!
         Me.FileSizeDataGridViewTextBoxColumn.HeaderText = "File Size"
         Me.FileSizeDataGridViewTextBoxColumn.Name = "FileSizeDataGridViewTextBoxColumn"
@@ -335,41 +342,299 @@ Partial Class Form1
         '
         'SourceToolStrip
         '
+        Me.SourceToolStrip.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SourceToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.Selection_Label, Me.GetSourceHashes_Button})
+        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.GetSourceHashes_Button, Me.CopySelected_Button, Me.Selection_Label})
         Me.SourceToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
-        Me.SourceToolStrip.Padding = New System.Windows.Forms.Padding(5, 6, 5, 6)
-        Me.SourceToolStrip.Size = New System.Drawing.Size(883, 66)
+        Me.SourceToolStrip.Padding = New System.Windows.Forms.Padding(7, 9, 7, 9)
+        Me.SourceToolStrip.Size = New System.Drawing.Size(1420, 69)
         Me.SourceToolStrip.TabIndex = 1
         Me.SourceToolStrip.Text = "ToolStrip3"
+        '
+        'LoadSource_Button
+        '
+        Me.LoadSource_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Search_Folder_icon
+        Me.LoadSource_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.LoadSource_Button.Name = "LoadSource_Button"
+        Me.LoadSource_Button.Size = New System.Drawing.Size(149, 24)
+        Me.LoadSource_Button.Text = "Load Source Libary"
         '
         'SourceLibary_ProgressBar
         '
         Me.SourceLibary_ProgressBar.Name = "SourceLibary_ProgressBar"
-        Me.SourceLibary_ProgressBar.Size = New System.Drawing.Size(150, 20)
+        Me.SourceLibary_ProgressBar.Size = New System.Drawing.Size(200, 27)
+        '
+        'Scan_Options_ToolStripSplitButton
+        '
+        Me.Scan_Options_ToolStripSplitButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HidePartial_Check, Me.HideUnwanted_Check, Me.ToolStripMenuItem3, Me.GetHashesOnScanToolStripMenuItem})
+        Me.Scan_Options_ToolStripSplitButton.Image = CType(resources.GetObject("Scan_Options_ToolStripSplitButton.Image"), System.Drawing.Image)
+        Me.Scan_Options_ToolStripSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.Scan_Options_ToolStripSplitButton.Name = "Scan_Options_ToolStripSplitButton"
+        Me.Scan_Options_ToolStripSplitButton.Size = New System.Drawing.Size(128, 24)
+        Me.Scan_Options_ToolStripSplitButton.Text = "Scan Options"
+        '
+        'HidePartial_Check
+        '
+        Me.HidePartial_Check.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.HidePartial
+        Me.HidePartial_Check.CheckOnClick = True
+        Me.HidePartial_Check.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.HidePartial_Check.Name = "HidePartial_Check"
+        Me.HidePartial_Check.Size = New System.Drawing.Size(278, 26)
+        Me.HidePartial_Check.Text = "Hide QTorrent Partial Files (.qb!)"
+        '
+        'HideUnwanted_Check
+        '
+        Me.HideUnwanted_Check.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.HideUnwanted
+        Me.HideUnwanted_Check.CheckOnClick = True
+        Me.HideUnwanted_Check.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.HideUnwanted_Check.Name = "HideUnwanted_Check"
+        Me.HideUnwanted_Check.Size = New System.Drawing.Size(278, 26)
+        Me.HideUnwanted_Check.Text = "Hide Qtorrent .Unwanted Files"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(275, 6)
+        '
+        'GetHashesOnScanToolStripMenuItem
+        '
+        Me.GetHashesOnScanToolStripMenuItem.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.Source_GetHashes
+        Me.GetHashesOnScanToolStripMenuItem.CheckOnClick = True
+        Me.GetHashesOnScanToolStripMenuItem.Name = "GetHashesOnScanToolStripMenuItem"
+        Me.GetHashesOnScanToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
+        Me.GetHashesOnScanToolStripMenuItem.Text = "Get Hashes on Scan"
+        '
+        'OpenSource_Libary
+        '
+        Me.OpenSource_Libary.Image = Global.CBR_Libary_Checker.My.Resources.Resources.download
+        Me.OpenSource_Libary.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenSource_Libary.Name = "OpenSource_Libary"
+        Me.OpenSource_Libary.Size = New System.Drawing.Size(202, 24)
+        Me.OpenSource_Libary.Text = "View Selected in Explorer..."
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 23)
         '
+        'ToolStripDropDownButton1
+        '
+        Me.ToolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripDropDownButton1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HideDupes_CHKButton, Me.ToolStripMenuItem1, Me.ColumnsToolStripMenuItem, Me.FullFilePathToolStripMenuItem, Me.FileNameToolStripMenuItem, Me.FileTypeToolStripMenuItem, Me.UnwantedQtorrentToolStripMenuItem, Me.FolderPathToolStripMenuItem, Me.DateCreatedToolStripMenuItem, Me.FileSizeMbToolStripMenuItem, Me.InLibaryToolStripMenuItem, Me.ToolStripMenuItem2, Me.Set_Font_Button})
+        Me.ToolStripDropDownButton1.Image = Global.CBR_Libary_Checker.My.Resources.Resources.eye_24_256
+        Me.ToolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripDropDownButton1.Name = "ToolStripDropDownButton1"
+        Me.ToolStripDropDownButton1.Size = New System.Drawing.Size(34, 24)
+        Me.ToolStripDropDownButton1.Text = "ToolStripDropDownButton1"
+        '
+        'HideDupes_CHKButton
+        '
+        Me.HideDupes_CHKButton.Name = "HideDupes_CHKButton"
+        Me.HideDupes_CHKButton.Size = New System.Drawing.Size(279, 26)
+        Me.HideDupes_CHKButton.Text = "Hide Files Already in Main Libary"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(276, 6)
+        '
+        'ColumnsToolStripMenuItem
+        '
+        Me.ColumnsToolStripMenuItem.Name = "ColumnsToolStripMenuItem"
+        Me.ColumnsToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.ColumnsToolStripMenuItem.Text = "Columns:"
+        '
+        'FullFilePathToolStripMenuItem
+        '
+        Me.FullFilePathToolStripMenuItem.Checked = True
+        Me.FullFilePathToolStripMenuItem.CheckOnClick = True
+        Me.FullFilePathToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FullFilePathToolStripMenuItem.Enabled = False
+        Me.FullFilePathToolStripMenuItem.Name = "FullFilePathToolStripMenuItem"
+        Me.FullFilePathToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.FullFilePathToolStripMenuItem.Text = "Full File Path"
+        '
+        'FileNameToolStripMenuItem
+        '
+        Me.FileNameToolStripMenuItem.Checked = True
+        Me.FileNameToolStripMenuItem.CheckOnClick = True
+        Me.FileNameToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FileNameToolStripMenuItem.Enabled = False
+        Me.FileNameToolStripMenuItem.Name = "FileNameToolStripMenuItem"
+        Me.FileNameToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.FileNameToolStripMenuItem.Text = "File Name"
+        '
+        'FileTypeToolStripMenuItem
+        '
+        Me.FileTypeToolStripMenuItem.Checked = True
+        Me.FileTypeToolStripMenuItem.CheckOnClick = True
+        Me.FileTypeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FileTypeToolStripMenuItem.Enabled = False
+        Me.FileTypeToolStripMenuItem.Name = "FileTypeToolStripMenuItem"
+        Me.FileTypeToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.FileTypeToolStripMenuItem.Text = "File Type"
+        '
+        'UnwantedQtorrentToolStripMenuItem
+        '
+        Me.UnwantedQtorrentToolStripMenuItem.Checked = True
+        Me.UnwantedQtorrentToolStripMenuItem.CheckOnClick = True
+        Me.UnwantedQtorrentToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.UnwantedQtorrentToolStripMenuItem.Enabled = False
+        Me.UnwantedQtorrentToolStripMenuItem.Name = "UnwantedQtorrentToolStripMenuItem"
+        Me.UnwantedQtorrentToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.UnwantedQtorrentToolStripMenuItem.Text = "Unwanted (Qtorrent)"
+        '
+        'FolderPathToolStripMenuItem
+        '
+        Me.FolderPathToolStripMenuItem.Checked = True
+        Me.FolderPathToolStripMenuItem.CheckOnClick = True
+        Me.FolderPathToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FolderPathToolStripMenuItem.Enabled = False
+        Me.FolderPathToolStripMenuItem.Name = "FolderPathToolStripMenuItem"
+        Me.FolderPathToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.FolderPathToolStripMenuItem.Text = "Folder Path"
+        '
+        'DateCreatedToolStripMenuItem
+        '
+        Me.DateCreatedToolStripMenuItem.Checked = True
+        Me.DateCreatedToolStripMenuItem.CheckOnClick = True
+        Me.DateCreatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.DateCreatedToolStripMenuItem.Enabled = False
+        Me.DateCreatedToolStripMenuItem.Name = "DateCreatedToolStripMenuItem"
+        Me.DateCreatedToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.DateCreatedToolStripMenuItem.Text = "Date Created"
+        '
+        'FileSizeMbToolStripMenuItem
+        '
+        Me.FileSizeMbToolStripMenuItem.Checked = True
+        Me.FileSizeMbToolStripMenuItem.CheckOnClick = True
+        Me.FileSizeMbToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FileSizeMbToolStripMenuItem.Enabled = False
+        Me.FileSizeMbToolStripMenuItem.Name = "FileSizeMbToolStripMenuItem"
+        Me.FileSizeMbToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.FileSizeMbToolStripMenuItem.Text = "File Size (Mb)"
+        '
+        'InLibaryToolStripMenuItem
+        '
+        Me.InLibaryToolStripMenuItem.Checked = True
+        Me.InLibaryToolStripMenuItem.CheckOnClick = True
+        Me.InLibaryToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.InLibaryToolStripMenuItem.Enabled = False
+        Me.InLibaryToolStripMenuItem.Name = "InLibaryToolStripMenuItem"
+        Me.InLibaryToolStripMenuItem.Size = New System.Drawing.Size(279, 26)
+        Me.InLibaryToolStripMenuItem.Text = "In Libary"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(276, 6)
+        '
+        'Set_Font_Button
+        '
+        Me.Set_Font_Button.Name = "Set_Font_Button"
+        Me.Set_Font_Button.Size = New System.Drawing.Size(279, 26)
+        Me.Set_Font_Button.Text = "Set File Lists Font"
+        '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 23)
+        '
+        'CheckUnique_Button
+        '
+        Me.CheckUnique_Button.Enabled = False
+        Me.CheckUnique_Button.ForeColor = System.Drawing.Color.Blue
+        Me.CheckUnique_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.compare_balance_512
+        Me.CheckUnique_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CheckUnique_Button.Name = "CheckUnique_Button"
+        Me.CheckUnique_Button.Size = New System.Drawing.Size(246, 24)
+        Me.CheckUnique_Button.Text = "Check Source items exist in Library"
+        '
+        'ClearSource_Button
+        '
+        Me.ClearSource_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Delete
+        Me.ClearSource_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ClearSource_Button.Name = "ClearSource_Button"
+        Me.ClearSource_Button.Size = New System.Drawing.Size(87, 24)
+        Me.ClearSource_Button.Text = "Clear List"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 23)
         '
+        'GetSourceHashes_Button
+        '
+        Me.GetSourceHashes_Button.Enabled = False
+        Me.GetSourceHashes_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.hash_512
+        Me.GetSourceHashes_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.GetSourceHashes_Button.Name = "GetSourceHashes_Button"
+        Me.GetSourceHashes_Button.Size = New System.Drawing.Size(102, 24)
+        Me.GetSourceHashes_Button.Text = "Get Hashes"
+        '
+        'CopySelected_Button
+        '
+        Me.CopySelected_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.copy_icon__3
+        Me.CopySelected_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CopySelected_Button.Name = "CopySelected_Button"
+        Me.CopySelected_Button.Size = New System.Drawing.Size(179, 24)
+        Me.CopySelected_Button.Text = "Copy Selected To Libary"
+        '
         'Selection_Label
         '
         Me.Selection_Label.Name = "Selection_Label"
-        Me.Selection_Label.Size = New System.Drawing.Size(86, 15)
+        Me.Selection_Label.Size = New System.Drawing.Size(104, 18)
         Me.Selection_Label.Text = "None Selected."
+        '
+        'Panel1
+        '
+        Me.Panel1.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.Panel1.Controls.Add(Me.Label3)
+        Me.Panel1.Controls.Add(Me.DestinationFolder_TextBox)
+        Me.Panel1.Controls.Add(Me.UnsortedPathBRSR_LinkLabel)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel1.Location = New System.Drawing.Point(0, 468)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1420, 45)
+        Me.Panel1.TabIndex = 2
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Candara", 12.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(13, 10)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(161, 24)
+        Me.Label3.TabIndex = 26
+        Me.Label3.Text = "Copy Destination :"
+        '
+        'DestinationFolder_TextBox
+        '
+        Me.DestinationFolder_TextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DestinationFolder_TextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Global.CBR_Libary_Checker.My.MySettings.Default, "unsortedfolder", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.DestinationFolder_TextBox.Location = New System.Drawing.Point(196, 9)
+        Me.DestinationFolder_TextBox.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.DestinationFolder_TextBox.Name = "DestinationFolder_TextBox"
+        Me.DestinationFolder_TextBox.Size = New System.Drawing.Size(1072, 26)
+        Me.DestinationFolder_TextBox.TabIndex = 8
+        Me.DestinationFolder_TextBox.Text = Global.CBR_Libary_Checker.My.MySettings.Default.unsortedfolder
+        '
+        'UnsortedPathBRSR_LinkLabel
+        '
+        Me.UnsortedPathBRSR_LinkLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UnsortedPathBRSR_LinkLabel.AutoSize = True
+        Me.UnsortedPathBRSR_LinkLabel.Location = New System.Drawing.Point(1280, 9)
+        Me.UnsortedPathBRSR_LinkLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.UnsortedPathBRSR_LinkLabel.Name = "UnsortedPathBRSR_LinkLabel"
+        Me.UnsortedPathBRSR_LinkLabel.Size = New System.Drawing.Size(128, 18)
+        Me.UnsortedPathBRSR_LinkLabel.TabIndex = 25
+        Me.UnsortedPathBRSR_LinkLabel.TabStop = True
+        Me.UnsortedPathBRSR_LinkLabel.Text = "Browse for folder..."
         '
         'LibraryList_DGV
         '
@@ -380,12 +645,12 @@ Partial Class Form1
         Me.LibraryList_DGV.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.FileIDDataGridViewTextBoxColumn1, Me.FileNameDataGridViewTextBoxColumn1, Me.FullFileNameDataGridViewTextBoxColumn1, Me.FileTypeDataGridViewTextBoxColumn1, Me.FilePathDataGridViewTextBoxColumn1, Me.PathRelRootDataGridViewTextBoxColumn1, Me.DateCreatedDataGridViewTextBoxColumn1, Me.FileSizeDataGridViewTextBoxColumn1, Me.SHA1HashDataGridViewTextBoxColumn1, Me.UniqueStatusDataGridViewTextBoxColumn1, Me.CopyStatusDataGridViewTextBoxColumn1})
         Me.LibraryList_DGV.DataSource = Me.LIBARYDBBindingSource
         Me.LibraryList_DGV.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LibraryList_DGV.Location = New System.Drawing.Point(0, 39)
-        Me.LibraryList_DGV.Margin = New System.Windows.Forms.Padding(2)
+        Me.LibraryList_DGV.Location = New System.Drawing.Point(0, 48)
+        Me.LibraryList_DGV.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.LibraryList_DGV.Name = "LibraryList_DGV"
         Me.LibraryList_DGV.RowTemplate.Height = 24
         Me.LibraryList_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.LibraryList_DGV.Size = New System.Drawing.Size(883, 250)
+        Me.LibraryList_DGV.Size = New System.Drawing.Size(1420, 540)
         Me.LibraryList_DGV.TabIndex = 4
         '
         'FileIDDataGridViewTextBoxColumn1
@@ -436,9 +701,9 @@ Partial Class Form1
         'FileSizeDataGridViewTextBoxColumn1
         '
         Me.FileSizeDataGridViewTextBoxColumn1.DataPropertyName = "File Size"
-        DataGridViewCellStyle8.Format = "0.00"" Mb"""
-        DataGridViewCellStyle8.NullValue = Nothing
-        Me.FileSizeDataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle3.Format = "0.00"" Mb"""
+        DataGridViewCellStyle3.NullValue = Nothing
+        Me.FileSizeDataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
         Me.FileSizeDataGridViewTextBoxColumn1.HeaderText = "File Size"
         Me.FileSizeDataGridViewTextBoxColumn1.Name = "FileSizeDataGridViewTextBoxColumn1"
         '
@@ -467,246 +732,122 @@ Partial Class Form1
         '
         'ToolStrip2
         '
+        Me.ToolStrip2.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStrip2.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadLibary_Button, Me.MainLibrary_ProgressBar, Me.OpenDest_ToolStripButton, Me.ClearLibary_Button, Me.GetLibaryHashes_Button})
         Me.ToolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Padding = New System.Windows.Forms.Padding(5, 6, 5, 6)
-        Me.ToolStrip2.Size = New System.Drawing.Size(883, 39)
+        Me.ToolStrip2.Padding = New System.Windows.Forms.Padding(7, 9, 7, 9)
+        Me.ToolStrip2.Size = New System.Drawing.Size(1420, 48)
         Me.ToolStrip2.TabIndex = 2
         Me.ToolStrip2.Text = "ToolStrip2"
+        '
+        'LoadLibary_Button
+        '
+        Me.LoadLibary_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Search_Folder_icon
+        Me.LoadLibary_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.LoadLibary_Button.Name = "LoadLibary_Button"
+        Me.LoadLibary_Button.Size = New System.Drawing.Size(136, 24)
+        Me.LoadLibary_Button.Text = "Load Main Libary"
         '
         'MainLibrary_ProgressBar
         '
         Me.MainLibrary_ProgressBar.Name = "MainLibrary_ProgressBar"
-        Me.MainLibrary_ProgressBar.Size = New System.Drawing.Size(150, 20)
+        Me.MainLibrary_ProgressBar.Size = New System.Drawing.Size(200, 27)
+        '
+        'OpenDest_ToolStripButton
+        '
+        Me.OpenDest_ToolStripButton.Image = Global.CBR_Libary_Checker.My.Resources.Resources.download
+        Me.OpenDest_ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenDest_ToolStripButton.Name = "OpenDest_ToolStripButton"
+        Me.OpenDest_ToolStripButton.Size = New System.Drawing.Size(202, 24)
+        Me.OpenDest_ToolStripButton.Text = "View Selected in Explorer..."
+        '
+        'ClearLibary_Button
+        '
+        Me.ClearLibary_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Delete
+        Me.ClearLibary_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ClearLibary_Button.Name = "ClearLibary_Button"
+        Me.ClearLibary_Button.Size = New System.Drawing.Size(87, 24)
+        Me.ClearLibary_Button.Text = "Clear List"
+        '
+        'GetLibaryHashes_Button
+        '
+        Me.GetLibaryHashes_Button.Enabled = False
+        Me.GetLibaryHashes_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.hash_512
+        Me.GetLibaryHashes_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.GetLibaryHashes_Button.Name = "GetLibaryHashes_Button"
+        Me.GetLibaryHashes_Button.Size = New System.Drawing.Size(102, 24)
+        Me.GetLibaryHashes_Button.Text = "Get Hashes"
         '
         'Main_SplitContainer
         '
         Me.Main_SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Main_SplitContainer.Location = New System.Drawing.Point(0, 27)
+        Me.Main_SplitContainer.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Main_SplitContainer.Name = "Main_SplitContainer"
         '
         'Main_SplitContainer.Panel1
         '
         Me.Main_SplitContainer.Panel1.Controls.Add(Me.TreeView1)
-        Me.Main_SplitContainer.Panel1.Controls.Add(Me.NewFolder_Button)
+        Me.Main_SplitContainer.Panel1.Controls.Add(Me.Panel2)
+        Me.Main_SplitContainer.Panel1.Controls.Add(Me.FolderTreeViewToolStrip)
         '
         'Main_SplitContainer.Panel2
         '
         Me.Main_SplitContainer.Panel2.Controls.Add(Me.DGVsSplitContainer)
-        Me.Main_SplitContainer.Panel2.Controls.Add(Me.CustomGroupBoxMinable3)
-        Me.Main_SplitContainer.Panel2.Controls.Add(Me.CustomGroupBoxMinable2)
-        Me.Main_SplitContainer.Size = New System.Drawing.Size(1153, 800)
-        Me.Main_SplitContainer.SplitterDistance = 260
-        Me.Main_SplitContainer.SplitterWidth = 10
+        Me.Main_SplitContainer.Panel2.Controls.Add(Me.ToolStrip3)
+        Me.Main_SplitContainer.Size = New System.Drawing.Size(1848, 1147)
+        Me.Main_SplitContainer.SplitterDistance = 416
+        Me.Main_SplitContainer.SplitterWidth = 12
         Me.Main_SplitContainer.TabIndex = 9
         '
         'TreeView1
         '
         Me.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TreeView1.Location = New System.Drawing.Point(0, 40)
+        Me.TreeView1.ImageIndex = 0
+        Me.TreeView1.ImageList = Me.ImageList1
+        Me.TreeView1.ItemHeight = 22
+        Me.TreeView1.Location = New System.Drawing.Point(0, 48)
+        Me.TreeView1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(260, 760)
+        Me.TreeView1.SelectedImageIndex = 5
+        Me.TreeView1.Size = New System.Drawing.Size(416, 868)
         Me.TreeView1.TabIndex = 1
         '
-        'NewFolder_Button
+        'ImageList1
         '
-        Me.NewFolder_Button.AutoSize = False
-        Me.NewFolder_Button.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton2, Me.ToolStripSeparator4, Me.NewFolder})
-        Me.NewFolder_Button.Location = New System.Drawing.Point(0, 0)
-        Me.NewFolder_Button.Name = "NewFolder_Button"
-        Me.NewFolder_Button.Size = New System.Drawing.Size(260, 40)
-        Me.NewFolder_Button.TabIndex = 0
-        Me.NewFolder_Button.Text = "ToolStrip3"
+        Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList1.Images.SetKeyName(0, "Dominicanjoker-Comic-Publisher-Folder-Avatar.ico")
+        Me.ImageList1.Images.SetKeyName(1, "Dominicanjoker-Comic-Publisher-Folder-Dark-Horse-v2.ico")
+        Me.ImageList1.Images.SetKeyName(2, "Dominicanjoker-Comic-Publisher-Folder-DC-Comics.ico")
+        Me.ImageList1.Images.SetKeyName(3, "Dominicanjoker-Comic-Publisher-Folder-Image-Comics-v2.ico")
+        Me.ImageList1.Images.SetKeyName(4, "Dominicanjoker-Comic-Publisher-Folder-Marvel (1).ico")
+        Me.ImageList1.Images.SetKeyName(5, "folder")
+        Me.ImageList1.Images.SetKeyName(6, "Dominicanjoker-Comic-Publisher-Folder-Valiant.ico")
+        Me.ImageList1.Images.SetKeyName(7, "Dominicanjoker-Comic-Publisher-Folder-Vertigo.ico")
         '
-        'CustomGroupBoxMinable3
+        'Panel2
         '
-        Me.CustomGroupBoxMinable3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.Copy_ProgressBar)
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.CopySelected)
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.UnsortedPathBRSR_LinkLabel)
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.ShowCopy_CheckBox)
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.Label4)
-        Me.CustomGroupBoxMinable3.Controls.Add(Me.UnsortedFolderTextBox)
-        Me.CustomGroupBoxMinable3.Dock = System.Windows.Forms.DockStyle.Top
-        Me.CustomGroupBoxMinable3.ISExpandedHeightSiz = 0
-        Me.CustomGroupBoxMinable3.IsMinimised = False
-        Me.CustomGroupBoxMinable3.Location = New System.Drawing.Point(0, 145)
-        Me.CustomGroupBoxMinable3.Margin = New System.Windows.Forms.Padding(2)
-        Me.CustomGroupBoxMinable3.Name = "CustomGroupBoxMinable3"
-        Me.CustomGroupBoxMinable3.NotationText = Nothing
-        Me.CustomGroupBoxMinable3.NotationVisible = False
-        Me.CustomGroupBoxMinable3.Size = New System.Drawing.Size(883, 99)
-        Me.CustomGroupBoxMinable3.TabIndex = 8
-        Me.CustomGroupBoxMinable3.Text = "CustomGroupBoxMinable3"
-        Me.CustomGroupBoxMinable3.TitleHeight = 26
+        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel2.Location = New System.Drawing.Point(0, 916)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(416, 231)
+        Me.Panel2.TabIndex = 2
         '
-        'Copy_ProgressBar
+        'FolderTreeViewToolStrip
         '
-        Me.Copy_ProgressBar.Location = New System.Drawing.Point(946, 52)
-        Me.Copy_ProgressBar.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.Copy_ProgressBar.Name = "Copy_ProgressBar"
-        Me.Copy_ProgressBar.Size = New System.Drawing.Size(229, 23)
-        Me.Copy_ProgressBar.TabIndex = 8
-        '
-        'CopySelected
-        '
-        Me.CopySelected.Enabled = False
-        Me.CopySelected.Location = New System.Drawing.Point(667, 48)
-        Me.CopySelected.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.CopySelected.Name = "CopySelected"
-        Me.CopySelected.Size = New System.Drawing.Size(273, 30)
-        Me.CopySelected.TabIndex = 7
-        Me.CopySelected.Text = "Copy Selected From Source to Folder"
-        Me.CopySelected.UseVisualStyleBackColor = True
-        '
-        'UnsortedPathBRSR_LinkLabel
-        '
-        Me.UnsortedPathBRSR_LinkLabel.AutoSize = True
-        Me.UnsortedPathBRSR_LinkLabel.Location = New System.Drawing.Point(301, 78)
-        Me.UnsortedPathBRSR_LinkLabel.Name = "UnsortedPathBRSR_LinkLabel"
-        Me.UnsortedPathBRSR_LinkLabel.Size = New System.Drawing.Size(95, 13)
-        Me.UnsortedPathBRSR_LinkLabel.TabIndex = 25
-        Me.UnsortedPathBRSR_LinkLabel.TabStop = True
-        Me.UnsortedPathBRSR_LinkLabel.Text = "Browse for folder..."
-        '
-        'ShowCopy_CheckBox
-        '
-        Me.ShowCopy_CheckBox.AutoSize = True
-        Me.ShowCopy_CheckBox.Location = New System.Drawing.Point(443, 54)
-        Me.ShowCopy_CheckBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.ShowCopy_CheckBox.Name = "ShowCopy_CheckBox"
-        Me.ShowCopy_CheckBox.Size = New System.Drawing.Size(157, 17)
-        Me.ShowCopy_CheckBox.TabIndex = 26
-        Me.ShowCopy_CheckBox.Text = "Show Windows copy dialog"
-        Me.ShowCopy_CheckBox.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(20, 35)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(178, 13)
-        Me.Label4.TabIndex = 23
-        Me.Label4.Text = "Unsorted (Copy To) Folder Location:"
-        '
-        'UnsortedFolderTextBox
-        '
-        Me.UnsortedFolderTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Global.CBR_Libary_Checker.My.MySettings.Default, "unsortedfolder", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.UnsortedFolderTextBox.Location = New System.Drawing.Point(24, 54)
-        Me.UnsortedFolderTextBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.UnsortedFolderTextBox.Name = "UnsortedFolderTextBox"
-        Me.UnsortedFolderTextBox.Size = New System.Drawing.Size(405, 20)
-        Me.UnsortedFolderTextBox.TabIndex = 8
-        Me.UnsortedFolderTextBox.Text = Global.CBR_Libary_Checker.My.MySettings.Default.unsortedfolder
-        '
-        'CustomGroupBoxMinable2
-        '
-        Me.CustomGroupBoxMinable2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.LinkLabel3)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.Source_Browse_LL)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.Label1)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.LinkLabel2)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.ListBox1)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.Label2)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.SourcePath_TextBox)
-        Me.CustomGroupBoxMinable2.Controls.Add(Me.LinkLabel1)
-        Me.CustomGroupBoxMinable2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.CustomGroupBoxMinable2.ISExpandedHeightSiz = 0
-        Me.CustomGroupBoxMinable2.IsMinimised = False
-        Me.CustomGroupBoxMinable2.Location = New System.Drawing.Point(0, 0)
-        Me.CustomGroupBoxMinable2.Margin = New System.Windows.Forms.Padding(2)
-        Me.CustomGroupBoxMinable2.Name = "CustomGroupBoxMinable2"
-        Me.CustomGroupBoxMinable2.NotationText = Nothing
-        Me.CustomGroupBoxMinable2.NotationVisible = False
-        Me.CustomGroupBoxMinable2.Size = New System.Drawing.Size(883, 145)
-        Me.CustomGroupBoxMinable2.TabIndex = 2
-        Me.CustomGroupBoxMinable2.Text = "Library Options"
-        Me.CustomGroupBoxMinable2.TitleHeight = 26
-        '
-        'LinkLabel3
-        '
-        Me.LinkLabel3.AutoSize = True
-        Me.LinkLabel3.Location = New System.Drawing.Point(831, 97)
-        Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(95, 13)
-        Me.LinkLabel3.TabIndex = 19
-        Me.LinkLabel3.TabStop = True
-        Me.LinkLabel3.Text = "Remove Selected."
-        '
-        'Source_Browse_LL
-        '
-        Me.Source_Browse_LL.AutoSize = True
-        Me.Source_Browse_LL.Location = New System.Drawing.Point(287, 76)
-        Me.Source_Browse_LL.Name = "Source_Browse_LL"
-        Me.Source_Browse_LL.Size = New System.Drawing.Size(95, 13)
-        Me.Source_Browse_LL.TabIndex = 21
-        Me.Source_Browse_LL.TabStop = True
-        Me.Source_Browse_LL.Text = "Browse for folder..."
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(434, 31)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(112, 13)
-        Me.Label1.TabIndex = 16
-        Me.Label1.Text = "File Source Locations;"
-        '
-        'LinkLabel2
-        '
-        Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.Location = New System.Drawing.Point(831, 54)
-        Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(139, 13)
-        Me.LinkLabel2.TabIndex = 17
-        Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "Change Source to selected."
-        '
-        'ListBox1
-        '
-        Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(434, 50)
-        Me.ListBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(391, 82)
-        Me.ListBox1.TabIndex = 15
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 31)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(157, 13)
-        Me.Label2.TabIndex = 20
-        Me.Label2.Text = "Source Folder Search Location:"
-        '
-        'SourcePath_TextBox
-        '
-        Me.SourcePath_TextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Global.CBR_Libary_Checker.My.MySettings.Default, "torrentfolder", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.SourcePath_TextBox.Location = New System.Drawing.Point(8, 51)
-        Me.SourcePath_TextBox.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.SourcePath_TextBox.Name = "SourcePath_TextBox"
-        Me.SourcePath_TextBox.Size = New System.Drawing.Size(405, 20)
-        Me.SourcePath_TextBox.TabIndex = 1
-        Me.SourcePath_TextBox.Text = Global.CBR_Libary_Checker.My.MySettings.Default.torrentfolder
-        '
-        'LinkLabel1
-        '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(5, 76)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(131, 13)
-        Me.LinkLabel1.TabIndex = 15
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "Add Location to Favorites."
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 40)
+        Me.FolderTreeViewToolStrip.AutoSize = False
+        Me.FolderTreeViewToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.FolderTreeViewToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton2, Me.ToolStripSeparator4, Me.NewFolder_Button})
+        Me.FolderTreeViewToolStrip.Location = New System.Drawing.Point(0, 0)
+        Me.FolderTreeViewToolStrip.Name = "FolderTreeViewToolStrip"
+        Me.FolderTreeViewToolStrip.Size = New System.Drawing.Size(416, 48)
+        Me.FolderTreeViewToolStrip.TabIndex = 0
+        Me.FolderTreeViewToolStrip.Text = "ToolStrip3"
         '
         'ToolStripButton2
         '
@@ -719,241 +860,94 @@ Partial Class Form1
         Me.ToolStripButton2.Size = New System.Drawing.Size(35, 37)
         Me.ToolStripButton2.Text = "ToolStripButton2"
         '
-        'NewFolder
+        'ToolStripSeparator4
         '
-        Me.NewFolder.AutoSize = False
-        Me.NewFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.NewFolder.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Creative_Freedom_Shimmer_Folder_New
-        Me.NewFolder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.NewFolder.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.NewFolder.Name = "NewFolder"
-        Me.NewFolder.Size = New System.Drawing.Size(42, 42)
-        Me.NewFolder.Text = "ToolStripButton3"
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 48)
         '
-        'LoadSource_Button
+        'NewFolder_Button
         '
-        Me.LoadSource_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Search_Folder_icon
-        Me.LoadSource_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.LoadSource_Button.Name = "LoadSource_Button"
-        Me.LoadSource_Button.Size = New System.Drawing.Size(131, 24)
-        Me.LoadSource_Button.Text = "Load Source Libary"
+        Me.NewFolder_Button.AutoSize = False
+        Me.NewFolder_Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.NewFolder_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Creative_Freedom_Shimmer_Folder_New
+        Me.NewFolder_Button.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.NewFolder_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.NewFolder_Button.Name = "NewFolder_Button"
+        Me.NewFolder_Button.Size = New System.Drawing.Size(42, 42)
+        Me.NewFolder_Button.Text = "ToolStripButton3"
         '
-        'Scan_Options_ToolStripSplitButton
+        'ToolStrip3
         '
-        Me.Scan_Options_ToolStripSplitButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HidePartial_Check, Me.HideUnwanted_Check, Me.ToolStripMenuItem3, Me.GetHashesOnScanToolStripMenuItem})
-        Me.Scan_Options_ToolStripSplitButton.Image = CType(resources.GetObject("Scan_Options_ToolStripSplitButton.Image"), System.Drawing.Image)
-        Me.Scan_Options_ToolStripSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.Scan_Options_ToolStripSplitButton.Name = "Scan_Options_ToolStripSplitButton"
-        Me.Scan_Options_ToolStripSplitButton.Size = New System.Drawing.Size(113, 24)
-        Me.Scan_Options_ToolStripSplitButton.Text = "Scan Options"
+        Me.ToolStrip3.AutoSize = False
+        Me.ToolStrip3.BackgroundImage = Global.CBR_Libary_Checker.My.Resources.Resources.backgg
+        Me.ToolStrip3.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ToolStrip3.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.SourcePath_ComboBox, Me.BrowseSource_Button, Me.ToolStripSeparator5, Me.AddToFave_Button})
+        Me.ToolStrip3.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStrip3.Name = "ToolStrip3"
+        Me.ToolStrip3.Size = New System.Drawing.Size(1420, 35)
+        Me.ToolStrip3.TabIndex = 23
+        Me.ToolStrip3.Text = "ToolStrip3"
         '
-        'HidePartial_Check
+        'ToolStripLabel1
         '
-        Me.HidePartial_Check.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.HidePartial
-        Me.HidePartial_Check.CheckOnClick = True
-        Me.HidePartial_Check.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.HidePartial_Check.Name = "HidePartial_Check"
-        Me.HidePartial_Check.Size = New System.Drawing.Size(241, 22)
-        Me.HidePartial_Check.Text = "Hide QTorrent Partial Files (.qb!)"
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(135, 32)
+        Me.ToolStripLabel1.Text = "Source Search Path:"
         '
-        'HideUnwanted_Check
+        'SourcePath_ComboBox
         '
-        Me.HideUnwanted_Check.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.HideUnwanted
-        Me.HideUnwanted_Check.CheckOnClick = True
-        Me.HideUnwanted_Check.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.HideUnwanted_Check.Name = "HideUnwanted_Check"
-        Me.HideUnwanted_Check.Size = New System.Drawing.Size(241, 22)
-        Me.HideUnwanted_Check.Text = "Hide Qtorrent .Unwanted Files"
+        Me.SourcePath_ComboBox.AutoSize = False
+        Me.SourcePath_ComboBox.Name = "SourcePath_ComboBox"
+        Me.SourcePath_ComboBox.Size = New System.Drawing.Size(400, 28)
+        Me.SourcePath_ComboBox.Text = Global.CBR_Libary_Checker.My.MySettings.Default.torrentfolder
         '
-        'ToolStripMenuItem3
+        'BrowseSource_Button
         '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(238, 6)
+        Me.BrowseSource_Button.ForeColor = System.Drawing.Color.RoyalBlue
+        Me.BrowseSource_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Icons8_Windows_8_Files_View_File
+        Me.BrowseSource_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BrowseSource_Button.Name = "BrowseSource_Button"
+        Me.BrowseSource_Button.Size = New System.Drawing.Size(147, 32)
+        Me.BrowseSource_Button.Text = "Browse Folders...."
         '
-        'GetHashesOnScanToolStripMenuItem
+        'ToolStripSeparator5
         '
-        Me.GetHashesOnScanToolStripMenuItem.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.Source_GetHashes
-        Me.GetHashesOnScanToolStripMenuItem.CheckOnClick = True
-        Me.GetHashesOnScanToolStripMenuItem.Name = "GetHashesOnScanToolStripMenuItem"
-        Me.GetHashesOnScanToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
-        Me.GetHashesOnScanToolStripMenuItem.Text = "Get Hashes on Scan"
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 35)
         '
-        'OpenSource_Libary
+        'AddToFave_Button
         '
-        Me.OpenSource_Libary.Image = Global.CBR_Libary_Checker.My.Resources.Resources.download
-        Me.OpenSource_Libary.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.OpenSource_Libary.Name = "OpenSource_Libary"
-        Me.OpenSource_Libary.Size = New System.Drawing.Size(170, 24)
-        Me.OpenSource_Libary.Text = "View Selected in Explorer..."
+        Me.AddToFave_Button.ForeColor = System.Drawing.Color.DarkGreen
+        Me.AddToFave_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources._041_favor_add
+        Me.AddToFave_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.AddToFave_Button.Name = "AddToFave_Button"
+        Me.AddToFave_Button.Size = New System.Drawing.Size(136, 32)
+        Me.AddToFave_Button.Text = "Add To Favorites"
         '
-        'ToolStripDropDownButton1
+        'NodeContextMenuStrip
         '
-        Me.ToolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripDropDownButton1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HideDupes_CHKButton, Me.ToolStripMenuItem1, Me.ColumnsToolStripMenuItem, Me.FullFilePathToolStripMenuItem, Me.FileNameToolStripMenuItem, Me.FileTypeToolStripMenuItem, Me.UnwantedQtorrentToolStripMenuItem, Me.FolderPathToolStripMenuItem, Me.DateCreatedToolStripMenuItem, Me.FileSizeMbToolStripMenuItem, Me.InLibaryToolStripMenuItem, Me.ToolStripMenuItem2, Me.Set_Font_Button})
-        Me.ToolStripDropDownButton1.Image = Global.CBR_Libary_Checker.My.Resources.Resources.eye_24_256
-        Me.ToolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripDropDownButton1.Name = "ToolStripDropDownButton1"
-        Me.ToolStripDropDownButton1.Size = New System.Drawing.Size(33, 24)
-        Me.ToolStripDropDownButton1.Text = "ToolStripDropDownButton1"
+        Me.NodeContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.NodeContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetThisFolderAsCopyDestinationToolStripMenuItem, Me.ToolStripMenuItem4, Me.LoadThisFolderInLibraryListToolStripMenuItem})
+        Me.NodeContextMenuStrip.Name = "ContextMenuStrip1"
+        Me.NodeContextMenuStrip.Size = New System.Drawing.Size(316, 62)
         '
-        'HideDupes_CHKButton
+        'SetThisFolderAsCopyDestinationToolStripMenuItem
         '
-        Me.HideDupes_CHKButton.Name = "HideDupes_CHKButton"
-        Me.HideDupes_CHKButton.Size = New System.Drawing.Size(246, 22)
-        Me.HideDupes_CHKButton.Text = "Hide Files Already in Main Libary"
+        Me.SetThisFolderAsCopyDestinationToolStripMenuItem.Name = "SetThisFolderAsCopyDestinationToolStripMenuItem"
+        Me.SetThisFolderAsCopyDestinationToolStripMenuItem.Size = New System.Drawing.Size(315, 26)
+        Me.SetThisFolderAsCopyDestinationToolStripMenuItem.Text = "Set  this folder as copy destination."
         '
-        'ToolStripMenuItem1
+        'ToolStripMenuItem4
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(243, 6)
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(312, 6)
         '
-        'ColumnsToolStripMenuItem
+        'LoadThisFolderInLibraryListToolStripMenuItem
         '
-        Me.ColumnsToolStripMenuItem.Name = "ColumnsToolStripMenuItem"
-        Me.ColumnsToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.ColumnsToolStripMenuItem.Text = "Columns:"
-        '
-        'FullFilePathToolStripMenuItem
-        '
-        Me.FullFilePathToolStripMenuItem.Checked = True
-        Me.FullFilePathToolStripMenuItem.CheckOnClick = True
-        Me.FullFilePathToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FullFilePathToolStripMenuItem.Name = "FullFilePathToolStripMenuItem"
-        Me.FullFilePathToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.FullFilePathToolStripMenuItem.Text = "Full File Path"
-        '
-        'FileNameToolStripMenuItem
-        '
-        Me.FileNameToolStripMenuItem.Checked = True
-        Me.FileNameToolStripMenuItem.CheckOnClick = True
-        Me.FileNameToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FileNameToolStripMenuItem.Name = "FileNameToolStripMenuItem"
-        Me.FileNameToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.FileNameToolStripMenuItem.Text = "File Name"
-        '
-        'FileTypeToolStripMenuItem
-        '
-        Me.FileTypeToolStripMenuItem.Checked = True
-        Me.FileTypeToolStripMenuItem.CheckOnClick = True
-        Me.FileTypeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FileTypeToolStripMenuItem.Name = "FileTypeToolStripMenuItem"
-        Me.FileTypeToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.FileTypeToolStripMenuItem.Text = "File Type"
-        '
-        'UnwantedQtorrentToolStripMenuItem
-        '
-        Me.UnwantedQtorrentToolStripMenuItem.Checked = True
-        Me.UnwantedQtorrentToolStripMenuItem.CheckOnClick = True
-        Me.UnwantedQtorrentToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.UnwantedQtorrentToolStripMenuItem.Name = "UnwantedQtorrentToolStripMenuItem"
-        Me.UnwantedQtorrentToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.UnwantedQtorrentToolStripMenuItem.Text = "Unwanted (Qtorrent)"
-        '
-        'FolderPathToolStripMenuItem
-        '
-        Me.FolderPathToolStripMenuItem.Checked = True
-        Me.FolderPathToolStripMenuItem.CheckOnClick = True
-        Me.FolderPathToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FolderPathToolStripMenuItem.Name = "FolderPathToolStripMenuItem"
-        Me.FolderPathToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.FolderPathToolStripMenuItem.Text = "Folder Path"
-        '
-        'DateCreatedToolStripMenuItem
-        '
-        Me.DateCreatedToolStripMenuItem.Checked = True
-        Me.DateCreatedToolStripMenuItem.CheckOnClick = True
-        Me.DateCreatedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.DateCreatedToolStripMenuItem.Name = "DateCreatedToolStripMenuItem"
-        Me.DateCreatedToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.DateCreatedToolStripMenuItem.Text = "Date Created"
-        '
-        'FileSizeMbToolStripMenuItem
-        '
-        Me.FileSizeMbToolStripMenuItem.Checked = True
-        Me.FileSizeMbToolStripMenuItem.CheckOnClick = True
-        Me.FileSizeMbToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FileSizeMbToolStripMenuItem.Name = "FileSizeMbToolStripMenuItem"
-        Me.FileSizeMbToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.FileSizeMbToolStripMenuItem.Text = "File Size (Mb)"
-        '
-        'InLibaryToolStripMenuItem
-        '
-        Me.InLibaryToolStripMenuItem.Checked = True
-        Me.InLibaryToolStripMenuItem.CheckOnClick = True
-        Me.InLibaryToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.InLibaryToolStripMenuItem.Name = "InLibaryToolStripMenuItem"
-        Me.InLibaryToolStripMenuItem.Size = New System.Drawing.Size(246, 22)
-        Me.InLibaryToolStripMenuItem.Text = "In Libary"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(243, 6)
-        '
-        'Set_Font_Button
-        '
-        Me.Set_Font_Button.Name = "Set_Font_Button"
-        Me.Set_Font_Button.Size = New System.Drawing.Size(246, 22)
-        Me.Set_Font_Button.Text = "Set File Lists Font"
-        '
-        'CheckUnique_Button
-        '
-        Me.CheckUnique_Button.Enabled = False
-        Me.CheckUnique_Button.ForeColor = System.Drawing.Color.Blue
-        Me.CheckUnique_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.compare_balance_512
-        Me.CheckUnique_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.CheckUnique_Button.Name = "CheckUnique_Button"
-        Me.CheckUnique_Button.Size = New System.Drawing.Size(213, 24)
-        Me.CheckUnique_Button.Text = "Check Source items exist in Library"
-        '
-        'ClearSource_Button
-        '
-        Me.ClearSource_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Delete
-        Me.ClearSource_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ClearSource_Button.Name = "ClearSource_Button"
-        Me.ClearSource_Button.Size = New System.Drawing.Size(79, 24)
-        Me.ClearSource_Button.Text = "Clear List"
-        '
-        'GetSourceHashes_Button
-        '
-        Me.GetSourceHashes_Button.Enabled = False
-        Me.GetSourceHashes_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.hash_512
-        Me.GetSourceHashes_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.GetSourceHashes_Button.Name = "GetSourceHashes_Button"
-        Me.GetSourceHashes_Button.Size = New System.Drawing.Size(90, 24)
-        Me.GetSourceHashes_Button.Text = "Get Hashes"
-        '
-        'LoadLibary_Button
-        '
-        Me.LoadLibary_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Search_Folder_icon
-        Me.LoadLibary_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.LoadLibary_Button.Name = "LoadLibary_Button"
-        Me.LoadLibary_Button.Size = New System.Drawing.Size(122, 24)
-        Me.LoadLibary_Button.Text = "Load Main Libary"
-        '
-        'OpenDest_ToolStripButton
-        '
-        Me.OpenDest_ToolStripButton.Image = Global.CBR_Libary_Checker.My.Resources.Resources.download
-        Me.OpenDest_ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.OpenDest_ToolStripButton.Name = "OpenDest_ToolStripButton"
-        Me.OpenDest_ToolStripButton.Size = New System.Drawing.Size(170, 24)
-        Me.OpenDest_ToolStripButton.Text = "View Selected in Explorer..."
-        '
-        'ClearLibary_Button
-        '
-        Me.ClearLibary_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Delete
-        Me.ClearLibary_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ClearLibary_Button.Name = "ClearLibary_Button"
-        Me.ClearLibary_Button.Size = New System.Drawing.Size(79, 24)
-        Me.ClearLibary_Button.Text = "Clear List"
-        '
-        'GetLibaryHashes_Button
-        '
-        Me.GetLibaryHashes_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.hash_512
-        Me.GetLibaryHashes_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.GetLibaryHashes_Button.Name = "GetLibaryHashes_Button"
-        Me.GetLibaryHashes_Button.Size = New System.Drawing.Size(90, 24)
-        Me.GetLibaryHashes_Button.Text = "Get Hashes"
+        Me.LoadThisFolderInLibraryListToolStripMenuItem.Name = "LoadThisFolderInLibraryListToolStripMenuItem"
+        Me.LoadThisFolderInLibraryListToolStripMenuItem.Size = New System.Drawing.Size(315, 26)
+        Me.LoadThisFolderInLibraryListToolStripMenuItem.Text = "Load this folder in Library List"
         '
         'ToolStrip1
         '
@@ -962,7 +956,7 @@ Partial Class Form1
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ListView_ToolStripSplitButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1153, 27)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1848, 27)
         Me.ToolStrip1.TabIndex = 7
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -973,7 +967,7 @@ Partial Class Form1
         Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(62, 24)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(76, 24)
         Me.ToolStripButton1.Text = "Close Tab"
         '
         'ListView_ToolStripSplitButton1
@@ -983,33 +977,34 @@ Partial Class Form1
         Me.ListView_ToolStripSplitButton1.Image = CType(resources.GetObject("ListView_ToolStripSplitButton1.Image"), System.Drawing.Image)
         Me.ListView_ToolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ListView_ToolStripSplitButton1.Name = "ListView_ToolStripSplitButton1"
-        Me.ListView_ToolStripSplitButton1.Size = New System.Drawing.Size(36, 24)
+        Me.ListView_ToolStripSplitButton1.Size = New System.Drawing.Size(39, 24)
         Me.ListView_ToolStripSplitButton1.Text = "List View Direction"
         '
         'VerticalToolStripMenuItem
         '
         Me.VerticalToolStripMenuItem.CheckOnClick = True
         Me.VerticalToolStripMenuItem.Name = "VerticalToolStripMenuItem"
-        Me.VerticalToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.VerticalToolStripMenuItem.Size = New System.Drawing.Size(154, 26)
         Me.VerticalToolStripMenuItem.Text = "Vertical"
         '
         'HorizontalToolStripMenuItem
         '
         Me.HorizontalToolStripMenuItem.CheckOnClick = True
         Me.HorizontalToolStripMenuItem.Name = "HorizontalToolStripMenuItem"
-        Me.HorizontalToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.HorizontalToolStripMenuItem.Size = New System.Drawing.Size(154, 26)
         Me.HorizontalToolStripMenuItem.Text = "Horizontal"
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1153, 849)
+        Me.ClientSize = New System.Drawing.Size(1848, 1203)
         Me.Controls.Add(Me.Main_SplitContainer)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.ToolStrip1)
+        Me.Font = New System.Drawing.Font("Candara", 9.0!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "Form1"
         Me.Text = "Form1"
         CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1025,6 +1020,8 @@ Partial Class Form1
         CType(Me.SourceLibary_DGV, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SourceToolStrip.ResumeLayout(False)
         Me.SourceToolStrip.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         CType(Me.LibraryList_DGV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LIBARYDBBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ToolStrip2.ResumeLayout(False)
@@ -1033,12 +1030,11 @@ Partial Class Form1
         Me.Main_SplitContainer.Panel2.ResumeLayout(False)
         CType(Me.Main_SplitContainer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Main_SplitContainer.ResumeLayout(False)
-        Me.NewFolder_Button.ResumeLayout(False)
-        Me.NewFolder_Button.PerformLayout()
-        Me.CustomGroupBoxMinable3.ResumeLayout(False)
-        Me.CustomGroupBoxMinable3.PerformLayout()
-        Me.CustomGroupBoxMinable2.ResumeLayout(False)
-        Me.CustomGroupBoxMinable2.PerformLayout()
+        Me.FolderTreeViewToolStrip.ResumeLayout(False)
+        Me.FolderTreeViewToolStrip.PerformLayout()
+        Me.ToolStrip3.ResumeLayout(False)
+        Me.ToolStrip3.PerformLayout()
+        Me.NodeContextMenuStrip.ResumeLayout(False)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -1047,16 +1043,9 @@ Partial Class Form1
     End Sub
 
     Friend WithEvents SourceLibary_DGV As DataGridView
-    Friend WithEvents SourcePath_TextBox As TextBox
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents status As ToolStripStatusLabel
-    Friend WithEvents CopySelected As Button
-    Friend WithEvents UnsortedFolderTextBox As TextBox
-    Friend WithEvents ListBox1 As ListBox
-    Friend WithEvents LinkLabel1 As LinkLabel
-    Friend WithEvents Label1 As Label
-    Friend WithEvents LinkLabel2 As LinkLabel
-    Friend WithEvents LinkLabel3 As LinkLabel
+    Friend WithEvents DestinationFolder_TextBox As TextBox
     Friend WithEvents DGVsSplitContainer As SplitContainer
     Friend WithEvents SourceToolStrip As ToolStrip
     Friend WithEvents LoadSource_Button As ToolStripButton
@@ -1069,9 +1058,6 @@ Partial Class Form1
     Friend WithEvents HideUnwanted_Check As ToolStripMenuItem
     Friend WithEvents OpenSource_Libary As ToolStripButton
     Friend WithEvents OpenDest_ToolStripButton As ToolStripButton
-    Friend WithEvents Copy_ProgressBar As ProgressBar
-    Friend WithEvents Source_Browse_LL As LinkLabel
-    Friend WithEvents Label2 As Label
     Friend WithEvents ToolStripDropDownButton1 As ToolStripDropDownButton
     Friend WithEvents HideDupes_CHKButton As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
@@ -1085,10 +1071,8 @@ Partial Class Form1
     Friend WithEvents FileSizeMbToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InLibaryToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UnsortedPathBRSR_LinkLabel As LinkLabel
-    Friend WithEvents Label4 As Label
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
     Friend WithEvents Set_Font_Button As ToolStripMenuItem
-    Friend WithEvents ShowCopy_CheckBox As CheckBox
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents CheckUnique_Button As ToolStripButton
@@ -1131,15 +1115,30 @@ Partial Class Form1
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents status2 As ToolStripStatusLabel
     Friend WithEvents CustomGroupBoxMinable1 As CustomGroupBoxMinable
-    Friend WithEvents CustomGroupBoxMinable2 As CustomGroupBoxMinable
     Friend WithEvents ListView_ToolStripSplitButton1 As ToolStripSplitButton
     Friend WithEvents VerticalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HorizontalToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CustomGroupBoxMinable3 As CustomGroupBoxMinable
     Friend WithEvents Main_SplitContainer As SplitContainer
-    Friend WithEvents NewFolder_Button As ToolStrip
+    Friend WithEvents FolderTreeViewToolStrip As ToolStrip
     Friend WithEvents ToolStripButton2 As ToolStripButton
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
-    Friend WithEvents NewFolder As ToolStripButton
+    Friend WithEvents NewFolder_Button As ToolStripButton
+    Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents CopySelected_Button As ToolStripButton
+    Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
+    Friend WithEvents Copy_ProgressBar As ToolStripProgressBar
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents NodeContextMenuStrip As ContextMenuStrip
+    Friend WithEvents SetThisFolderAsCopyDestinationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem4 As ToolStripSeparator
+    Friend WithEvents LoadThisFolderInLibraryListToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStrip3 As ToolStrip
+    Friend WithEvents ToolStripLabel1 As ToolStripLabel
+    Friend WithEvents BrowseSource_Button As ToolStripButton
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents SourcePath_ComboBox As ToolStripComboBox
+    Friend WithEvents AddToFave_Button As ToolStripButton
 End Class

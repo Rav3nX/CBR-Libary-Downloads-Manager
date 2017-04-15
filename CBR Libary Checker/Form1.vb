@@ -17,6 +17,10 @@ Public Structure ProgressReport
 End Structure
 
 Public Class Form1
+
+#Region "DECS , SUB NEW() AND FORM LOAD AND CLOSE"
+
+
     Private Source_DS As New ComicInfoDB
     Private Libary_DS As New ComicInfoDB
     Private FilesTread As Thread
@@ -63,7 +67,7 @@ Public Class Form1
 
         Dim Favorites() As String = Split(My.Settings.Favorites, ";")
         For Each FavSingle As String In Favorites
-            ListBox1.Items.Add(FavSingle)
+            SourcePath_ComboBox.Items.Add(FavSingle)
         Next
         status.Text = "Loading Folders List...."
         TreeViewFiller_BackgroundWorker.RunWorkerAsync()
@@ -71,14 +75,22 @@ Public Class Form1
 
     End Sub
 
-    Private Sub enable_DupeCheck()
-        If SourceLoaded And LibaryLoaded Then
-            CheckUnique_Button.Enabled = True
-        Else
-            CheckUnique_Button.Enabled = False
-        End If
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Dim favstr As String = ""
+
+        For item As Integer = 0 To SourcePath_ComboBox.Items.Count - 2
+            favstr = SourcePath_ComboBox.Items(item).ToString & ";" & favstr
+        Next
+        favstr = favstr & SourcePath_ComboBox.Items(SourcePath_ComboBox.Items.Count - 1).ToString
+
+        My.Settings.Favorites = favstr
     End Sub
 
+    Private Sub ToolStripButton1_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        TabFunctions.CloseME(Me)
+    End Sub
+
+#End Region
 
 #Region "Load Source List"
 
@@ -121,7 +133,7 @@ Public Class Form1
         'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
         Dim ProgressReport As New ProgressReport
 
-        Dim directory As String = SourcePath_TextBox.Text
+        Dim directory As String = SourcePath_ComboBox.Text
         Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
         Dim cnt As Integer
         ProgressReport.ReportType = "start"
@@ -296,7 +308,7 @@ Public Class Form1
 
 #End Region
 
-#Region "Library Tree Node Section"
+#Region "Library COLLECTION Tree Node Section"
 
     Private TreeView_Nodes_Collection As New List(Of TreeNode)
 
@@ -337,16 +349,12 @@ Public Class Form1
     Private Sub LoadTreeView_BGW(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles TreeViewFiller_BackgroundWorker.DoWork
 
         Dim rootNode As TreeNode
-
         Dim info As New DirectoryInfo(My.Settings.LibaryFolder)
         If info.Exists Then
             rootNode = New TreeNode(info.Name)
             rootNode.Tag = info
             GetDirectories(info.GetDirectories(), rootNode)
             TreeView_Nodes_Collection.Add(rootNode)
-
-            'TreeView_Nodes_Collection.
-            'TreeView_Nodes_Collection.Add(rootNode)
         End If
     End Sub
     Private Sub LoadTreeView_BGW_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles TreeViewFiller_BackgroundWorker.RunWorkerCompleted
@@ -356,7 +364,6 @@ Public Class Form1
         Next
         TreeView_Nodes_Collection.Clear()
         status.Text = "Library folders loaded"
-
     End Sub
 
     Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
@@ -365,54 +372,91 @@ Public Class Form1
 
     End Sub
 
-    Private Sub NewFolder_Button_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles NewFolder_Button.ItemClicked
+
+
+    Private Sub NewFolder_Click(sender As Object, e As EventArgs) Handles NewFolder_Button.Click
         If TreeView1.SelectedNode IsNot Nothing Then
-            Dim test As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
-            'If (Not System.IO.Directory.Exists(YourPath)) Then
-            'System.IO.Directory.CreateDirectory(YourPath)
-            'End If
-            MsgBox("tag: " & test.FullName & " Name: " & TreeView1.SelectedNode.Name)
+            Dim SelectedDirectory As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            Dim NewFolderDialog As New NewFolderDialog
+            If NewFolderDialog.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim NewfolderString As String = SelectedDirectory.FullName & "\" & NewFolderDialog.NewFolder_Name.Text
+                    If (Not System.IO.Directory.Exists(NewfolderString)) Then
+                        System.IO.Directory.CreateDirectory(NewfolderString)
+
+                        Dim info As New DirectoryInfo(NewfolderString)
+                        Dim new_Subnode As TreeNode
+                        new_Subnode = New TreeNode(info.Name)
+                        new_Subnode.Tag = info
+                        TreeView1.SelectedNode.Nodes.Add(new_Subnode)
+                    End If
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+            End If
         End If
     End Sub
+
+
+    Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseDoubleClick
+        If TreeView1.SelectedNode IsNot Nothing Then
+            Dim DirInfo As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            DestinationFolder_TextBox.Text = DirInfo.FullName
+        End If
+    End Sub
+
+    Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
+
+    End Sub
+
+    Private Sub TreeView1_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseClick
+        TreeView1.SelectedNode = e.Node
+        If e.Button = MouseButtons.Right Then e.Node.ContextMenuStrip = NodeContextMenuStrip
+    End Sub
+
+    Private Sub SetThisFolderAsCopyDestinationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SetThisFolderAsCopyDestinationToolStripMenuItem.Click
+        If TreeView1.SelectedNode IsNot Nothing Then
+            Dim DirInfo As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            DestinationFolder_TextBox.Text = DirInfo.FullName
+        End If
+    End Sub
+
+    Private Sub LoadThisFolderInLibraryList_Click(sender As Object, e As EventArgs) Handles LoadThisFolderInLibraryListToolStripMenuItem.Click
+
+    End Sub
+
+
+
 
 #End Region
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
-        Dim FntSel As New FontDialog
-        If FntSel.ShowDialog = DialogResult.OK Then
-            My.Settings.DGVFont = FntSel.Font
-            SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-            LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+#Region "Source Section Buttons and Subs"
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
+
+    End Sub
+    Private Sub AddToFave_Button_Click(sender As Object, e As EventArgs) Handles AddToFave_Button.Click
+        SourcePath_ComboBox.Items.Add(SourcePath_ComboBox.Text)
+    End Sub
+
+
+    Private Sub Source_Browse_LL_LinkClicked(sender As Object, e As EventArgs) Handles BrowseSource_Button.Click
+        Using Fldlg As New FolderBrowserDialog
+            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
+            Fldlg.SelectedPath = SourcePath_ComboBox.Text
+            If Fldlg.ShowDialog = vbOK Then
+                SourcePath_ComboBox.Text = Fldlg.SelectedPath
+            End If
+        End Using
+
+    End Sub
+
+    Private Sub enable_DupeCheck()
+        If SourceLoaded And LibaryLoaded Then
+            CheckUnique_Button.Enabled = True
+        Else
+            CheckUnique_Button.Enabled = False
         End If
-    End Sub
-
-
-
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        ListBox1.Items.Add(SourcePath_TextBox.Text)
-
-    End Sub
-
-    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-        If Not (IsNothing(ListBox1.SelectedItem)) Then
-            SourcePath_TextBox.Text = ListBox1.SelectedItem.ToString
-        End If
-
-
-
-    End Sub
-
-
-
-    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Dim favstr As String = ""
-
-        For item As Integer = 0 To ListBox1.Items.Count - 2
-            favstr = ListBox1.Items(item).ToString & ";" & favstr
-        Next
-        favstr = favstr & ListBox1.Items(ListBox1.Items.Count - 1).ToString
-
-        My.Settings.Favorites = favstr
     End Sub
 
     Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
@@ -426,79 +470,17 @@ Public Class Form1
         Next
     End Sub
 
-
-    Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
-        ListBox1.Items.Remove(ListBox1.SelectedItem)
-    End Sub
-
-#Region "Folder Browser Dialogs and Link Labels"
-
-    Private Sub Source_Browse_LL_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles Source_Browse_LL.LinkClicked
-        Using Fldlg As New FolderBrowserDialog
-            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
-            Fldlg.SelectedPath = SourcePath_TextBox.Text
-            If Fldlg.ShowDialog = vbOK Then
-                SourcePath_TextBox.Text = Fldlg.SelectedPath
-            End If
-        End Using
-
-    End Sub
-
-
-
-    Private Sub UnsortedPathBRSR_LinkLabel_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles UnsortedPathBRSR_LinkLabel.LinkClicked
-        Using Fldlg As New FolderBrowserDialog
-            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
-            Fldlg.SelectedPath = UnsortedFolderTextBox.Text
-            If Fldlg.ShowDialog = vbOK Then
-                UnsortedFolderTextBox.Text = Fldlg.SelectedPath
-            End If
-        End Using
-
-    End Sub
-
-#End Region
-
-
-    Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
-        If LibraryList_DGV.SelectedRows.Count > 0 Then
-            Process.Start(LibraryList_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn1").Value.ToString)
-        End If
-    End Sub
-
     Private Sub OpenSource_Libary_Click(sender As Object, e As EventArgs) Handles OpenSource_Libary.Click
         If SourceLibary_DGV.SelectedRows.Count > 0 Then
             Process.Start(SourceLibary_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn").Value.ToString)
         End If
     End Sub
 
-
-#Region "Source View Menu Items"
-    Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_CHKButton.Click
-
-        For i As Integer = ComicInfoDB.SOURCEL_DB.Rows.Count - 1 To 0 Step -1
-            If Not (IsDBNull(ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status"))) Then
-
-                If ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status") = "In Libary" Then
-                    ComicInfoDB.SOURCEL_DB.Rows.Item(i).Delete()
-                End If
-            End If
-        Next i
-
-    End Sub
-
-
-
-    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs)
-        TabFunctions.CloseME(Me)
-    End Sub
-
-
-    Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles SourceLibary_DGV.SelectionChanged
+    Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles SourceLibary_DGV.SelectionChanged   ' SOURCE LIBRARY DATAGRID VIEW SELECTION CHANGE EVENT
         If IsNothing(SourceLibary_DGV.SelectedRows) Then
-            CopySelected.Enabled = False
+            CopySelected_Button.Enabled = False
         ElseIf LibaryLoaded And SourceLoaded Then
-            CopySelected.Enabled = True
+            CopySelected_Button.Enabled = True
         End If
 
         Dim TotalSelectedSize As Double = 0
@@ -525,11 +507,58 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ClearSource_Button_Click(sender As Object, e As EventArgs) Handles ClearSource_Button.Click
+    Private Sub ClearSource_Button_Click(sender As Object, e As EventArgs) Handles ClearSource_Button.Click ' CLEAR SOURCE LIBRARY
         'SourceLibary_DGV.Rows.Clear()
         ComicInfoDB.SOURCEL_DB.Clear()
         SourceLoaded = False
         enable_DupeCheck()
+    End Sub
+
+    Private Sub HideDupes_Click(sender As Object, e As EventArgs) Handles HideDupes_CHKButton.Click
+
+        For i As Integer = ComicInfoDB.SOURCEL_DB.Rows.Count - 1 To 0 Step -1
+            If Not (IsDBNull(ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status"))) Then
+
+                If ComicInfoDB.SOURCEL_DB.Rows.Item(i).Item("Unique Status") = "In Libary" Then
+                    ComicInfoDB.SOURCEL_DB.Rows.Item(i).Delete()
+                End If
+            End If
+        Next i
+
+    End Sub
+
+
+#End Region ' CHECK UNIQ, ETC
+
+#Region "MISC BUTTONS"
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Set_Font_Button.Click
+        Dim FntSel As New FontDialog
+        If FntSel.ShowDialog = DialogResult.OK Then
+            My.Settings.DGVFont = FntSel.Font
+            SourceLibary_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+            LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
+        End If
+    End Sub
+
+    Private Sub UnsortedPathBRSR_LinkLabel_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles UnsortedPathBRSR_LinkLabel.LinkClicked
+        Using Fldlg As New FolderBrowserDialog
+            Fldlg.RootFolder = Environment.SpecialFolder.Desktop
+            Fldlg.SelectedPath = DestinationFolder_TextBox.Text
+            If Fldlg.ShowDialog = vbOK Then
+                DestinationFolder_TextBox.Text = Fldlg.SelectedPath
+            End If
+        End Using
+    End Sub
+
+#End Region ' UNSORTED BROWSE AND FONT CHANGE DLG
+
+#Region "LIBRARY PANEL TASKS AND BUTTONS"
+
+    Private Sub OpenDest_ToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDest_ToolStripButton.Click
+        If LibraryList_DGV.SelectedRows.Count > 0 Then
+            Process.Start(LibraryList_DGV.SelectedRows.Item(0).Cells.Item("FilePathDataGridViewTextBoxColumn1").Value.ToString)
+        End If
     End Sub
 
     Private Sub ClearLibary_Button_Click(sender As Object, e As EventArgs) Handles ClearLibary_Button.Click
@@ -539,25 +568,8 @@ Public Class Form1
         enable_DupeCheck()
     End Sub
 
-    Private Sub LinkLabel4_LinkClicked_1(sender As Object, e As LinkLabelLinkClickedEventArgs)
-        Dim FileOpen As New OpenFileDialog
-        FileOpen.ShowDialog()
-
-        Dim ds As New DataSet
-        ds.ReadXml(FileOpen.FileName)
-        For Each datatable As DataTable In ds.Tables
-            Console.WriteLine(datatable.TableName)
-            'For Each row As DataRow In datatable.Rows
-
-            'Next
-
-        Next
-        For Each row As DataRow In ds.Tables.Item("ComicDatabase").Rows
-            Console.WriteLine(row.Item(0))
-        Next
 
 
-    End Sub
 
 
 #End Region
@@ -696,15 +708,13 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ToolStripButton1_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
-        TabFunctions.CloseME(Me)
-    End Sub
+
 
 
 
 #Region "Copy Files Region"
 
-    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected.Click
+    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button.Click
         If Not (CopySelected_BackgroundWorker.IsBusy) Then
             CopySelected_BackgroundWorker.RunWorkerAsync()
         End If
@@ -751,7 +761,7 @@ Public Class Form1
 
             Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
             Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
-            Dim destfilename As String = UnsortedFolderTextBox.Text & "\" & srcfilename
+            Dim destfilename As String = DestinationFolder_TextBox.Text & "\" & srcfilename
             ProgressReport.Current = cnt
             ProgressReport.ReportType = "update"
             ProgressReport.TextMessage = cnt & " Files of " & SourceLibary_DGV.SelectedRows.Count & " copied. Current File: " & srcfilename
@@ -760,7 +770,7 @@ Public Class Form1
             Try
                 Dim cpyTask As New CopyThread()
                 Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
-                cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
+                'cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
                 cpyTask.srcfullfilename = srcfullfilename
                 cpyTask.destfilename = destfilename
                 Thread1.Start()
@@ -778,7 +788,7 @@ Public Class Form1
         Next
         ProgressReport.Current = cnt
         ProgressReport.ReportType = "finish"
-        ProgressReport.TextMessage = cnt & " Files copied to " & UnsortedFolderTextBox.Text
+        ProgressReport.TextMessage = cnt & " Files copied to " & DestinationFolder_TextBox.Text
         CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
 
 
@@ -799,14 +809,8 @@ Public Class Form1
         VerticalToolStripMenuItem.Checked = False
     End Sub
 
-    Private Sub SourceToolStrip_ItemClicked(sender As Object, e As EventArgs) Handles SourceToolStrip.SizeChanged
+    Private Sub BrowseSource_Button_Click(sender As Object, e As EventArgs)
 
-    End Sub
-
-    Private Sub SourceToolStrip_Resize(sender As Object, e As EventArgs) Handles SourceToolStrip.Resize
-        If DGVsSplitContainer.Orientation = Orientation.Vertical Then
-            ToolStrip2.Height = SourceToolStrip.Height
-        End If
     End Sub
 
 
@@ -820,11 +824,9 @@ Class CopyThread
 
     Sub CopyFile()
         Try
-            If showsysteminfo Then
-                My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename, FileIO.UIOption.AllDialogs)
-            Else
-                My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
-            End If
+
+            My.Computer.FileSystem.CopyFile(srcfullfilename, destfilename)
+
             copyok = True
         Catch ex As Exception
             copyok = False

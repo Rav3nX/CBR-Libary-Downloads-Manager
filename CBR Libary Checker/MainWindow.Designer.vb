@@ -30,9 +30,9 @@ Partial Class Main
         Me.LibarySettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabPlane = New System.Windows.Forms.TabControl()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ComicInfoDB1 = New CBR_Libary_Checker.ComicInfoDB()
         Me.FileManager_Button = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ComicInfoDB1 = New CBR_Libary_Checker.ComicInfoDB()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.ComicInfoDB1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -44,8 +44,8 @@ Partial Class Main
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(4, 2, 0, 2)
-        Me.MenuStrip1.Size = New System.Drawing.Size(1144, 24)
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(5, 2, 0, 2)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1525, 28)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -53,52 +53,47 @@ Partial Class Main
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(44, 24)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(92, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(108, 26)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LibarySettingsToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(73, 24)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'LibarySettingsToolStripMenuItem
         '
         Me.LibarySettingsToolStripMenuItem.Name = "LibarySettingsToolStripMenuItem"
-        Me.LibarySettingsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.LibarySettingsToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.LibarySettingsToolStripMenuItem.Text = "Libary Settings"
         '
         'TabPlane
         '
         Me.TabPlane.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabPlane.Location = New System.Drawing.Point(0, 65)
+        Me.TabPlane.Location = New System.Drawing.Point(0, 55)
+        Me.TabPlane.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TabPlane.Name = "TabPlane"
         Me.TabPlane.SelectedIndex = 0
-        Me.TabPlane.Size = New System.Drawing.Size(1144, 697)
+        Me.TabPlane.Size = New System.Drawing.Size(1525, 883)
         Me.TabPlane.TabIndex = 3
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.AutoSize = False
         Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileManager_Button, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 24)
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 28)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1144, 41)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1525, 27)
         Me.ToolStrip1.TabIndex = 2
         Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        'ComicInfoDB1
-        '
-        Me.ComicInfoDB1.DataSetName = "ComicInfoDB"
-        Me.ComicInfoDB1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'FileManager_Button
         '
@@ -106,27 +101,32 @@ Partial Class Main
         Me.FileManager_Button.Image = CType(resources.GetObject("FileManager_Button.Image"), System.Drawing.Image)
         Me.FileManager_Button.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.FileManager_Button.Name = "FileManager_Button"
-        Me.FileManager_Button.Size = New System.Drawing.Size(194, 38)
-        Me.FileManager_Button.Text = "Comic File Download Manager"
+        Me.FileManager_Button.Size = New System.Drawing.Size(260, 24)
+        Me.FileManager_Button.Text = "Comic Library Download Manager"
         '
         'ToolStripButton1
         '
         Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(101, 38)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(122, 24)
         Me.ToolStripButton1.Text = "Libary Viewer"
+        '
+        'ComicInfoDB1
+        '
+        Me.ComicInfoDB1.DataSetName = "ComicInfoDB"
+        Me.ComicInfoDB1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'Main
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1144, 762)
+        Me.ClientSize = New System.Drawing.Size(1525, 938)
         Me.Controls.Add(Me.TabPlane)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "Main"
         Me.Text = "MainWindow"
         Me.MenuStrip1.ResumeLayout(False)

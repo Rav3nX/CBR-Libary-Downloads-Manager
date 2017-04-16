@@ -29,6 +29,8 @@ Public Class Form1
     Private HashThread As Thread
     Private CopyProg As Thread
     Private LastBrowserSplitterWidth As Integer
+    Private SourceFetchedRows As New List(Of ComicInfoDB.SOURCEL_DBRow)
+    Private LibrartFetchedRows As New List(Of ComicInfoDB.LIBARY_DBRow)
 
     Private SourcePath As String
     Private LibraryPath As String
@@ -105,6 +107,8 @@ Public Class Form1
             SOURCELDBBindingSource.SuspendBinding()
             SourcePath = SourcePath_ComboBox.Text
             LoadSource_BackgroundWorker.RunWorkerAsync()
+            'LoadSourceFiles(Me, Nothing)
+
         End If
     End Sub
 
@@ -128,6 +132,9 @@ Public Class Form1
     End Sub
 
     Private Sub LoadSource_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadSource_BackgroundWorker.RunWorkerCompleted
+        For Each row As DataRow In SourceFetchedRows
+            ComicInfoDB.SOURCEL_DB.Rows.Add(row)
+        Next
         SOURCELDBBindingSource.ResumeBinding()
         SourceLibary_DGV.Visible = False
         SourceLibary_DGV.Visible = True
@@ -137,9 +144,9 @@ Public Class Form1
 
     Private Sub LoadSourceFiles(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles LoadSource_BackgroundWorker.DoWork
 
-        'Dim Worker As BackgroundWorker = CType(sender, BackgroundWorker)
-        Dim ProgressReport As New ProgressReport
+        SourceFetchedRows.Clear()
 
+        Dim ProgressReport As New ProgressReport
         Dim directory As String = SourcePath
         Dim Source_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
         Dim cnt As Integer
@@ -195,7 +202,8 @@ Public Class Form1
                         newrow("Date Created") = filedate.ToString("dd-MMM-yyyy")
                         newrow("SHA1 Hash") = hash
                         'sync
-                        ComicInfoDB.SOURCEL_DB.Rows.Add(newrow)
+                        SourceFetchedRows.Add(newrow)
+                        ' ComicInfoDB.SOURCEL_DB.Rows.Add(newrow)
 
                         ProgressReport.Current = cnt
                         ProgressReport.ReportType = "update"
@@ -210,7 +218,7 @@ Public Class Form1
             End Try
         Next
 
-        ProgressReport.TextMessage = "Loading Source complete. " & Source_FileNames.Count & " Added to list."
+        ProgressReport.TextMessage = "Loading Source complete. " & Source_FileNames.Count & " Adding files to list...."
         ProgressReport.ReportType = "finish"
         LoadSource_BackgroundWorker.ReportProgress(0, ProgressReport)
 
@@ -248,6 +256,9 @@ Public Class Form1
     End Sub
 
     Private Sub LoadLibrary_RunWorkCompleated(sender As System.Object, e As RunWorkerCompletedEventArgs) Handles LoadLibrary_BackgroundWorker.RunWorkerCompleted
+        For Each row As DataRow In LibrartFetchedRows
+            ComicInfoDB.LIBARY_DB.Rows.Add(row)
+        Next
         LIBARYDBBindingSource.ResumeBinding()
         LibraryList_DGV.Visible = False
         LibraryList_DGV.Visible = True
@@ -257,6 +268,7 @@ Public Class Form1
 
     Private Sub LoadLibraryFiles(ByVal sender As System.Object, ByVal e As DoWorkEventArgs) Handles LoadLibrary_BackgroundWorker.DoWork
 
+        LibrartFetchedRows.Clear()
         Dim ProgressReport As New ProgressReport
         Dim directory As String = My.Settings.LibaryFolder
         Dim Library_FileNames() As String = IO.Directory.GetFiles(directory, "*.cb*", IO.SearchOption.AllDirectories)
@@ -295,7 +307,8 @@ Public Class Form1
                 newrow("Date Created") = filedate.ToString("dd-MMM-yyyy")
                 newrow("SHA1 Hash") = hash
 
-                ComicInfoDB.LIBARY_DB.Rows.Add(newrow) ' ADD THE ROW TO THE DATASET
+                LibrartFetchedRows.Add(newrow)
+                'ComicInfoDB.LIBARY_DB.Rows.Add(newrow) ' ADD THE ROW TO THE DATASET
 
                 ProgressReport.Current = cnt
                 ProgressReport.ReportType = "update"
@@ -306,7 +319,7 @@ Public Class Form1
             End Try
         Next
 
-        ProgressReport.TextMessage = "Loading Library complete. " & Library_FileNames.Count & " Added to list."
+        ProgressReport.TextMessage = "Loading Library complete. " & Library_FileNames.Count & " Adding found files to list...."
         ProgressReport.ReportType = "finish"
         LoadLibrary_BackgroundWorker.ReportProgress(0, ProgressReport)
         LibaryLoaded = True
@@ -403,18 +416,19 @@ Public Class Form1
 
 #Region "Drag and Drop"
     Private Sub SourceLibary_DGV_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles SourceLibary_DGV.CellMouseDown ' SOURCE DATAGRIDVIEW DRAG OFF
-        Try
-            If Me.SourceLibary_DGV.SelectedRows.Count = 0 Then
-                Exit Sub
-            End If
 
-            Dim info As DataGridView.HitTestInfo = Me.SourceLibary_DGV.HitTest(e.X, e.Y)
+
+
+
+    End Sub
+    Private Sub SourceLibary_DGV_MouseDown(sender As Object, e As MouseEventArgs) Handles SourceLibary_DGV.MouseDown
+        'Dim info As DataGridView.HitTestInfo = Me.SourceLibary_DGV.HitTest(e.X, e.Y)
+        If My.Computer.Keyboard.CtrlKeyDown Then
             Dim rows As DataGridViewSelectedRowCollection = Me.SourceLibary_DGV.SelectedRows
             Me.SourceLibary_DGV.DoDragDrop(rows, DragDropEffects.Copy)
+        End If
 
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+
     End Sub
 
     Private Sub treeTwo_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView1.DragOver
@@ -887,6 +901,8 @@ Public Class Form1
             status.Text = "Hash Generation Complete."
         End If
     End Sub
+
+
 
 
 

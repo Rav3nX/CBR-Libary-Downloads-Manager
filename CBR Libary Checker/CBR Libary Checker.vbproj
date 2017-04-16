@@ -47,7 +47,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>micon.ico</ApplicationIcon>
+    <ApplicationIcon>Dominicanjoker-Comic-Publisher-Folder-Marvel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JacksonSoft.CustomTabControl">
@@ -219,7 +219,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dominicanjoker-Comic-Publisher-Folder-Marvel.ico" />
     <Content Include="micon.ico" />
+    <None Include="Resources\touch_gestures_tap_drag_move-512.png" />
     <None Include="Resources\Dark-Horse-v2-icon.png" />
     <None Include="Resources\Settings-L-icon.png" />
     <None Include="Resources\041-favor_add.png" />

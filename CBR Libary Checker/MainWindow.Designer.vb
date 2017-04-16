@@ -79,7 +79,7 @@ Partial Class Main
         '
         Me.TabPlane.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabPlane.Location = New System.Drawing.Point(0, 55)
-        Me.TabPlane.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPlane.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPlane.Name = "TabPlane"
         Me.TabPlane.SelectedIndex = 0
         Me.TabPlane.Size = New System.Drawing.Size(1525, 883)
@@ -125,6 +125,7 @@ Partial Class Main
         Me.Controls.Add(Me.TabPlane)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "Main"

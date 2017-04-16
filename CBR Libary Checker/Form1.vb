@@ -3,6 +3,8 @@
 Imports System.ComponentModel
 Imports System.Globalization
 Imports System.IO
+Imports ntfs
+
 Imports System.Runtime.CompilerServices
 Imports System.Security.Cryptography
 Imports System.Threading
@@ -423,7 +425,7 @@ Public Class Form1
     End Sub
     Private Sub SourceLibary_DGV_MouseDown(sender As Object, e As MouseEventArgs) Handles SourceLibary_DGV.MouseDown
         'Dim info As DataGridView.HitTestInfo = Me.SourceLibary_DGV.HitTest(e.X, e.Y)
-        If My.Computer.Keyboard.CtrlKeyDown Then
+        If My.Computer.Keyboard.CtrlKeyDown Or EnableDragging_Button.Checked Then
             Dim rows As DataGridViewSelectedRowCollection = Me.SourceLibary_DGV.SelectedRows
             Me.SourceLibary_DGV.DoDragDrop(rows, DragDropEffects.Copy)
         End If
@@ -586,6 +588,13 @@ Public Class Form1
             DestinationFolder_TextBox.Text = DirInfo.FullName
         End If
     End Sub
+    Private Sub OpenFolderInExplorer_Click(sender As Object, e As EventArgs) Handles OpenFolderInExplorerToolStripMenuItem.Click
+        If TreeView1.SelectedNode IsNot Nothing Then
+            Dim DirInfo As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            Process.Start(DirInfo.FullName)
+        End If
+    End Sub
+
 
     Private Sub LoadThisFolderInLibraryList_Click(sender As Object, e As EventArgs) Handles LoadThisFolderInLibraryListToolStripMenuItem.Click
 

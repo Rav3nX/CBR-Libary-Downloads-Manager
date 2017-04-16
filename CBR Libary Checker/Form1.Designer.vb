@@ -25,8 +25,8 @@ Partial Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.SOURCELDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.ComicInfoDB = New CBR_Libary_Checker.ComicInfoDB()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
@@ -79,6 +79,7 @@ Partial Class Form1
         Me.GetSourceHashes_Button = New System.Windows.Forms.ToolStripButton()
         Me.CopySelected_Button = New System.Windows.Forms.ToolStripButton()
         Me.Selection_Label = New System.Windows.Forms.ToolStripLabel()
+        Me.EnableDragging_Button = New System.Windows.Forms.ToolStripButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.DestinationFolder_TextBox = New System.Windows.Forms.TextBox()
@@ -125,6 +126,7 @@ Partial Class Form1
         Me.SetThisFolderAsCopyDestinationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
         Me.LoadThisFolderInLibraryListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenFolderInExplorerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.ListView_ToolStripSplitButton1 = New System.Windows.Forms.ToolStripSplitButton()
@@ -353,7 +355,7 @@ Partial Class Form1
         '
         Me.SourceToolStrip.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SourceToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.GetSourceHashes_Button, Me.CopySelected_Button, Me.Selection_Label})
+        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.GetSourceHashes_Button, Me.CopySelected_Button, Me.EnableDragging_Button, Me.Selection_Label})
         Me.SourceToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
@@ -378,7 +380,7 @@ Partial Class Form1
         'Scan_Options_ToolStripSplitButton
         '
         Me.Scan_Options_ToolStripSplitButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HidePartial_Check, Me.HideUnwanted_Check, Me.ToolStripMenuItem3, Me.GetHashesOnScanToolStripMenuItem})
-        Me.Scan_Options_ToolStripSplitButton.Image = CType(resources.GetObject("Scan_Options_ToolStripSplitButton.Image"), System.Drawing.Image)
+        Me.Scan_Options_ToolStripSplitButton.Image = Global.CBR_Libary_Checker.My.Resources.Resources.Search_Folder_icon
         Me.Scan_Options_ToolStripSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Scan_Options_ToolStripSplitButton.Name = "Scan_Options_ToolStripSplitButton"
         Me.Scan_Options_ToolStripSplitButton.Size = New System.Drawing.Size(128, 24)
@@ -596,6 +598,15 @@ Partial Class Form1
         Me.Selection_Label.Name = "Selection_Label"
         Me.Selection_Label.Size = New System.Drawing.Size(104, 18)
         Me.Selection_Label.Text = "None Selected."
+        '
+        'EnableDragging_Button
+        '
+        Me.EnableDragging_Button.CheckOnClick = True
+        Me.EnableDragging_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.touch_gestures_tap_drag_move_512
+        Me.EnableDragging_Button.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.EnableDragging_Button.Name = "EnableDragging_Button"
+        Me.EnableDragging_Button.Size = New System.Drawing.Size(134, 24)
+        Me.EnableDragging_Button.Text = "Enable Dragging"
         '
         'Panel1
         '
@@ -987,9 +998,9 @@ Partial Class Form1
         'NodeContextMenuStrip
         '
         Me.NodeContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.NodeContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetThisFolderAsCopyDestinationToolStripMenuItem, Me.ToolStripMenuItem4, Me.LoadThisFolderInLibraryListToolStripMenuItem})
+        Me.NodeContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetThisFolderAsCopyDestinationToolStripMenuItem, Me.ToolStripMenuItem4, Me.LoadThisFolderInLibraryListToolStripMenuItem, Me.OpenFolderInExplorerToolStripMenuItem})
         Me.NodeContextMenuStrip.Name = "ContextMenuStrip1"
-        Me.NodeContextMenuStrip.Size = New System.Drawing.Size(316, 62)
+        Me.NodeContextMenuStrip.Size = New System.Drawing.Size(316, 88)
         '
         'SetThisFolderAsCopyDestinationToolStripMenuItem
         '
@@ -1007,6 +1018,12 @@ Partial Class Form1
         Me.LoadThisFolderInLibraryListToolStripMenuItem.Name = "LoadThisFolderInLibraryListToolStripMenuItem"
         Me.LoadThisFolderInLibraryListToolStripMenuItem.Size = New System.Drawing.Size(315, 26)
         Me.LoadThisFolderInLibraryListToolStripMenuItem.Text = "Load this folder in Library List"
+        '
+        'OpenFolderInExplorerToolStripMenuItem
+        '
+        Me.OpenFolderInExplorerToolStripMenuItem.Name = "OpenFolderInExplorerToolStripMenuItem"
+        Me.OpenFolderInExplorerToolStripMenuItem.Size = New System.Drawing.Size(315, 26)
+        Me.OpenFolderInExplorerToolStripMenuItem.Text = "Open Folder In Explorer"
         '
         'ToolStrip1
         '
@@ -1221,4 +1238,6 @@ Partial Class Form1
     Friend WithEvents MyLibraryHeader_Panel As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents HideShowLibrary_Treeview_Button As ToolStripButton
+    Friend WithEvents OpenFolderInExplorerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EnableDragging_Button As ToolStripButton
 End Class

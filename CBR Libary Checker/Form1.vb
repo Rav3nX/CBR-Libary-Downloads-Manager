@@ -341,14 +341,22 @@ Public Class Form1
     Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
     Private CopyDestination As String
     Private FilesToCopy_RowCollection As DataGridViewSelectedRowCollection
+    Private PreserveDirectory As Boolean
 
-    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button.Click
+    Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button2.ButtonClick
+
         If Not (CopySelected_BackgroundWorker.IsBusy) Then
             CopyDestination = DestinationFolder_TextBox.Text
             FilesToCopy_RowCollection = SourceLibary_DGV.SelectedRows
             CopySelected_BackgroundWorker.RunWorkerAsync()
         End If
     End Sub
+
+    Private Sub CopyPRESDir_Button_Click(sender As Object, e As EventArgs) Handles CopyPRESDir_Button.Click
+        PreserveDirectory = CopyPRESDir_Button.Checked
+
+    End Sub
+
 
     Private Sub CopyFiles_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles CopySelected_BackgroundWorker.ProgressChanged
         Dim ProgressReport As New ProgressReport
@@ -388,40 +396,43 @@ Public Class Form1
         For Each row As DataGridViewRow In FilesToCopy_RowCollection 'SourceLibary_DGV.SelectedRows
 
             cnt += 1
+            Dim FILE_SRC_filename As String = row.Cells.Item("FileName").Value.ToString
+            Dim FILE_SRC_fullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim FILE_Dest_FullFileName As String
 
-            Dim srcfilename As String = row.Cells.Item("FileName").Value.ToString
-            Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
-            Dim destfilename As String = CopyDestination & "\" & srcfilename
             ProgressReport.Current = cnt
             ProgressReport.ReportType = "update"
-            ProgressReport.TextMessage = cnt & " Files of " & FilesToCopy_RowCollection.Count & " copied. Current File: " & srcfilename
+            ProgressReport.TextMessage = cnt & " Files of " & FilesToCopy_RowCollection.Count & " copied. Current File: " & FILE_SRC_fullfilename
             CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
 
+            If PreserveDirectory Then
+
+                Dim Rel_PATH As String = IO.Path.GetDirectoryName(FILE_SRC_fullfilename)
+                Rel_PATH = Rel_PATH.Remove(0, SourcePath.Length) & "\"
+                Dim Dest_PATH As String = CopyDestination & Rel_PATH
+                FILE_Dest_FullFileName = Dest_PATH & FILE_SRC_filename
+                Directory.CreateDirectory(Dest_PATH)
+
+            Else
+
+                FILE_Dest_FullFileName = CopyDestination & "\" & FILE_SRC_filename
+            End If
+
             Try
-                Dim cpyTask As New CopyThread()
-                Dim Thread1 As New System.Threading.Thread(AddressOf cpyTask.CopyFile)
-                'cpyTask.showsysteminfo = ShowCopy_CheckBox.Checked
-                cpyTask.srcfullfilename = srcfullfilename
-                cpyTask.destfilename = destfilename
-                Thread1.Start()
-                Thread1.Join()
-                If cpyTask.copyok Then
-                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
-                    row.Cells.Item("UniqueStatusDataGridViewTextBoxColumn").Value = "In Library"
-                Else
-                    row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
-                End If
-
+                'MsgBox(FILE_Dest_FullFileName)
+                My.Computer.FileSystem.CopyFile(FILE_SRC_fullfilename, FILE_Dest_FullFileName)
+                row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "COPIED"
+                row.Cells.Item("UniqueStatusDataGridViewTextBoxColumn").Value = "In Library"
             Catch ex As Exception
-                MsgBox(ex.Message)
+                row.Cells.Item("CopyStatusDataGridViewTextBoxColumn").Value = "FAILED"
+                MsgBox("An Error Occured Copying " & FILE_SRC_filename & vbLf & ex.Message)
             End Try
-
         Next
+
         ProgressReport.Current = cnt
         ProgressReport.ReportType = "finish"
         ProgressReport.TextMessage = cnt & " Copy Complete. " & cnt & " Files copied to " & DestinationFolder_TextBox.Text
         CopySelected_BackgroundWorker.ReportProgress(0, ProgressReport)
-
 
     End Sub
 #End Region
@@ -584,7 +595,10 @@ Public Class Form1
     End Sub
 
     Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
-
+        If TreeView1.SelectedNode IsNot Nothing Then
+            Dim DirInfo As DirectoryInfo = CType(TreeView1.SelectedNode.Tag, DirectoryInfo)
+            DestinationFolder_TextBox.Text = DirInfo.FullName
+        End If
     End Sub
 
     Private Sub TreeView1_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseClick
@@ -665,9 +679,9 @@ Public Class Form1
 
     Private Sub FileList_SelectionChanged(sender As Object, e As EventArgs) Handles SourceLibary_DGV.SelectionChanged   ' SOURCE LIBRARY DATAGRID VIEW SELECTION CHANGE EVENT
         If IsNothing(SourceLibary_DGV.SelectedRows) Then
-            CopySelected_Button.Enabled = False
+            CopySelected_Button2.Enabled = False
         ElseIf LibaryLoaded And SourceLoaded Then
-            CopySelected_Button.Enabled = True
+            CopySelected_Button2.Enabled = True
         End If
 
         Dim TotalSelectedSize As Double = 0
@@ -969,6 +983,23 @@ Public Class Form1
         SOURCELDBBindingSource.Filter = filterstring
 
     End Sub
+
+    Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
+
+    End Sub
+
+    Private Sub Form1_Layout(sender As Object, e As LayoutEventArgs) Handles Me.Layout
+
+    End Sub
+
+    Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.F2 Then EnableDragging_Button.PerformClick()
+    End Sub
+
+
+
+
+
 
 
 

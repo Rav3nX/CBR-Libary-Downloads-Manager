@@ -579,6 +579,11 @@ Public Class FolderCreator
         End If
     End Sub
 
+    Private Sub Apply_Filter_Button_Click(sender As Object, e As EventArgs) Handles Apply_Filter_Button.Click
+        Dim filterstring As String = "FileName like '%" & Filter_String_TextBox.Text & "%'"
+        LIBARYDBBindingSource.Filter = filterstring
+    End Sub
+
 
 
 

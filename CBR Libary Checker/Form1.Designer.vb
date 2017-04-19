@@ -77,7 +77,8 @@ Partial Class Form1
         Me.ClearSource_Button = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.GetSourceHashes_Button = New System.Windows.Forms.ToolStripButton()
-        Me.CopySelected_Button = New System.Windows.Forms.ToolStripButton()
+        Me.CopySelected_Button2 = New System.Windows.Forms.ToolStripSplitButton()
+        Me.CopyPRESDir_Button = New System.Windows.Forms.ToolStripMenuItem()
         Me.EnableDragging_Button = New System.Windows.Forms.ToolStripButton()
         Me.Selection_Label = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
@@ -88,6 +89,17 @@ Partial Class Form1
         Me.DestinationFolder_TextBox = New System.Windows.Forms.TextBox()
         Me.UnsortedPathBRSR_LinkLabel = New System.Windows.Forms.LinkLabel()
         Me.LibraryList_DGV = New System.Windows.Forms.DataGridView()
+        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Library_FileName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.LIBARYDBBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.LoadLibary_Button = New System.Windows.Forms.ToolStripButton()
@@ -126,17 +138,6 @@ Partial Class Form1
         Me.VerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HorizontalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HideShowLibrary_Treeview_Button = New System.Windows.Forms.ToolStripButton()
-        Me.FileIDDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Library_FileName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullFileNameDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileTypeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilePathDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PathRelRootDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DateCreatedDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FileSizeDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SHA1HashDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UniqueStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CopyStatusDataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.SOURCELDBBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ComicInfoDB, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
@@ -358,7 +359,7 @@ Partial Class Form1
         '
         Me.SourceToolStrip.Font = New System.Drawing.Font("Candara", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SourceToolStrip.ImageScalingSize = New System.Drawing.Size(30, 30)
-        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.GetSourceHashes_Button, Me.CopySelected_Button, Me.EnableDragging_Button, Me.Selection_Label, Me.ToolStripLabel2, Me.SourceSearchStr, Me.ToolStripButton3})
+        Me.SourceToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadSource_Button, Me.SourceLibary_ProgressBar, Me.Scan_Options_ToolStripSplitButton, Me.OpenSource_Libary, Me.ToolStripSeparator1, Me.ToolStripDropDownButton1, Me.ToolStripSeparator2, Me.CheckUnique_Button, Me.ClearSource_Button, Me.ToolStripSeparator3, Me.GetSourceHashes_Button, Me.CopySelected_Button2, Me.EnableDragging_Button, Me.Selection_Label, Me.ToolStripLabel2, Me.SourceSearchStr, Me.ToolStripButton3})
         Me.SourceToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.SourceToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SourceToolStrip.Name = "SourceToolStrip"
@@ -588,13 +589,22 @@ Partial Class Form1
         Me.GetSourceHashes_Button.Size = New System.Drawing.Size(112, 34)
         Me.GetSourceHashes_Button.Text = "Get Hashes"
         '
-        'CopySelected_Button
+        'CopySelected_Button2
         '
-        Me.CopySelected_Button.Image = Global.CBR_Libary_Checker.My.Resources.Resources.copy_icon__3
-        Me.CopySelected_Button.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.CopySelected_Button.Name = "CopySelected_Button"
-        Me.CopySelected_Button.Size = New System.Drawing.Size(189, 34)
-        Me.CopySelected_Button.Text = "Copy Selected To Libary"
+        Me.CopySelected_Button2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyPRESDir_Button})
+        Me.CopySelected_Button2.Image = Global.CBR_Libary_Checker.My.Resources.Resources.copy_icon__3
+        Me.CopySelected_Button2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CopySelected_Button2.Name = "CopySelected_Button2"
+        Me.CopySelected_Button2.Size = New System.Drawing.Size(204, 34)
+        Me.CopySelected_Button2.Text = "Copy Selected To Libary"
+        '
+        'CopyPRESDir_Button
+        '
+        Me.CopyPRESDir_Button.Checked = Global.CBR_Libary_Checker.My.MySettings.Default.PreserveDirectoryStructure
+        Me.CopyPRESDir_Button.CheckOnClick = True
+        Me.CopyPRESDir_Button.Name = "CopyPRESDir_Button"
+        Me.CopyPRESDir_Button.Size = New System.Drawing.Size(305, 26)
+        Me.CopyPRESDir_Button.Text = "Copy Preserving Directory Structure"
         '
         'EnableDragging_Button
         '
@@ -695,6 +705,77 @@ Partial Class Form1
         Me.LibraryList_DGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.LibraryList_DGV.Size = New System.Drawing.Size(1191, 480)
         Me.LibraryList_DGV.TabIndex = 4
+        '
+        'FileIDDataGridViewTextBoxColumn1
+        '
+        Me.FileIDDataGridViewTextBoxColumn1.DataPropertyName = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn1.HeaderText = "File ID"
+        Me.FileIDDataGridViewTextBoxColumn1.Name = "FileIDDataGridViewTextBoxColumn1"
+        '
+        'Library_FileName
+        '
+        Me.Library_FileName.DataPropertyName = "FileName"
+        Me.Library_FileName.HeaderText = "File Name"
+        Me.Library_FileName.Name = "Library_FileName"
+        '
+        'FullFileNameDataGridViewTextBoxColumn1
+        '
+        Me.FullFileNameDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.FullFileNameDataGridViewTextBoxColumn1.DataPropertyName = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn1.HeaderText = "Full File Name"
+        Me.FullFileNameDataGridViewTextBoxColumn1.Name = "FullFileNameDataGridViewTextBoxColumn1"
+        '
+        'FileTypeDataGridViewTextBoxColumn1
+        '
+        Me.FileTypeDataGridViewTextBoxColumn1.DataPropertyName = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn1.HeaderText = "File Type"
+        Me.FileTypeDataGridViewTextBoxColumn1.Name = "FileTypeDataGridViewTextBoxColumn1"
+        '
+        'FilePathDataGridViewTextBoxColumn1
+        '
+        Me.FilePathDataGridViewTextBoxColumn1.DataPropertyName = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn1.HeaderText = "File Path"
+        Me.FilePathDataGridViewTextBoxColumn1.Name = "FilePathDataGridViewTextBoxColumn1"
+        '
+        'PathRelRootDataGridViewTextBoxColumn1
+        '
+        Me.PathRelRootDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.PathRelRootDataGridViewTextBoxColumn1.DataPropertyName = "Path Rel Root"
+        Me.PathRelRootDataGridViewTextBoxColumn1.HeaderText = "Path Rel Root"
+        Me.PathRelRootDataGridViewTextBoxColumn1.Name = "PathRelRootDataGridViewTextBoxColumn1"
+        '
+        'DateCreatedDataGridViewTextBoxColumn1
+        '
+        Me.DateCreatedDataGridViewTextBoxColumn1.DataPropertyName = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn1.HeaderText = "Date Created"
+        Me.DateCreatedDataGridViewTextBoxColumn1.Name = "DateCreatedDataGridViewTextBoxColumn1"
+        '
+        'FileSizeDataGridViewTextBoxColumn1
+        '
+        Me.FileSizeDataGridViewTextBoxColumn1.DataPropertyName = "File Size"
+        DataGridViewCellStyle3.Format = "0.00"" Mb"""
+        DataGridViewCellStyle3.NullValue = Nothing
+        Me.FileSizeDataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
+        Me.FileSizeDataGridViewTextBoxColumn1.HeaderText = "File Size"
+        Me.FileSizeDataGridViewTextBoxColumn1.Name = "FileSizeDataGridViewTextBoxColumn1"
+        '
+        'SHA1HashDataGridViewTextBoxColumn1
+        '
+        Me.SHA1HashDataGridViewTextBoxColumn1.DataPropertyName = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn1.HeaderText = "SHA1 Hash"
+        Me.SHA1HashDataGridViewTextBoxColumn1.Name = "SHA1HashDataGridViewTextBoxColumn1"
+        '
+        'UniqueStatusDataGridViewTextBoxColumn1
+        '
+        Me.UniqueStatusDataGridViewTextBoxColumn1.DataPropertyName = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn1.HeaderText = "Unique Status"
+        Me.UniqueStatusDataGridViewTextBoxColumn1.Name = "UniqueStatusDataGridViewTextBoxColumn1"
+        '
+        'CopyStatusDataGridViewTextBoxColumn1
+        '
+        Me.CopyStatusDataGridViewTextBoxColumn1.DataPropertyName = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn1.HeaderText = "Copy Status"
+        Me.CopyStatusDataGridViewTextBoxColumn1.Name = "CopyStatusDataGridViewTextBoxColumn1"
         '
         'LIBARYDBBindingSource
         '
@@ -1042,77 +1123,6 @@ Partial Class Form1
         Me.HideShowLibrary_Treeview_Button.Size = New System.Drawing.Size(186, 22)
         Me.HideShowLibrary_Treeview_Button.Text = "Hide / Show Library Browser"
         '
-        'FileIDDataGridViewTextBoxColumn1
-        '
-        Me.FileIDDataGridViewTextBoxColumn1.DataPropertyName = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn1.HeaderText = "File ID"
-        Me.FileIDDataGridViewTextBoxColumn1.Name = "FileIDDataGridViewTextBoxColumn1"
-        '
-        'Library_FileName
-        '
-        Me.Library_FileName.DataPropertyName = "FileName"
-        Me.Library_FileName.HeaderText = "File Name"
-        Me.Library_FileName.Name = "Library_FileName"
-        '
-        'FullFileNameDataGridViewTextBoxColumn1
-        '
-        Me.FullFileNameDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.FullFileNameDataGridViewTextBoxColumn1.DataPropertyName = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn1.HeaderText = "Full File Name"
-        Me.FullFileNameDataGridViewTextBoxColumn1.Name = "FullFileNameDataGridViewTextBoxColumn1"
-        '
-        'FileTypeDataGridViewTextBoxColumn1
-        '
-        Me.FileTypeDataGridViewTextBoxColumn1.DataPropertyName = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn1.HeaderText = "File Type"
-        Me.FileTypeDataGridViewTextBoxColumn1.Name = "FileTypeDataGridViewTextBoxColumn1"
-        '
-        'FilePathDataGridViewTextBoxColumn1
-        '
-        Me.FilePathDataGridViewTextBoxColumn1.DataPropertyName = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn1.HeaderText = "File Path"
-        Me.FilePathDataGridViewTextBoxColumn1.Name = "FilePathDataGridViewTextBoxColumn1"
-        '
-        'PathRelRootDataGridViewTextBoxColumn1
-        '
-        Me.PathRelRootDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.PathRelRootDataGridViewTextBoxColumn1.DataPropertyName = "Path Rel Root"
-        Me.PathRelRootDataGridViewTextBoxColumn1.HeaderText = "Path Rel Root"
-        Me.PathRelRootDataGridViewTextBoxColumn1.Name = "PathRelRootDataGridViewTextBoxColumn1"
-        '
-        'DateCreatedDataGridViewTextBoxColumn1
-        '
-        Me.DateCreatedDataGridViewTextBoxColumn1.DataPropertyName = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn1.HeaderText = "Date Created"
-        Me.DateCreatedDataGridViewTextBoxColumn1.Name = "DateCreatedDataGridViewTextBoxColumn1"
-        '
-        'FileSizeDataGridViewTextBoxColumn1
-        '
-        Me.FileSizeDataGridViewTextBoxColumn1.DataPropertyName = "File Size"
-        DataGridViewCellStyle3.Format = "0.00"" Mb"""
-        DataGridViewCellStyle3.NullValue = Nothing
-        Me.FileSizeDataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle3
-        Me.FileSizeDataGridViewTextBoxColumn1.HeaderText = "File Size"
-        Me.FileSizeDataGridViewTextBoxColumn1.Name = "FileSizeDataGridViewTextBoxColumn1"
-        '
-        'SHA1HashDataGridViewTextBoxColumn1
-        '
-        Me.SHA1HashDataGridViewTextBoxColumn1.DataPropertyName = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn1.HeaderText = "SHA1 Hash"
-        Me.SHA1HashDataGridViewTextBoxColumn1.Name = "SHA1HashDataGridViewTextBoxColumn1"
-        '
-        'UniqueStatusDataGridViewTextBoxColumn1
-        '
-        Me.UniqueStatusDataGridViewTextBoxColumn1.DataPropertyName = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn1.HeaderText = "Unique Status"
-        Me.UniqueStatusDataGridViewTextBoxColumn1.Name = "UniqueStatusDataGridViewTextBoxColumn1"
-        '
-        'CopyStatusDataGridViewTextBoxColumn1
-        '
-        Me.CopyStatusDataGridViewTextBoxColumn1.DataPropertyName = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn1.HeaderText = "Copy Status"
-        Me.CopyStatusDataGridViewTextBoxColumn1.Name = "CopyStatusDataGridViewTextBoxColumn1"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
@@ -1123,6 +1133,7 @@ Partial Class Form1
         Me.Controls.Add(Me.ToolStrip1)
         Me.Font = New System.Drawing.Font("Candara", 9.0!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "Form1"
         Me.Text = "Form1"
@@ -1227,7 +1238,6 @@ Partial Class Form1
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
     Friend WithEvents NewFolder_Button As ToolStripButton
     Friend WithEvents ImageList1 As ImageList
-    Friend WithEvents CopySelected_Button As ToolStripButton
     Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
     Friend WithEvents Copy_ProgressBar As ToolStripProgressBar
     Friend WithEvents Panel1 As Panel
@@ -1277,4 +1287,6 @@ Partial Class Form1
     Friend WithEvents SHA1HashDataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents UniqueStatusDataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents CopyStatusDataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents CopySelected_Button2 As ToolStripSplitButton
+    Friend WithEvents CopyPRESDir_Button As ToolStripMenuItem
 End Class

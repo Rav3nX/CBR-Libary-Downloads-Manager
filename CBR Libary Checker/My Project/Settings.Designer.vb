@@ -171,6 +171,18 @@ Namespace My
                 Me("Source_GetHashes") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property PreserveDirectoryStructure() As Boolean
+            Get
+                Return CType(Me("PreserveDirectoryStructure"),Boolean)
+            End Get
+            Set
+                Me("PreserveDirectoryStructure") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

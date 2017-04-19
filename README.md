@@ -17,3 +17,6 @@ Current only by filename.
 Anyway, work in progress. The UI is terrible, like i said it was only thrown together. Now let the cleanup begin!
 
 I plan to extend this to watch downloads folders, and auto extract movies into specified media folders, and cleanup files older than a few weeks (depending on your options etc). Basically a one stop torrent folder organiser/ Auto file manager.
+
+
+THE LATEST 'UNSTABLE BUILD' can be downloaded from: http://maintrax.ravien.net/CBR_Manager.rar

@@ -563,7 +563,7 @@ Public Class FolderCreator
         If EnableDragging_Button.Checked Then
             DragEnabled_Label.Text = "Dragging Enabled"
             DragEnabled_Label.ForeColor = Color.Red
-
+            'blahvlah
         Else
             DragEnabled_Label.Text = "Dragging Disabled."
             DragEnabled_Label.ForeColor = Color.Green

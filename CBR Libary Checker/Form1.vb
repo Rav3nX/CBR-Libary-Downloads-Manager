@@ -3,11 +3,17 @@
 Imports System.ComponentModel
 Imports System.Globalization
 Imports System.IO
-Imports ntfs
 
 Imports System.Runtime.CompilerServices
 Imports System.Security.Cryptography
+Imports System.Text
 Imports System.Threading
+
+Imports Trinet.Core.IO.Ntfs
+
+
+
+
 
 Public Structure ProgressReport
     Property Min As Integer
@@ -36,12 +42,12 @@ Public Class Form1
 
     Private SourcePath As String
     Private LibraryPath As String
-    Private CopyDestination As String
-    Private FilesToCopy_RowCollection As DataGridViewSelectedRowCollection
+    'Private CopyDestination As String 'MOVED TO COPY FILES REGION
+    'Private FilesToCopy_RowCollection As DataGridViewSelectedRowCollection 'MOVED TO COPY FILES REGION
 
     Private WithEvents LoadSource_BackgroundWorker As New BackgroundWorker
     Private WithEvents LoadLibrary_BackgroundWorker As New BackgroundWorker
-    Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
+    'Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker 'MOVED TO COPY FILES REGION
     Private WithEvents TreeViewFiller_BackgroundWorker As New BackgroundWorker
 
     Private HideDupes As Boolean = True
@@ -62,10 +68,10 @@ Public Class Form1
         LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
 
         For Each column As DataGridViewColumn In SourceLibary_DGV.Columns
-            column.MinimumWidth = 110
+            column.MinimumWidth = 80
         Next
         For Each column As DataGridViewColumn In LibraryList_DGV.Columns
-            column.MinimumWidth = 110
+            column.MinimumWidth = 80
         Next
 
     End Sub
@@ -156,7 +162,7 @@ Public Class Form1
         ProgressReport.Min = 0
         ProgressReport.Max = Source_FileNames.Count
         ProgressReport.Current = 0
-        ProgressReport.TextMessage = "Found " & Source_FileNames.Count & " files....Begining search"
+        ProgressReport.TextMessage = "Found " & Source_FileNames.Count & " files (*.cb*)....Begining search"
 
 
         LoadSource_BackgroundWorker.ReportProgress(0, ProgressReport)
@@ -193,7 +199,7 @@ Public Class Form1
                     If Not (hide) Then
                         Dim newrow As ComicInfoDB.SOURCEL_DBRow
                         newrow = ComicInfoDB.SOURCEL_DB.NewRow
-                        newrow("File Name") = IO.Path.GetFileName(filename)
+                        newrow("FileName") = IO.Path.GetFileName(filename)
                         newrow("Full File Name") = filename
                         newrow("File Type") = IO.Path.GetExtension(filename)
                         newrow("File Path") = IO.Path.GetDirectoryName(filename)
@@ -298,7 +304,7 @@ Public Class Form1
 
                 Dim newrow As ComicInfoDB.LIBARY_DBRow
                 newrow = ComicInfoDB.LIBARY_DB.NewRow
-                newrow("File Name") = IO.Path.GetFileName(filename)
+                newrow("FileName") = IO.Path.GetFileName(filename)
                 newrow("Full File Name") = filename
                 newrow("File Type") = IO.Path.GetExtension(filename)
                 newrow("File Path") = IO.Path.GetDirectoryName(filename)
@@ -331,6 +337,10 @@ Public Class Form1
 #End Region
 
 #Region "Copy Files Region"
+
+    Private WithEvents CopySelected_BackgroundWorker As New BackgroundWorker
+    Private CopyDestination As String
+    Private FilesToCopy_RowCollection As DataGridViewSelectedRowCollection
 
     Private Sub CopySelected_Click(sender As Object, e As EventArgs) Handles CopySelected_Button.Click
         If Not (CopySelected_BackgroundWorker.IsBusy) Then
@@ -379,7 +389,7 @@ Public Class Form1
 
             cnt += 1
 
-            Dim srcfilename As String = row.Cells.Item("FileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim srcfilename As String = row.Cells.Item("FileName").Value.ToString
             Dim srcfullfilename As String = row.Cells.Item("FullFileNameDataGridViewTextBoxColumn").Value.ToString
             Dim destfilename As String = CopyDestination & "\" & srcfilename
             ProgressReport.Current = cnt
@@ -638,9 +648,9 @@ Public Class Form1
 
     Private Sub CheckUnique_Button_Click(sender As Object, e As EventArgs) Handles CheckUnique_Button.Click
         For Each row As DataRow In ComicInfoDB.SOURCEL_DB.Rows
-            Dim filename As String = row("File Name")
+            Dim filename As String = row("FileName")
             For Each LibaryRow As DataRow In ComicInfoDB.LIBARY_DB.Rows
-                If filename = LibaryRow("File Name") Then
+                If filename = LibaryRow("FileName") Then
                     row("Unique Status") = "In Library"
                 End If
             Next
@@ -911,13 +921,54 @@ Public Class Form1
         End If
     End Sub
 
+#End Region
+
+#Region "Additional Data Stream reading / ComicRack CBZ info files reading NTFS"
 
 
 
+    Private Sub ToolStripButton3_Click_2(sender As Object, e As EventArgs)
+        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
+            Dim fileinfo As New FileInfo(row.Cells("FullFileNameDataGridViewTextBoxColumn").Value.ToString)
+            If fileinfo.AlternateDataStreamExists("won") Then
+                Dim s As AlternateDataStreamInfo = fileinfo.GetAlternateDataStream("won", FileMode.Open)
+                Using textreader As StreamReader = s.OpenText()
+                    Console.WriteLine(textreader.ReadToEnd)
+                End Using
+
+                'Console.WriteLine()
+            End If
+        Next
 
 
+    End Sub
+
+    Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs)
+        For Each row As DataGridViewRow In SourceLibary_DGV.SelectedRows
+
+            Dim TargetFile As String = row.Cells("FullFileNameDataGridViewTextBoxColumn").Value.ToString
+            Dim StreamName As String = "won"
+            Dim mode As FileMode = FileMode.OpenOrCreate
+            Dim uniEncoding As New UnicodeEncoding()
+
+            Dim streaminfo As AlternateDataStreamInfo = FileSystem.GetAlternateDataStream(TargetFile, StreamName, mode)
+            Using stream As FileStream = streaminfo.OpenWrite
+                Dim str As String = "This is my alternate text stream!"
+
+                stream.Write(uniEncoding.GetBytes(str), 0, uniEncoding.GetByteCount(str))
+            End Using
+            Console.WriteLine("Written.")
+
+        Next
 
 
+    End Sub
+
+    Private Sub ToolStripButton3_Click_3(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        Dim filterstring As String = "FileName like '%" & SourceSearchStr.Text & "%'"
+        SOURCELDBBindingSource.Filter = filterstring
+
+    End Sub
 
 
 

@@ -33,6 +33,7 @@ Partial Class Main
         Me.FileManager_Button = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.ComicInfoDB1 = New CBR_Libary_Checker.ComicInfoDB()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.ComicInfoDB1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,7 +89,7 @@ Partial Class Main
         'ToolStrip1
         '
         Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileManager_Button, Me.ToolStripButton1})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileManager_Button, Me.ToolStripButton1, Me.ToolStripButton2})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 28)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1525, 27)
@@ -116,6 +117,14 @@ Partial Class Main
         '
         Me.ComicInfoDB1.DataSetName = "ComicInfoDB"
         Me.ComicInfoDB1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
+        'ToolStripButton2
+        '
+        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(192, 24)
+        Me.ToolStripButton2.Text = "Library Folder Organiser"
         '
         'Main
         '
@@ -150,4 +159,5 @@ Partial Class Main
     Friend WithEvents LibarySettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ComicInfoDB1 As ComicInfoDB
     Friend WithEvents ToolStripButton1 As ToolStripButton
+    Friend WithEvents ToolStripButton2 As ToolStripButton
 End Class

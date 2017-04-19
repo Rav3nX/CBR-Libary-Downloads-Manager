@@ -320,7 +320,7 @@ Partial Public Class ComicInfoDB
         
         Private columnFile_ID As Global.System.Data.DataColumn
         
-        Private columnFile_Name As Global.System.Data.DataColumn
+        Private columnFileName As Global.System.Data.DataColumn
         
         Private columnFull_File_Name As Global.System.Data.DataColumn
         
@@ -385,9 +385,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property File_NameColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property FileNameColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnFile_Name
+                Return Me.columnFileName
             End Get
         End Property
         
@@ -500,9 +500,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddSOURCEL_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As SOURCEL_DBRow
+        Public Overloads Function AddSOURCEL_DBRow(ByVal FileName As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As SOURCEL_DBRow
             Dim rowSOURCEL_DBRow As SOURCEL_DBRow = CType(Me.NewRow,SOURCEL_DBRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
+            Dim columnValuesArray() As Object = New Object() {Nothing, FileName, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
             rowSOURCEL_DBRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowSOURCEL_DBRow)
             Return rowSOURCEL_DBRow
@@ -532,7 +532,7 @@ Partial Public Class ComicInfoDB
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Friend Sub InitVars()
             Me.columnFile_ID = MyBase.Columns("File ID")
-            Me.columnFile_Name = MyBase.Columns("File Name")
+            Me.columnFileName = MyBase.Columns("FileName")
             Me.columnFull_File_Name = MyBase.Columns("Full File Name")
             Me.columnFile_Type = MyBase.Columns("File Type")
             Me.columnFile_Path = MyBase.Columns("File Path")
@@ -549,8 +549,8 @@ Partial Public Class ComicInfoDB
         Private Sub InitClass()
             Me.columnFile_ID = New Global.System.Data.DataColumn("File ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFile_ID)
-            Me.columnFile_Name = New Global.System.Data.DataColumn("File Name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnFile_Name)
+            Me.columnFileName = New Global.System.Data.DataColumn("FileName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnFileName)
             Me.columnFull_File_Name = New Global.System.Data.DataColumn("Full File Name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFull_File_Name)
             Me.columnFile_Type = New Global.System.Data.DataColumn("File Type", GetType(String), Nothing, Global.System.Data.MappingType.Element)
@@ -713,7 +713,7 @@ Partial Public Class ComicInfoDB
         
         Private columnFile_ID As Global.System.Data.DataColumn
         
-        Private columnFile_Name As Global.System.Data.DataColumn
+        Private columnFileName As Global.System.Data.DataColumn
         
         Private columnFull_File_Name As Global.System.Data.DataColumn
         
@@ -732,6 +732,8 @@ Partial Public Class ComicInfoDB
         Private columnUnique_Status As Global.System.Data.DataColumn
         
         Private columnCopy_Status As Global.System.Data.DataColumn
+        
+        Private columnComicRackADS As Global.System.Data.DataColumn
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
@@ -778,9 +780,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property File_NameColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property FileNameColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnFile_Name
+                Return Me.columnFileName
             End Get
         End Property
         
@@ -857,6 +859,14 @@ Partial Public Class ComicInfoDB
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ComicRackADSColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnComicRackADS
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -893,9 +903,9 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddLIBARY_DBRow(ByVal File_Name As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String) As LIBARY_DBRow
+        Public Overloads Function AddLIBARY_DBRow(ByVal FileName As String, ByVal Full_File_Name As String, ByVal File_Type As String, ByVal File_Path As String, ByVal Path_Rel_Root As String, ByVal Date_Created As Date, ByVal File_Size As Double, ByVal SHA1_Hash As String, ByVal Unique_Status As String, ByVal Copy_Status As String, ByVal ComicRackADS As String) As LIBARY_DBRow
             Dim rowLIBARY_DBRow As LIBARY_DBRow = CType(Me.NewRow,LIBARY_DBRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, File_Name, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status}
+            Dim columnValuesArray() As Object = New Object() {Nothing, FileName, Full_File_Name, File_Type, File_Path, Path_Rel_Root, Date_Created, File_Size, SHA1_Hash, Unique_Status, Copy_Status, ComicRackADS}
             rowLIBARY_DBRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowLIBARY_DBRow)
             Return rowLIBARY_DBRow
@@ -925,7 +935,7 @@ Partial Public Class ComicInfoDB
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Friend Sub InitVars()
             Me.columnFile_ID = MyBase.Columns("File ID")
-            Me.columnFile_Name = MyBase.Columns("File Name")
+            Me.columnFileName = MyBase.Columns("FileName")
             Me.columnFull_File_Name = MyBase.Columns("Full File Name")
             Me.columnFile_Type = MyBase.Columns("File Type")
             Me.columnFile_Path = MyBase.Columns("File Path")
@@ -935,6 +945,7 @@ Partial Public Class ComicInfoDB
             Me.columnSHA1_Hash = MyBase.Columns("SHA1 Hash")
             Me.columnUnique_Status = MyBase.Columns("Unique Status")
             Me.columnCopy_Status = MyBase.Columns("Copy Status")
+            Me.columnComicRackADS = MyBase.Columns("ComicRackADS")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -942,8 +953,8 @@ Partial Public Class ComicInfoDB
         Private Sub InitClass()
             Me.columnFile_ID = New Global.System.Data.DataColumn("File ID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFile_ID)
-            Me.columnFile_Name = New Global.System.Data.DataColumn("File Name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnFile_Name)
+            Me.columnFileName = New Global.System.Data.DataColumn("FileName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnFileName)
             Me.columnFull_File_Name = New Global.System.Data.DataColumn("Full File Name", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnFull_File_Name)
             Me.columnFile_Type = New Global.System.Data.DataColumn("File Type", GetType(String), Nothing, Global.System.Data.MappingType.Element)
@@ -962,6 +973,8 @@ Partial Public Class ComicInfoDB
             MyBase.Columns.Add(Me.columnUnique_Status)
             Me.columnCopy_Status = New Global.System.Data.DataColumn("Copy Status", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCopy_Status)
+            Me.columnComicRackADS = New Global.System.Data.DataColumn("ComicRackADS", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnComicRackADS)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnFile_ID}, true))
             Me.columnFile_ID.AutoIncrement = true
             Me.columnFile_ID.AutoIncrementSeed = 1
@@ -1124,16 +1137,16 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property File_Name() As String
+        Public Property FileName() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableSOURCEL_DB.File_NameColumn),String)
+                    Return CType(Me(Me.tableSOURCEL_DB.FileNameColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'File Name' in table 'SOURCEL_DB' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'FileName' in table 'SOURCEL_DB' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableSOURCEL_DB.File_NameColumn) = value
+                Me(Me.tableSOURCEL_DB.FileNameColumn) = value
             End Set
         End Property
         
@@ -1274,14 +1287,14 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsFile_NameNull() As Boolean
-            Return Me.IsNull(Me.tableSOURCEL_DB.File_NameColumn)
+        Public Function IsFileNameNull() As Boolean
+            Return Me.IsNull(Me.tableSOURCEL_DB.FileNameColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetFile_NameNull()
-            Me(Me.tableSOURCEL_DB.File_NameColumn) = Global.System.Convert.DBNull
+        Public Sub SetFileNameNull()
+            Me(Me.tableSOURCEL_DB.FileNameColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1421,16 +1434,16 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property File_Name() As String
+        Public Property FileName() As String
             Get
                 Try 
-                    Return CType(Me(Me.tableLIBARY_DB.File_NameColumn),String)
+                    Return CType(Me(Me.tableLIBARY_DB.FileNameColumn),String)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'File Name' in table 'LIBARY_DB' is DBNull.", e)
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'FileName' in table 'LIBARY_DB' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableLIBARY_DB.File_NameColumn) = value
+                Me(Me.tableLIBARY_DB.FileNameColumn) = value
             End Set
         End Property
         
@@ -1571,14 +1584,29 @@ Partial Public Class ComicInfoDB
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsFile_NameNull() As Boolean
-            Return Me.IsNull(Me.tableLIBARY_DB.File_NameColumn)
+        Public Property ComicRackADS() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableLIBARY_DB.ComicRackADSColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ComicRackADS' in table 'LIBARY_DB' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableLIBARY_DB.ComicRackADSColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsFileNameNull() As Boolean
+            Return Me.IsNull(Me.tableLIBARY_DB.FileNameColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetFile_NameNull()
-            Me(Me.tableLIBARY_DB.File_NameColumn) = Global.System.Convert.DBNull
+        Public Sub SetFileNameNull()
+            Me(Me.tableLIBARY_DB.FileNameColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1687,6 +1715,18 @@ Partial Public Class ComicInfoDB
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetCopy_StatusNull()
             Me(Me.tableLIBARY_DB.Copy_StatusColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsComicRackADSNull() As Boolean
+            Return Me.IsNull(Me.tableLIBARY_DB.ComicRackADSColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetComicRackADSNull()
+            Me(Me.tableLIBARY_DB.ComicRackADSColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

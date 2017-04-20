@@ -183,6 +183,42 @@ Namespace My
                 Me("PreserveDirectoryStructure") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("466")>  _
+        Public Property folderSplit1Dist() As Integer
+            Get
+                Return CType(Me("folderSplit1Dist"),Integer)
+            End Get
+            Set
+                Me("folderSplit1Dist") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("194")>  _
+        Public Property foldersplit2dist() As Integer
+            Get
+                Return CType(Me("foldersplit2dist"),Integer)
+            End Get
+            Set
+                Me("foldersplit2dist") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property Folder_FilesCollapsed() As Boolean
+            Get
+                Return CType(Me("Folder_FilesCollapsed"),Boolean)
+            End Get
+            Set
+                Me("Folder_FilesCollapsed") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

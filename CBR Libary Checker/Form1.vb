@@ -996,6 +996,10 @@ Public Class Form1
         If e.KeyCode = Keys.F2 Then EnableDragging_Button.PerformClick()
     End Sub
 
+    Private Sub HideLibaryListToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HideLibaryListToolStripMenuItem.Click
+        DGVsSplitContainer.Panel2Collapsed = Not (DGVsSplitContainer.Panel2Collapsed)
+    End Sub
+
 
 
 

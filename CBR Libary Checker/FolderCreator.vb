@@ -26,7 +26,7 @@ Public Class FolderCreator
         XFER_BackgroundWorker.WorkerReportsProgress = True
         XFER_BackgroundWorker.WorkerSupportsCancellation = True
         LibraryList_DGV.DefaultCellStyle.Font = My.Settings.DGVFont
-
+        SplitContainer2.Panel2Collapsed = My.Settings.Folder_FilesCollapsed
         For Each column As DataGridViewColumn In LibraryList_DGV.Columns
             column.MinimumWidth = 80
         Next
@@ -349,6 +349,16 @@ Public Class FolderCreator
         If TreeView1.SelectedNode IsNot Nothing Then
             Dim DirInfo As DirectoryInfo = TryCast(e.Node.Tag, DirectoryInfo)
             If DirInfo IsNot Nothing Then
+                If Not (SplitContainer2.Panel2Collapsed) Then
+                    fileslist_DGV.Rows.Clear()
+                    Dim fileEntries As String() = Directory.GetFiles(DirInfo.FullName)
+                    Dim fileName As String
+                    For Each fileName In fileEntries
+                        Dim RelPath As String = IO.Path.GetDirectoryName(fileName)
+                        Dim File As String = fileName.Remove(0, DirInfo.FullName.Length + 1)
+                        fileslist_DGV.Rows.Add(New String() {File})
+                    Next fileName
+                End If
                 FileDestination_Label.Text = DirInfo.FullName
                 XFER_Destination = DirInfo
             Else
@@ -357,9 +367,7 @@ Public Class FolderCreator
         End If
     End Sub
 
-    Private Sub EnableDragging_Button_Click(sender As Object, e As EventArgs) Handles EnableDragging_Button.Click
 
-    End Sub
 
 
 #End Region
@@ -473,6 +481,10 @@ Public Class FolderCreator
 #Region "Drag and Drop"
 
     Private Sub SourceLibary_DGV_MouseDown(sender As Object, e As MouseEventArgs) Handles LibraryList_DGV.MouseDown
+
+    End Sub
+
+    Private Sub LibraryList_DGV_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles LibraryList_DGV.CellMouseDown
         If My.Computer.Keyboard.CtrlKeyDown Or EnableDragging_Button.Checked Then
             Dim rows As DataGridViewSelectedRowCollection = Me.LibraryList_DGV.SelectedRows
             Me.LibraryList_DGV.DoDragDrop(rows, DragDropEffects.Copy)
@@ -583,6 +595,50 @@ Public Class FolderCreator
         Dim filterstring As String = "FileName like '%" & Filter_String_TextBox.Text & "%'"
         LIBARYDBBindingSource.Filter = filterstring
     End Sub
+
+
+
+    Private Sub PathRelToRootToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) Handles PathRelToRootToolStripMenuItem.CheckedChanged, FullFileNameToolStripMenuItem.CheckedChanged,
+                   FilePathToolStripMenuItem.CheckedChanged, DateFileCreatedToolStripMenuItem.CheckedChanged, FileTypeToolStripMenuItem.CheckedChanged
+
+        If LibraryList_DGV.Columns.Item("PathRelRootDataGridViewTextBoxColumn") IsNot Nothing Then
+
+            With LibraryList_DGV.Columns
+                .Item("PathRelRootDataGridViewTextBoxColumn").Visible = PathRelToRootToolStripMenuItem.Checked
+                .Item("FileSizeDataGridViewTextBoxColumn").Visible = FileSizeToolStripMenuItem.Checked
+                .Item("CopyStatusDataGridViewTextBoxColumn").Visible = CopyStatusToolStripMenuItem.Checked
+                .Item("FullFileNameDataGridViewTextBoxColumn").Visible = FullFileNameToolStripMenuItem.Checked
+                .Item("DateCreatedDataGridViewTextBoxColumn").Visible = DateFileCreatedToolStripMenuItem.Checked
+                .Item("FilePathDataGridViewTextBoxColumn").Visible = FilePathToolStripMenuItem.Checked
+                .Item("FileTypeDataGridViewTextBoxColumn").Visible = FileTypeToolStripMenuItem.Checked
+            End With
+        End If
+    End Sub
+
+    Private Sub PathRelToRootToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PathRelToRootToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub AllCellsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AllCellsToolStripMenuItem.Click
+        LibraryList_DGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+    End Sub
+
+    Private Sub NoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NoneToolStripMenuItem.Click
+        LibraryList_DGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+    End Sub
+
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        SplitContainer2.Panel2Collapsed = Not (SplitContainer2.Panel2Collapsed)
+        'FilesListPanel.Visible = Not (FilesListPanel.Visible)
+    End Sub
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        My.Settings.Folder_FilesCollapsed = SplitContainer2.Panel2Collapsed
+
+        My.Settings.Save()
+        TabFunctions.CloseME(Me)
+    End Sub
+
 
 
 

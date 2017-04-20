@@ -35,5 +35,14 @@
     <Setting Name="PreserveDirectoryStructure" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="folderSplit1Dist" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">466</Value>
+    </Setting>
+    <Setting Name="foldersplit2dist" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">194</Value>
+    </Setting>
+    <Setting Name="Folder_FilesCollapsed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

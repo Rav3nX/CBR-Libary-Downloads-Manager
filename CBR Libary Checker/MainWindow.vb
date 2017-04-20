@@ -10,8 +10,10 @@
     End Sub
 
     Private Sub LibarySettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LibarySettingsToolStripMenuItem.Click
-        TabFunctions.TAB_OpenNewTabedForm(Me, New Libary_Settings)
+        Dim librarySetDialog As New LibaryFolderDialog
+        If librarySetDialog.ShowDialog = DialogResult.OK Then
 
+        End If
     End Sub
 
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
